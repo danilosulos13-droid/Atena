@@ -682,6 +682,10 @@ ${BOLD}Comandos:${NC}
     self-test           Auto-validação da ATENA
     release-gate        Avalia readiness para release
     install-deps        Planeja/instala dependências (use --apply para executar)
+    train-background    Baixa/prepara o modelo e inicia LoRA em segundo plano
+    train-status        Mostra o estado do treinamento em segundo plano
+    train-log           Mostra o log do treinamento (-f acompanha)
+    train-stop          Solicita parada do treinamento em segundo plano
     github-scan         Vasculha GitHub para evolução da ATENA
     future-ai-fabric    Cria blueprint de tecnologia futura de IA
     aegis-mythos        Programa/executa tecnologia segura ATENA Aegis Mythos+
@@ -702,6 +706,9 @@ ${BOLD}Exemplos:${NC}
     $0 --metrics                 # Exibe métricas do sistema
     $0 --scale --monitor         # Inicia com auto-scale e monitoramento
     $0 install-deps --apply      # Instala dependências da ATENA
+    $0 train-background --install-deps  # Instala dependências e inicia treino
+    $0 train-status               # Consulta o estado do treino
+    $0 train-log -f               # Acompanha o log em tempo real
     $0 model-download            # Baixa o modelo local configurado
     $0 github-scan ai agents     # Busca sinais no GitHub para evolução
     $0 --update                  # Auto-atualização
@@ -796,7 +803,7 @@ main() {
                 mode="perf_diag"
                 shift
                 ;;
-            assistant|manus|codex|claude-code|learn|model-download|benchmark|self-test|release-gate|install-deps|github-scan|future-ai-fabric|aegis-mythos|production-center|modules-smoke|go-no-go|agi-uplift|guardian|production-ready|research-lab|future-ai|codex-advanced|genius|digital-organism-audit|orchestrator-mission|invoke|dialog|doctor|metrics|update|perf-diag|scale|monitor)
+            assistant|manus|codex|claude-code|learn|model-download|benchmark|self-test|release-gate|install-deps|train-background|train-status|train-log|train-stop|github-scan|future-ai-fabric|aegis-mythos|production-center|modules-smoke|go-no-go|agi-uplift|guardian|production-ready|research-lab|future-ai|codex-advanced|genius|digital-organism-audit|orchestrator-mission|invoke|dialog|doctor|metrics|update|perf-diag|scale|monitor)
                 mode="$1"
                 shift
                 ;;
@@ -809,7 +816,7 @@ main() {
     
     # Modos que não mostram banner completo
     case "$mode" in
-        doctor|update|metrics|perf_diag|install-deps)
+        doctor|update|metrics|perf_diag|install-deps|train-background|train-status|train-log|train-stop)
             SHOW_STATUS=false
             ;;
         *)
@@ -900,6 +907,17 @@ main() {
         install-deps)
             log INFO "Planejando/instalando dependências..."
             exec $PYTHON_CMD "$CORE_DIR/atena_dependency_installer.py" "${args[@]}"
+            ;;
+        train-background|train-status|train-log|train-stop)
+            log INFO "Gerenciando treinamento LoRA em segundo plano..."
+            local train_command="status"
+            case "$mode" in
+                train-background) train_command="start" ;;
+                train-status) train_command="status" ;;
+                train-log) train_command="log" ;;
+                train-stop) train_command="stop" ;;
+            esac
+            exec $PYTHON_CMD "$ROOT_DIR/scripts/atena_train_background.py" "$train_command" "${args[@]}"
             ;;
         github-scan)
             log INFO "Vasculhando GitHub para evolução..."
