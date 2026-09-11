@@ -80,7 +80,7 @@ jobs:
 
       - name: Coletar experiências e montar datasets
         run: |
-          git fetch origin atena/autoevolution
+          git fetch origin atena/autoevolution || true
           for path in \
             atena_evolution/training/experiences.jsonl \
             atena_evolution/training/sft.jsonl \
@@ -133,7 +133,13 @@ jobs:
           import sqlite3
           from pathlib import Path
 
-          collection = json.loads(Path('/tmp/atena-collection.json').read_text())
+          try:
+              collection = json.loads(Path('/tmp/atena-collection.json').read_text())
+          except (FileNotFoundError, json.JSONDecodeError):
+              collection = {
+                  "status": "unavailable",
+                  "reason": "a coleta de experiências não produziu JSON de resultado",
+              }
           training_path = Path('/tmp/atena-training.json')
           try:
               training = json.loads(training_path.read_text())
@@ -189,7 +195,6 @@ jobs:
       - name: Investigar gargalos sem alterar código
         if: always()
         run: python scripts/proactive_investigation.py
-          PY
 
       - name: Avaliar desempenho do candidato no holdout
         run: |
