@@ -31,6 +31,7 @@ from core.memory_retrieval import format_context, retrieve_context
 from core.evolution_quality_gate import evaluate_cycle
 from core.learning_progress import LearningProgress
 from core.consequence_memory import ConsequenceMemory
+from core.autonomous_capability_router import research_for_capability, select_capability
 from core.research_sources import fetch_configured_sources
 from core.atena_llm_router import AtenaLLMRouterAdvanced
 from core.knowledge_base import KnowledgeBase
@@ -46,6 +47,7 @@ SQLITE_REQUIRED = os.getenv("ATENA_SQLITE_REQUIRED", "0").lower() in {"1", "true
 SYSTEM_VERSION = os.getenv("GITHUB_SHA", "local")
 
 RESEARCH_TOPICS = [
+    ("matemática", "Provar e calcular a integral imprópria de 0 a infinito de x^3/(e^x - 1) dx, justificando a troca soma-integral, usando zeta de Riemann e fazendo verificação numérica independente."),
     ("memória histórica", "Como recuperar evidências antigas sem confundir hipótese com fato?"),
     ("deduplicação", "Como detectar memórias repetidas e preservar apenas novas evidências?"),
     ("segurança", "Quais riscos operacionais novos devem ser testados no próximo ciclo?"),
@@ -552,7 +554,16 @@ def main() -> int:
     else:
         topic, question = choose_research_topic(memory)
     research_mode = "interactive" if intent else "autonomous"
-    research = collect_research(topic, question, mode=research_mode)
+    capability = select_capability(topic, question)
+    research = research_for_capability(topic, question, mode=research_mode)
+    if research is None:
+        research = collect_research(topic, question, mode=research_mode)
+    research.setdefault("capability", {
+        "name": capability.name,
+        "tools": list(capability.tools),
+        "reason": capability.reason,
+        "confidence": capability.confidence,
+    })
     research["requested_by"] = "telegram" if intent else "rotation"
     research["intent_id"] = intent.get("id") if intent else None
     research["mode"] = research_mode
@@ -604,6 +615,7 @@ def main() -> int:
     observations["research_plan"] = {
         "topic": topic,
         "question": question,
+        "capability": research.get("capability"),
         "sources_to_consult": [item["source"] for item in research.get("sources", []) if item.get("ok")],
         "evidence_expected": "comparar pelo menos duas evidências independentes antes de consolidar um fato",
         "next_test": f"verificar uma instância inédita relacionada a {topic}",
@@ -616,6 +628,13 @@ def main() -> int:
         "task_type": EVOLUTION_TASK_TYPE,
         "duration_limit_seconds": 300,
         "research": research,
+        "capability_learning": {
+            "decision": research.get("capability"),
+            "specialized_answer_available": bool(research.get("specialized_answer")),
+            "specialized_metadata": research.get("specialized_metadata"),
+            "evidence_count": len(source_episode_ids),
+            "next_cycle_should_reuse": bool(source_episode_ids),
+        },
         "agent_trace": agent_trace,
         "observations": observations,
     }
@@ -672,6 +691,7 @@ def main() -> int:
         "promoted_status": promoted_status,
         "progress_status": progress_status,
         "validated_lessons_consulted": len(validated_lessons),
+        "capability": research.get("capability"),
     }, ensure_ascii=False))
     return 0
 
