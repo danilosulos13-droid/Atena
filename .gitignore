@@ -17,10 +17,16 @@ generated/atena_playstore_app/.gradle/
 .gradle/
 
 # Local assistant runtime state
+.sessions/
 atena_evolution/task_reports/
 atena_evolution/knowledge/
 atena_evolution/learning_memory.jsonl
 atena_evolution/memory/
+atena_evolution/atena_state.json
+atena_evolution/backups/
+atena_evolution/code/
+atena_evolution/council_history.json
+atena_evolution/reflection_journal.json
 modules/generated_*.py
 docs/generated_skills/
 plugins/generated_*.json
