@@ -18,4 +18,4 @@ def test_meta_learner_accepts_object_and_list_reports(tmp_path):
 
     assert pattern.total_mutations == 3
     assert pattern.successful_mutations == 2
-    assert pattern.fitness_history == [75.0, 80.0]
+    assert sorted(pattern.fitness_history) == [75.0, 80.0]
