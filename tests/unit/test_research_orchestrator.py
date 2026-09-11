@@ -63,3 +63,23 @@ def test_api_research_returns_answer_and_sources(monkeypatch, tmp_path: Path):
     assert body["answer"] == "Síntese [S1]."
     assert body["source_count"] == 1
     assert body["sources"][0]["url"] == "https://example.org"
+
+
+def test_math_problem_uses_local_verified_solver_without_web_sources(monkeypatch, tmp_path: Path):
+    monkeypatch.setattr(orchestrator, "_collect_evidence", lambda plan, limit: [])
+
+    result = orchestrator.run_deep_research(
+        "Prove e calcule a integral de 0 a infinito de x^3/(e^x - 1) dx usando zeta de Riemann.",
+        use_llm=False,
+        output_dir=tmp_path,
+    )
+
+    assert result["status"] == "ok"
+    assert result["source_count"] == 0
+    assert result["synthesis_provider"] == "local-math"
+    assert result["plan"]["topic"] == "matemática"
+    assert result["math_verification"]["exact"] == "π^4/15"
+    assert "Tonelli" in result["answer"]
+    assert "6.493939402266829" in result["answer"]
+    assert "DLMF" in result["answer"]
+    assert Path(result["json_path"]).exists()
