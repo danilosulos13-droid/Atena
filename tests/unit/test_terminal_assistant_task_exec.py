@@ -155,6 +155,26 @@ def test_run_task_exec_fallback_counts_json_files(monkeypatch, tmp_path) -> None
     assert "*.json" in report["commands"][0]
 
 
+def test_training_diagnostic_bypasses_generic_planner(monkeypatch, tmp_path) -> None:
+    class ExplodingRouter:
+        def generate(self, prompt: str, context: str = "") -> str:  # noqa: ARG002
+            raise AssertionError("planner must not run for deterministic training diagnostic")
+
+    seen = []
+    monkeypatch.setattr(assistant, "ROOT", tmp_path)
+    monkeypatch.setattr(assistant, "append_learning_memory", lambda _payload: None)
+    monkeypatch.setattr(assistant, "run_safe_command", lambda command, **kwargs: (seen.append(command) or 0, "ok", ""))  # noqa: ARG005
+    status, report_path = assistant.run_task_exec(
+        ExplodingRouter(),
+        "leia atena_evolution/training/background/state.json e as últimas linhas de train.log",
+    )
+    assert status == "ok"
+    assert seen == [
+        "cat atena_evolution/training/background/state.json",
+        "tail -40 atena_evolution/training/background/train.log",
+    ]
+
+
 def test_summarize_task_exec_report_returns_human_summary(tmp_path) -> None:
     report_path = tmp_path / "task_exec_report.json"
     report_path.write_text(

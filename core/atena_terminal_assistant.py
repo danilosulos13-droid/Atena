@@ -1246,6 +1246,13 @@ ALLOWED_PREFIXES = (
     "whoami",
     "date",
     "uname",
+    "head ",
+    "tail ",
+    "find ",
+    "wc ",
+    "df",
+    "free",
+    "rg ",
     "git status",
     "git diff",
 )
@@ -2527,7 +2534,7 @@ def extract_commands_from_plan(plan_text: str) -> list[str]:
 def sanitize_task_exec_commands(commands: list[str]) -> list[str]:
     sanitized: list[str] = []
     blocked_exact = {"python", "python3", "./atena assistant", "bash atena assistant"}
-    allowed_prefixes = ("./", "python ", "python3 ", "pytest", "uv ", "pip ", "git ", "ls", "echo ", "cat ", "find ", "bash ")
+    allowed_prefixes = ("./", "python ", "python3 ", "pytest", "uv ", "pip ", "git ", "ls", "echo ", "cat ", "find ", "head ", "tail ", "rg ", "wc ", "bash ")
     for cmd in commands:
         c = cmd.strip()
         if not c:
@@ -2655,17 +2662,32 @@ def append_learning_memory(payload: dict) -> None:
 
 def run_task_exec(router: AtenaLLMRouter, objective: str) -> tuple[str, str]:
     """Executa planejamento de tarefas com política tier2."""
-    planner_prompt = f"Planeje uma sequência de comandos seguros para: {objective}. Retorne 1 comando por linha usando ./atena, python3, pytest ou uv."
-    try:
-        plan = router_generate_with_timeout(router, planner_prompt, "task_executor", 30)
-        dag_nodes = extract_dag_commands(plan)
-        if not dag_nodes:
-            parsed = sanitize_task_exec_commands(extract_commands_from_plan(plan))
-            dag_nodes = [{"id": f"node_{i+1}", "command": cmd} for i, cmd in enumerate(parsed)]
-        commands = [node["command"] for node in dag_nodes][:5]
-    except Exception:
+    objective_text = (objective or "").lower()
+    is_training_diagnostic = (
+        "training/background/state.json" in objective_text
+        or ("treinamento" in objective_text and "train.log" in objective_text)
+        or ("lora" in objective_text and "log" in objective_text)
+    )
+    # Para diagnósticos conhecidos, não delegue ao LLM a escolha de um
+    # comando genérico: isso pode gerar contagens ou comandos mutáveis e ser
+    # bloqueado pela política de main. Use somente cat/tail read-only.
+    if is_training_diagnostic:
+        commands = build_local_task_exec_fallback(objective)
+        dag_nodes = [{"id": f"node_{i+1}", "command": cmd} for i, cmd in enumerate(commands)]
+    else:
         commands = []
         dag_nodes = []
+        planner_prompt = f"Planeje uma sequência de comandos seguros para: {objective}. Retorne 1 comando por linha usando ./atena, python3, pytest ou uv."
+        try:
+            plan = router_generate_with_timeout(router, planner_prompt, "task_executor", 30)
+            dag_nodes = extract_dag_commands(plan)
+            if not dag_nodes:
+                parsed = sanitize_task_exec_commands(extract_commands_from_plan(plan))
+                dag_nodes = [{"id": f"node_{i+1}", "command": cmd} for i, cmd in enumerate(parsed)]
+            commands = [node["command"] for node in dag_nodes][:5]
+        except Exception:
+            commands = []
+            dag_nodes = []
 
     commands = sanitize_task_exec_commands(commands)
     if not commands:
