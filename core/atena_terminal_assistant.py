@@ -52,6 +52,7 @@ if str(ROOT) not in sys.path:
 
 from core.atena_llm_router import AtenaLLMRouterAdvanced as AtenaLLMRouter
 from core.internet_challenge import run_internet_challenge, recommend_public_apis, discover_any_apis, rank_api_candidates
+from core.research_orchestrator import ResearchError, format_terminal_result, run_deep_research
 from core.atena_module_preloader import preload_all_modules
 from core.atena_terminal_python_script import create_and_run_terminal_python_script
 from core.atena_dependency_installer import install_atena_dependencies
@@ -1123,6 +1124,29 @@ def run_user_internet_research(user_input: str) -> str:
     )
 
 
+def run_user_deep_research(user_input: str) -> str:
+    """Pesquisa páginas públicas, sintetiza evidências e devolve os artefatos."""
+    text = (user_input or "").strip()
+    if text.casefold().startswith("/research"):
+        text = text[len("/research"):].strip()
+    topic = _extract_internet_topic(text)
+    if not topic:
+        return (
+            "## Pesquisa profunda na internet\n\n"
+            "Use `/research <pergunta ou tema>` para a Atena pesquisar, ler fontes, "
+            "sintetizar e entregar o resultado com citações.\n"
+            "Exemplo: `/research quais são os avanços recentes em agentes de IA`."
+        )
+    try:
+        result = run_deep_research(topic)
+    except ResearchError as exc:
+        return f"## Pesquisa profunda na internet\n\nNão foi possível iniciar a pesquisa: {exc}"
+    except Exception as exc:
+        logger.exception("falha na pesquisa profunda")
+        return f"## Pesquisa profunda na internet\n\nA pesquisa falhou de forma controlada: {type(exc).__name__}: {exc}"
+    return format_terminal_result(result)
+
+
 def git_branch() -> str:
     try:
         out = subprocess.check_output(
@@ -1190,6 +1214,7 @@ def print_help():
         commands = [
             ("/task <msg>", "Executa tarefa; perguntas factuais disparam pesquisa web"),
             ("/internet <tema>", "Pesquisa tema na internet em múltiplas fontes"),
+            ("/research <pergunta>", "Lê fontes públicas, sintetiza com citações e salva relatório"),
             ("/api-scan <tarefa>", "Escaneia APIs públicas para uma tarefa/pergunta"),
             ("/api-filter <tarefa>", "Filtra e ranqueia APIs por aderência à tarefa"),
             ("/api-pick <tarefa>", "Escolhe 1 API e gera exemplo de request"),
@@ -1225,7 +1250,7 @@ def print_help():
         
         CONSOLE.print(Panel(table, title="[bold cyan]Comandos Disponíveis[/bold cyan]", border_style="cyan"))
     else:
-        print("\nComandos: /task, /internet, /api-scan, /api-filter, /api-pick, /task-exec, /python-script, /install-deps, /github-evolution-scan, /aegis-mythos, /self-test, /release-governor, /saas-bootstrap, /telemetry-insights, /orchestrate, /memory-suggest, /benchmark, /device-control, /security-scan, /vulnerability-scan, /secret-audit, /policy, /plugins, /memory, /plan, /run, /context, /model, /clear, /exit\n")
+        print("\nComandos: /task, /internet, /research, /api-scan, /api-filter, /api-pick, /task-exec, /python-script, /install-deps, /github-evolution-scan, /aegis-mythos, /self-test, /release-governor, /saas-bootstrap, /telemetry-insights, /orchestrate, /memory-suggest, /benchmark, /device-control, /security-scan, /vulnerability-scan, /secret-audit, /policy, /plugins, /memory, /plan, /run, /context, /model, /clear, /exit\n")
 
 
 # =============================================================================
@@ -1970,6 +1995,8 @@ def main():
                 user_input = "/task " + user_input[len(".task "):]
             elif user_input.startswith(".internet "):
                 user_input = "/internet " + user_input[len(".internet "):]
+            elif user_input.startswith(".research "):
+                user_input = "/research " + user_input[len(".research "):]
             
             if not user_input:
                 continue
@@ -2303,12 +2330,23 @@ def main():
                 continue
 
             if user_input.startswith("/internet "):
-                with atena_thinking("Pesquisando na internet..."):
-                    answer = run_user_internet_research(user_input)
+                with atena_thinking("Pesquisando, lendo fontes e sintetizando..."):
+                    answer = run_user_deep_research(user_input)
                 if HAS_RICH:
                     CONSOLE.print(Panel(Markdown(answer), title="[bold cyan]ATENA Ω[/bold cyan]", border_style="cyan"))
                 else:
                     print(f"\nATENA Ω:\n{answer}\n")
+                continue
+
+            if user_input.startswith("/research"):
+                with atena_thinking("Pesquisando, lendo fontes e sintetizando..."):
+                    answer = run_user_deep_research(user_input)
+                if HAS_RICH:
+                    CONSOLE.print(Panel(Markdown(answer), title="[bold cyan]ATENA Ω — Pesquisa[/bold cyan]", border_style="cyan"))
+                else:
+                    print(f"\nATENA Ω:\n{answer}\n")
+                memory.add(user_input, answer, "deep_research")
+                auto_learner.learn_from_interaction(user_input, answer, None)
                 continue
 
             if user_input.startswith("/api-scan "):
@@ -2416,8 +2454,8 @@ def main():
             if user_input.startswith("/task "):
                 task_msg = user_input[6:].strip()
                 if _is_internet_request(task_msg) or _is_web_fact_question(task_msg):
-                    with atena_thinking("Pesquisando..."):
-                        answer = run_user_internet_research(task_msg)
+                    with atena_thinking("Pesquisando, lendo fontes e sintetizando..."):
+                        answer = run_user_deep_research(task_msg)
                     if HAS_RICH:
                         CONSOLE.print(Panel(Markdown(answer), title="[bold cyan]ATENA Ω[/bold cyan]", border_style="cyan"))
                     else:
@@ -2460,8 +2498,8 @@ def main():
             # Comando padrão (se não começar com / assume-se /task)
             if not user_input.startswith("/"):
                 if _is_internet_request(user_input) or _is_web_fact_question(user_input):
-                    with atena_thinking("Pesquisando..."):
-                        answer = run_user_internet_research(user_input)
+                    with atena_thinking("Pesquisando, lendo fontes e sintetizando..."):
+                        answer = run_user_deep_research(user_input)
                     if HAS_RICH:
                         CONSOLE.print(Panel(Markdown(answer), title="[bold cyan]ATENA Ω[/bold cyan]", border_style="cyan"))
                     else:

@@ -448,13 +448,18 @@ class SelfReflectiveMetaLearner:
         json_files = list(reports_dir.glob("**/*.json"))[:30]
         for jf in json_files:
             try:
-                data = json.loads(jf.read_text(encoding="utf-8", errors="replace"))
-                fitness = float(data.get("best_fitness") or data.get("fitness") or data.get("score", 0.0))
-                if fitness > 0:
-                    p.total_mutations += 1
-                    if fitness > 50:
-                        p.successful_mutations += 1
-                        p.fitness_history.append(fitness)
+                payload = json.loads(jf.read_text(encoding="utf-8", errors="replace"))
+                records = payload if isinstance(payload, list) else [payload]
+                for data in records:
+                    if not isinstance(data, dict):
+                        continue
+                    raw_fitness = data.get("best_fitness") or data.get("fitness") or data.get("score", 0.0)
+                    fitness = float(raw_fitness)
+                    if fitness > 0:
+                        p.total_mutations += 1
+                        if fitness > 50:
+                            p.successful_mutations += 1
+                            p.fitness_history.append(fitness)
             except (json.JSONDecodeError, OSError, ValueError):
                 pass
     

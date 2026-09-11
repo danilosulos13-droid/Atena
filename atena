@@ -553,7 +553,7 @@ run_doctor() {
     
     echo -e "${BOLD}Python:${NC}"
     python3 --version 2>&1 || echo "  ❌ Python não encontrado"
-    echo "  PIP: $(pip3 --version 2>&1 | head -1 || echo '❌')"
+    echo "  PIP: $(python3 -m pip --version 2>&1 | head -1 || echo '❌')"
     echo ""
     
     echo -e "${BOLD}Dependências:${NC}"
@@ -675,6 +675,7 @@ ${BOLD}Opções:${NC}
 ${BOLD}Comandos:${NC}
     (nenhum)            Modo interativo padrão
     assistant           Modo assistente de terminal
+    research <pergunta> Pesquisa a internet e entrega síntese com citações
     manus               Alias do assistente (modo Manus)
     codex               Alias do assistente (modo Codex)
     claude-code         Alias do assistente (modo Claude Code)
@@ -803,7 +804,7 @@ main() {
                 mode="perf_diag"
                 shift
                 ;;
-            assistant|manus|codex|claude-code|learn|model-download|benchmark|self-test|release-gate|install-deps|train-background|train-status|train-log|train-stop|github-scan|future-ai-fabric|aegis-mythos|production-center|modules-smoke|go-no-go|agi-uplift|guardian|production-ready|research-lab|future-ai|codex-advanced|genius|digital-organism-audit|orchestrator-mission|invoke|dialog|doctor|metrics|update|perf-diag|scale|monitor)
+            assistant|research|manus|codex|claude-code|learn|model-download|benchmark|self-test|release-gate|install-deps|train-background|train-status|train-log|train-stop|github-scan|future-ai-fabric|aegis-mythos|production-center|modules-smoke|go-no-go|agi-uplift|guardian|production-ready|research-lab|future-ai|codex-advanced|genius|digital-organism-audit|orchestrator-mission|invoke|dialog|doctor|metrics|update|perf-diag|scale|monitor)
                 mode="$1"
                 shift
                 ;;
@@ -816,7 +817,7 @@ main() {
     
     # Modos que não mostram banner completo
     case "$mode" in
-        doctor|update|metrics|perf_diag|install-deps|train-background|train-status|train-log|train-stop)
+        doctor|update|metrics|perf_diag|install-deps|research|train-background|train-status|train-log|train-stop)
             SHOW_STATUS=false
             ;;
         *)
@@ -907,6 +908,10 @@ main() {
         install-deps)
             log INFO "Planejando/instalando dependências..."
             exec $PYTHON_CMD "$CORE_DIR/atena_dependency_installer.py" "${args[@]}"
+            ;;
+        research)
+            log INFO "Pesquisando na internet e sintetizando evidências..."
+            exec $PYTHON_CMD "$CORE_DIR/research_cli.py" "${args[@]}"
             ;;
         train-background|train-status|train-log|train-stop)
             log INFO "Gerenciando treinamento LoRA em segundo plano..."

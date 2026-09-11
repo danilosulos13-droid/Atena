@@ -49,19 +49,37 @@ async def lifespan(app: FastAPI):
     yield
     logger.info("🛑 Encerrando ATENA Ω...")
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 app = FastAPI(title="ATENA Ω API", version="10.2.0", lifespan=lifespan)
 
 # --- IMPORTAÇÕES RESTANTES ---
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
+from starlette.concurrency import run_in_threadpool
 from pydantic import BaseModel
 from api.dashboard_html import get_dashboard_html
 from api.connectors_api import router as connectors_router
+from core.research_orchestrator import ResearchError, run_deep_research
 
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
 app.include_router(connectors_router)
+
+
+class ChatRequest(BaseModel):
+    """Payload compatível com o dashboard e com clientes simples."""
+
+    prompt: str | None = None
+    message: str | None = None
+    research: bool = False
+
+
+class ResearchRequest(BaseModel):
+    question: str
+    topic: str | None = None
+    limit_per_query: int = 5
+    max_sources: int = 12
+    use_llm: bool = True
 
 # --- ENDPOINTS ---
 @app.get("/healthz")
@@ -93,10 +111,96 @@ async def post_experience(data: dict):
 async def get_status():
     return {"name": "ATENA Ω", "status": "online", "version": "10.2.0"}
 
+
+def _looks_like_research(prompt: str) -> bool:
+    lowered = prompt.casefold()
+    markers = (
+        "/research",
+        "pesquise na internet",
+        "pesquisa na internet",
+        "pesquisa para mim",
+        "busque na internet",
+        "procure na internet",
+        "faça uma pesquisa",
+        "faca uma pesquisa",
+    )
+    return any(marker in lowered for marker in markers)
+
+
+async def _run_research(request: ResearchRequest | ChatRequest, question: str) -> dict[str, Any]:
+    try:
+        if isinstance(request, ResearchRequest):
+            return await run_in_threadpool(
+                run_deep_research,
+                question,
+                topic=request.topic,
+                limit_per_query=max(1, min(request.limit_per_query, 10)),
+                max_sources=max(1, min(request.max_sources, 20)),
+                use_llm=request.use_llm,
+            )
+        return await run_in_threadpool(run_deep_research, question)
+    except ResearchError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@app.post("/api/research")
+async def research(request: ResearchRequest):
+    """Pesquisa a internet, lê fontes públicas e devolve síntese + relatórios."""
+    result = await _run_research(request, request.question.strip())
+    return {
+        "status": result.get("status"),
+        "answer": result.get("answer", ""),
+        "sources": result.get("sources", []),
+        "source_count": result.get("source_count", 0),
+        "conflicts": result.get("conflicts", []),
+        "synthesis_provider": result.get("synthesis_provider"),
+        "json_path": result.get("json_path"),
+        "markdown_path": result.get("markdown_path"),
+        "researched_at": result.get("researched_at"),
+    }
+
+
 @app.post("/api/chat")
 async def chat(request: ChatRequest):
-    # (Mantido o código original de chat aqui...)
-    pass
+    prompt = (request.prompt or request.message or "").strip()
+    if not prompt:
+        raise HTTPException(status_code=400, detail="prompt vazio")
+
+    if request.research or _looks_like_research(prompt):
+        result = await _run_research(request, prompt.removeprefix("/research").strip())
+        answer = str(result.get("answer", ""))
+        source = "deep-research"
+        payload = {
+            "answer": answer,
+            "source": source,
+            "sources": result.get("sources", []),
+            "json_path": result.get("json_path"),
+            "markdown_path": result.get("markdown_path"),
+        }
+    else:
+        try:
+            from core.atena_llm_router import AtenaLLMRouter
+
+            answer = str(AtenaLLMRouter().generate(prompt, context="API chat da ATENA"))
+            payload = {"answer": answer, "source": "atena-router"}
+        except Exception as exc:
+            logger.warning("chat sem provider configurado: %s", exc)
+            payload = {
+                "answer": "Não há um provedor de linguagem configurado. Para pesquisa, use /research <tema> ou POST /api/research.",
+                "source": "local-fallback",
+            }
+
+    try:
+        conn = sqlite3.connect(ATENA_CHAT_DB_PATH)
+        conn.execute(
+            "INSERT INTO interactions(timestamp, message, response, provider, model, latency_ms) VALUES (?, ?, ?, ?, ?, ?)",
+            (datetime.now(timezone.utc).isoformat(), prompt, payload["answer"], payload.get("source"), None, None),
+        )
+        conn.commit()
+        conn.close()
+    except Exception as exc:
+        logger.warning("falha ao registrar interação: %s", exc)
+    return payload
 
 @app.get("/", response_class=HTMLResponse)
 async def dashboard():

@@ -226,6 +226,30 @@ python -m pip install -r setup/requirements-pinned.txt
 # Deve mostrar status de todos os componentes
 ```
 
+### Pesquisa web com síntese e citações
+
+A Atena agora possui um fluxo de pesquisa profunda que decompõe a pergunta,
+consulta fontes públicas, tenta ler as páginas encontradas, sintetiza somente o
+conteúdo recuperado e salva relatórios auditáveis em JSON e Markdown. Para usar
+diretamente no terminal:
+
+```bash
+./atena research "quais são os avanços recentes em agentes de IA"
+```
+
+No assistente interativo, use `/research <pergunta ou tema>`. O endpoint
+`POST /api/research` aceita `question`, `topic`, `limit_per_query`,
+`max_sources` e `use_llm`. O chat também encaminha pedidos explícitos de
+pesquisa para esse fluxo.
+
+Para obter síntese narrativa, configure `OPENAI_API_KEY` e, opcionalmente,
+`ATENA_RESEARCH_MODEL` (o padrão é `gpt-5-mini`). A pesquisa continua
+funcionando sem uma chave, entregando os trechos encontrados sem inventar uma
+conclusão. Provedores de busca opcionais: `ATENA_TAVILY_API_KEY`,
+`ATENA_GOOGLE_API_KEY` com `ATENA_GOOGLE_CSE_ID` e
+`ATENA_BRAVE_SEARCH_API_KEY`. Os relatórios são gravados em
+`analysis_reports/research/` por padrão.
+
 ---
 
 ## 🎮 Uso
