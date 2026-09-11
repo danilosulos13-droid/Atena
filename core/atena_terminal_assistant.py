@@ -39,6 +39,7 @@ from typing import Any, Optional, Dict, List, Tuple, Callable
 from xml.etree import ElementTree
 from collections import defaultdict, deque
 import tempfile
+import inspect
 import numpy as np
 try:
     from sklearn.linear_model import SGDClassifier
@@ -790,7 +791,10 @@ def router_generate_with_timeout(
 
     def _worker() -> None:
         try:
-            box["value"] = router.generate(prompt, context=context)
+            value = router.generate(prompt, context=context)
+            if inspect.isawaitable(value):
+                value = asyncio.run(value)
+            box["value"] = value
         except Exception as exc:
             box["error"] = exc
         finally:
