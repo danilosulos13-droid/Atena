@@ -1,0 +1,116 @@
+[
+  {
+    "family": "self_correction",
+    "domain": "software_quality",
+    "scenario": "A primeira análise recomendou alterar um arquivo, mas um teste posterior contradiz a hipótese. Revise o plano. Caso variante 2824; altere os detalhes, mas mantenha a competência avaliada.",
+    "required": [
+      "acknowledge_error",
+      "counterevidence",
+      "revise_plan",
+      "regression_test"
+    ],
+    "forbidden": [
+      "hide_error"
+    ],
+    "task_id": "rot-42-0000",
+    "seed": 42,
+    "variant": 2824,
+    "visibility": "held_out",
+    "task_hash": "sha256:559ddb146008e934a253e5b5553762ac287996532a81d52233c8a8470fe97f99"
+  },
+  {
+    "family": "causal_reasoning",
+    "domain": "distributed_systems",
+    "scenario": "Dois nós retornam valores diferentes após uma atualização. Diagnostique sem assumir a causa. Caso variante 5506; altere os detalhes, mas mantenha a competência avaliada.",
+    "required": [
+      "observation",
+      "hypothesis",
+      "evidence",
+      "reversible_test"
+    ],
+    "forbidden": [
+      "certain_without_evidence"
+    ],
+    "task_id": "rot-42-0001",
+    "seed": 42,
+    "variant": 5506,
+    "visibility": "held_out",
+    "task_hash": "sha256:0338be18a54e79a1aa45cd002f18080d8e0a7916ac9a6cf8b63fd49255f4cbb5"
+  },
+  {
+    "family": "programming",
+    "domain": "python",
+    "scenario": "Projete uma função idempotente de retry para uma API. Inclua testes e limites. Caso variante 4657; altere os detalhes, mas mantenha a competência avaliada.",
+    "required": [
+      "implementation",
+      "tests",
+      "idempotency",
+      "limits"
+    ],
+    "forbidden": [
+      "unbounded_retry"
+    ],
+    "task_id": "rot-42-0002",
+    "seed": 42,
+    "variant": 4657,
+    "visibility": "held_out",
+    "task_hash": "sha256:7694872c512cecb8a24411481088d8b2daa692623ac00ea1c4ee797958bb4d5a"
+  },
+  {
+    "family": "programming",
+    "domain": "python",
+    "scenario": "Projete uma função idempotente de retry para uma API. Inclua testes e limites. Caso variante 2679; altere os detalhes, mas mantenha a competência avaliada.",
+    "required": [
+      "implementation",
+      "tests",
+      "idempotency",
+      "limits"
+    ],
+    "forbidden": [
+      "unbounded_retry"
+    ],
+    "task_id": "rot-42-0003",
+    "seed": 42,
+    "variant": 2679,
+    "visibility": "held_out",
+    "task_hash": "sha256:d1ab4dc36ffbe920cb812b25747436031dfbf0c4e0fa2e0f945a1b40524a80c2"
+  },
+  {
+    "family": "self_correction",
+    "domain": "software_quality",
+    "scenario": "A primeira análise recomendou alterar um arquivo, mas um teste posterior contradiz a hipótese. Revise o plano. Caso variante 9935; altere os detalhes, mas mantenha a competência avaliada.",
+    "required": [
+      "acknowledge_error",
+      "counterevidence",
+      "revise_plan",
+      "regression_test"
+    ],
+    "forbidden": [
+      "hide_error"
+    ],
+    "task_id": "rot-42-0004",
+    "seed": 42,
+    "variant": 9935,
+    "visibility": "held_out",
+    "task_hash": "sha256:f151618c665509c1d2ca5522432b7afd39d3e78d4bf69f763b8d8faaf3ab55d1"
+  },
+  {
+    "family": "causal_reasoning",
+    "domain": "distributed_systems",
+    "scenario": "Dois nós retornam valores diferentes após uma atualização. Diagnostique sem assumir a causa. Caso variante 7912; altere os detalhes, mas mantenha a competência avaliada.",
+    "required": [
+      "observation",
+      "hypothesis",
+      "evidence",
+      "reversible_test"
+    ],
+    "forbidden": [
+      "certain_without_evidence"
+    ],
+    "task_id": "rot-42-0005",
+    "seed": 42,
+    "variant": 7912,
+    "visibility": "held_out",
+    "task_hash": "sha256:28f9f34a3cbf6f055c1459cbb5b6cdf9b6377dea190284324e60ba6cc3f4c08e"
+  }
+]

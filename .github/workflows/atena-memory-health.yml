@@ -1,0 +1,73 @@
+name: ATENA memory health and log rotation
+
+on:
+  schedule:
+    # GitHub Actions usa UTC; roda 30 minutos depois do ciclo principal.
+    - cron: "30 */2 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: atena-memory-health
+  cancel-in-progress: true
+
+jobs:
+  inspect:
+    name: Diagnosticar SQLite e rotacionar logs
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout da memória persistida
+        uses: actions/checkout@v4
+        with:
+          ref: atena/autoevolution
+          fetch-depth: 1
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Inspecionar integridade do SQLite
+        id: inspect_memory
+        env:
+          PYTHONPATH: ${{ github.workspace }}
+          ATENA_TELEGRAM_BOT_TOKEN: ${{ secrets.ATENA_TELEGRAM_BOT_TOKEN }}
+          ATENA_TELEGRAM_CHAT_ID: ${{ secrets.ATENA_TELEGRAM_CHAT_ID }}
+        run: |
+          python scripts/inspect_memory_store.py \
+            --db atena_evolution/memory.sqlite3 \
+            --report /tmp/atena-memory-migration.json \
+            --json \
+            --alert-on-failure \
+            --allow-missing-report \
+            --allow-missing-alert \
+            | tee /tmp/atena-memory-diagnostic.json
+
+      - name: Rotacionar logs
+        if: always()
+        run: |
+          python scripts/rotate_atena_logs.py \
+            --log-dir atena_evolution/logs \
+            --file atena_launcher.log \
+            --file ../automation.log \
+            --max-mb 10 \
+            --keep 5 \
+            --report /tmp/atena-log-rotation.json
+
+      - name: Publicar diagnóstico e logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: atena-memory-health-${{ github.run_id }}
+          retention-days: 30
+          if-no-files-found: warn
+          path: |
+            /tmp/atena-memory-migration.json
+            /tmp/atena-memory-diagnostic.json
+            /tmp/atena-log-rotation.json
+            atena_evolution/logs/**
+            atena_evolution/automation.log
+            atena_evolution/memory.sqlite3

@@ -1,0 +1,97 @@
+name: Atena promote validated changes to main
+
+on:
+  workflow_run:
+    workflows:
+      - "ATENA CI and controlled updates"
+      - "Atena rotating regression gate"
+      - "Atena self-modification sandbox"
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: "PR específico para validar e promover"
+        required: true
+        type: number
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: atena-promote-main
+  cancel-in-progress: false
+
+jobs:
+  promote:
+    name: Promover somente após gates verdes
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.head_branch != 'main')
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Selecionar PR candidato
+        id: select
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVENT_PR: ${{ inputs.pr_number }}
+          EVENT_BRANCH: ${{ github.event.workflow_run.head_branch }}
+        run: |
+          set -euo pipefail
+          if [ -n "${EVENT_PR:-}" ]; then
+            pr="$EVENT_PR"
+          else
+            branch="${EVENT_BRANCH:-}"
+            test -n "$branch" || { echo "Branch do workflow não encontrada"; exit 1; }
+            pr=$(gh pr list --repo "$GITHUB_REPOSITORY" --head "$branch" --state open --json number --jq '.[0].number // empty')
+          fi
+          test -n "${pr:-}" || { echo "Nenhum PR aberto encontrado"; exit 1; }
+          echo "number=$pr" >> "$GITHUB_OUTPUT"
+          echo "PR selecionado: #$pr"
+
+      - name: Validar módulos e checks obrigatórios
+        env:
+          PYTHONPATH: ${{ github.workspace }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -f scripts/merge_pr_with_module_gate.py || {
+            echo "Gate ainda não está disponível na main; promoção bloqueada."
+            exit 1
+          }
+          python scripts/merge_pr_with_module_gate.py \
+            --pr "${{ steps.select.outputs.number }}" \
+            --repo "$GITHUB_REPOSITORY" \
+            --report /tmp/atena-merge-gate.json
+
+      - name: Promover PR para main
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh pr merge "${{ steps.select.outputs.number }}" \
+            --repo "$GITHUB_REPOSITORY" \
+            --squash \
+            --delete-branch \
+            --subject "feat(atena): promote validated autonomous improvement" \
+            --body "Promovido automaticamente após sandbox, testes, benchmark de regressão e gates de segurança aprovados."
+
+      - name: Confirmar commit na main
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api "repos/$GITHUB_REPOSITORY/commits/main" --jq '{sha:.sha,message:.commit.message}'

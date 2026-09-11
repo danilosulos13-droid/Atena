@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Atena AI Chat</title>
+  <style>
+    body { font-family: sans-serif; background: #0d1117; color: #c9d1d9; margin: 20px; }
+    #chat-box { border: 1px solid #30363d; height: 350px; overflow-y: scroll; padding: 10px; margin-bottom: 10px; border-radius: 6px; }
+    .msg { margin: 5px 0; padding: 8px; border-radius: 4px; }
+    .user { background: #1f6feb; align-self: flex-end; text-align: right; }
+    .atena { background: #21262d; border: 1px solid #30363d; }
+    #input-container { display: flex; gap: 10px; }
+    input { flex: 1; padding: 10px; border-radius: 6px; border: 1px solid #30363d; background: #161b22; color: #fff; }
+    button { padding: 10px 20px; border-radius: 6px; border: none; background: #238636; color: #fff; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+  <h2>Chat com a Atena</h2>
+  <div id="chat-box"></div>
+
+  <div id="input-container">
+    <input type="text" id="user-input" placeholder="Digite sua mensagem...">
+    <button onclick="sendMessage()">Enviar</button>
+  </div>
+
+  <script>
+    const API_ENDPOINT = "HTTPS://SUA-API-DA-ATENA.COM/chat"; // URL do seu backend/webhook
+
+    async function sendMessage() {
+      const input = document.getElementById('user-input');
+      const text = input.value.trim();
+      if (!text) return;
+
+      appendMessage(text, 'user');
+      input.value = '';
+
+      try {
+        const response = await fetch(API_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: text })
+        });
+        const data = await response.json();
+        appendMessage(data.reply, 'atena');
+      } catch (err) {
+        appendMessage("Erro ao conectar com a Atena.", 'atena');
+      }
+    }
+
+    function appendMessage(text, sender) {
+      const box = document.getElementById('chat-box');
+      const div = document.createElement('div');
+      div.className = `msg ${sender}`;
+      div.innerText = text;
+      box.appendChild(div);
+      box.scrollTop = box.scrollHeight;
+    }
+  </script>
+</body>
+</html>

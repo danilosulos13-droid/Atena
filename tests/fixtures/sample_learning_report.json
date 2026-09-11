@@ -1,0 +1,12 @@
+{
+  "workflow": "atena-lora-training",
+  "model": "Qwen/Qwen2.5-0.5B-Instruct",
+  "research_links": [{"url": "https://example.com/robotics", "title": "Robótica"}],
+  "collection": {"datasets": {"sft": 12, "preferences": 3}},
+  "training": {"status": "success"},
+  "observations": {
+    "research_plan": {"topic": "robótica e automação"},
+    "insights": [{"text": "protocolos Wi-Fi podem reduzir latência em comandos locais"}],
+    "risks": ["o modelo específico do robô ainda precisa ser confirmado"]
+  }
+}

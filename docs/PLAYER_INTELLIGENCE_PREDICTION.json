@@ -1,0 +1,85 @@
+{
+    "protocol": "Player Intelligence Layer M42",
+    "timestamp": "2026-08-11T19:57:10.677048",
+    "matchup": "Santos vs Palmeiras - Copa do Brasil 2026",
+    "santos_absences_and_boosts": [
+        {
+            "player": "Neymar Jr",
+            "role": "Star Forward",
+            "impact_scored": 0.25,
+            "impact_conceded": 0.0,
+            "status": "Fit & Active"
+        },
+        {
+            "player": "Gabriel Brazão",
+            "role": "Goalkeeper/Defensive adjustment",
+            "impact_scored": 0.0,
+            "impact_conceded": 0.1,
+            "status": "Minor rotation"
+        }
+    ],
+    "palmeiras_absences_and_boosts": [
+        {
+            "player": "Jhon Arias",
+            "role": "Winger",
+            "impact_scored": -0.15,
+            "impact_conceded": 0.0,
+            "status": "Doubtful/Suspended"
+        }
+    ],
+    "leg_1": {
+        "match": "Santos vs Palmeiras",
+        "home_xg": 0.99,
+        "away_xg": 2.35,
+        "probabilities": {
+            "Santos": "14.28%",
+            "Draw": "18.02%",
+            "Palmeiras": "64.36%"
+        },
+        "most_likely_scores": [
+            {
+                "score": "0-2",
+                "prob": 9.77
+            },
+            {
+                "score": "1-2",
+                "prob": 9.69
+            },
+            {
+                "score": "0-1",
+                "prob": 8.32
+            }
+        ],
+        "verdict": "Palmeiras"
+    },
+    "leg_2": {
+        "match": "Palmeiras vs Santos",
+        "home_xg": 2.35,
+        "away_xg": 0.99,
+        "probabilities": {
+            "Palmeiras": "64.36%",
+            "Draw": "18.02%",
+            "Santos": "14.28%"
+        },
+        "most_likely_scores": [
+            {
+                "score": "2-0",
+                "prob": 9.77
+            },
+            {
+                "score": "2-1",
+                "prob": 9.69
+            },
+            {
+                "score": "1-0",
+                "prob": 8.32
+            }
+        ],
+        "verdict": "Palmeiras"
+    },
+    "aggregate_xG_with_players": {
+        "Santos": 1.98,
+        "Palmeiras": 4.7
+    },
+    "predicted_qualifier": "Palmeiras"
+}

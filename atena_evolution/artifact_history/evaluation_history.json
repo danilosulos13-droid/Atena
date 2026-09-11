@@ -1,0 +1,50 @@
+{
+  "/tmp/pytest-of-codespace/pytest-3/test_evaluate_markdown_artifac0/plan.md": [
+    {
+      "timestamp": "2026-09-04T18:24:58.332022+00:00",
+      "overall": 3.25,
+      "actionability": 5,
+      "novelty": 5,
+      "evidence": 1,
+      "risk": 1,
+      "impact": 2,
+      "feasibility": 3
+    }
+  ],
+  "/tmp/pytest-of-codespace/pytest-3/test_evaluate_json_artifact_sc0/report.json": [
+    {
+      "timestamp": "2026-09-04T18:24:58.334640+00:00",
+      "overall": 3.8,
+      "actionability": 5,
+      "novelty": 3,
+      "evidence": 4,
+      "risk": 4,
+      "impact": 3,
+      "feasibility": 3
+    }
+  ],
+  "/tmp/pytest-of-codespace/pytest-4/test_evaluate_markdown_artifac0/plan.md": [
+    {
+      "timestamp": "2026-09-04T18:26:36.496342+00:00",
+      "overall": 3.25,
+      "actionability": 5,
+      "novelty": 5,
+      "evidence": 1,
+      "risk": 1,
+      "impact": 2,
+      "feasibility": 3
+    }
+  ],
+  "/tmp/pytest-of-codespace/pytest-4/test_evaluate_json_artifact_sc0/report.json": [
+    {
+      "timestamp": "2026-09-04T18:26:36.498686+00:00",
+      "overall": 3.8,
+      "actionability": 5,
+      "novelty": 3,
+      "evidence": 4,
+      "risk": 4,
+      "impact": 3,
+      "feasibility": 3
+    }
+  ]
+}

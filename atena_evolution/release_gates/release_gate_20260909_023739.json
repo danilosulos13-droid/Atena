@@ -1,0 +1,44 @@
+{
+  "status": "GO",
+  "started_at": "2026-09-09T02:37:26.789711+00:00",
+  "finished_at": "2026-09-09T02:37:39.379512+00:00",
+  "gates": {
+    "passed": 4,
+    "total": 4
+  },
+  "results": [
+    {
+      "id": "syntax",
+      "description": "Compila\u00e7\u00e3o de core/ e modules/",
+      "ok": true,
+      "returncode": 0,
+      "elapsed_seconds": 0.65,
+      "tail": ""
+    },
+    {
+      "id": "modules-smoke",
+      "description": "Smoke de m\u00f3dulos",
+      "ok": true,
+      "returncode": 0,
+      "elapsed_seconds": 1.24,
+      "tail": "\u2705 INFO    2026-09-09 02:37:27 - Ambiente detectado: CI/CD (GitHub Actions)\n"
+    },
+    {
+      "id": "self-test-quick",
+      "description": "Auto-valida\u00e7\u00e3o r\u00e1pida (pytest)",
+      "ok": true,
+      "returncode": 0,
+      "elapsed_seconds": 3.28,
+      "tail": "%]\ntests/unit/test_atena_response_cache.py ........                         [100%]\n\n=============================== warnings summary ===============================\n../../../opt/pyvenv/lib/python3.13/site-packages/_pytest/config/__init__.py:1428\n  /opt/pyvenv/lib/python3.13/site-packages/_pytest/config/__init__.py:1428: PytestConfigWarning: Unknown config option: timeout\n  \n    self._warn_or_fail_if_strict(f\"Unknown config option: {key}\\n\")\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n======================== 16 passed, 1 warning in 0.61s =========================\n\n"
+    },
+    {
+      "id": "external-validation",
+      "description": "Valida\u00e7\u00e3o externa de maturidade AGI",
+      "ok": true,
+      "score_1_10": 10.0,
+      "elapsed_seconds": 0,
+      "tail": "{\"status\": \"ok\", \"score_0_100\": 100.0, \"score_1_10\": 10.0, \"maturity\": \"high\", \"earned_weight\": 10.0, \"total_weight\": 10.0, \"results\": [{\"id\": \"eng-tests\", \"domain\": \"engineering\", \"command\": [\"./atena\", \"modules-smoke\"], \"weight\": 2.0, \"description\": \"Robustez de engenharia\", \"ok\": true, \"returncode\": 0, \"stdout_tail\": \"\\u2705 INFO    2026-09-09 02:37:31 - Ambiente detectado: CI/CD (GitHub Actions)\\n\", \"stderr_tail\": \"\\u26a0\\ufe0f  WARNING 2026-09-09 02:37:33 - ATENA j\\u00e1 est\\u00e1 em execu\\u00e7\\u00e3o (PID: 765)\\n\\u274c ERROR 2026-09-09 02:37:33 - Use ATENA_FORCE=true para for\\u00e7ar ex"
+    }
+  ],
+  "recommendation": "Aprovado para release."
+}

@@ -1,0 +1,111 @@
+name: ATENA Telegram listener
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "*/10 * * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: atena-telegram-listener
+  cancel-in-progress: true
+
+jobs:
+  listen:
+    name: Responder mensagens Telegram
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: |
+            setup/requirements-pinned.txt
+            setup/requirements-voice.txt
+
+      - name: Instalar dependências mínimas
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r setup/requirements-pinned.txt
+          python -m pip install -r setup/requirements-voice.txt
+
+      - name: Carregar memória de feedback publicada
+        run: |
+          set -euo pipefail
+          git fetch origin atena/autoevolution
+          for path in \
+            atena_evolution/training/telegram_interactions.jsonl \
+            atena_evolution/training/human_feedback.jsonl \
+            atena_evolution/training/experiences.jsonl; do
+            if git cat-file -e "origin/atena/autoevolution:$path" 2>/dev/null; then
+              mkdir -p "$(dirname "$path")"
+              git show "origin/atena/autoevolution:$path" > "$path"
+            fi
+          done
+
+      - name: Validar credenciais e iniciar listener
+        env:
+          ATENA_TELEGRAM_BOT_TOKEN: ${{ secrets.ATENA_TELEGRAM_BOT_TOKEN }}
+          ATENA_TELEGRAM_CHAT_ID: ${{ secrets.ATENA_TELEGRAM_CHAT_ID }}
+          ATENA_ROBOT_DRY_RUN: "1"
+          PYTHONUNBUFFERED: "1"
+          PYTHONPATH: ${{ github.workspace }}
+        run: |
+          set -euo pipefail
+          cd "$GITHUB_WORKSPACE"
+          export PYTHONPATH="$GITHUB_WORKSPACE${PYTHONPATH:+:$PYTHONPATH}"
+          test -d core || { echo "Diretório core ausente em $GITHUB_WORKSPACE"; exit 1; }
+          test -n "$ATENA_TELEGRAM_BOT_TOKEN" || { echo "Secret ATENA_TELEGRAM_BOT_TOKEN ausente"; exit 1; }
+          test -n "$ATENA_TELEGRAM_CHAT_ID" || { echo "Secret ATENA_TELEGRAM_CHAT_ID ausente"; exit 1; }
+          python -m py_compile scripts/atena_telegram_chat.py
+          timeout --signal=TERM --kill-after=10s 480s \
+            python scripts/atena_telegram_chat.py --poll-timeout 20 \
+            2>&1 | tee /tmp/atena-telegram-listener.log
+
+      - name: Publicar log sem credenciais
+        if: always()
+        run: |
+          sed -E 's/[0-9]{8,}:[A-Za-z0-9_-]{20,}/[TOKEN_REDACTED]/g' \
+            /tmp/atena-telegram-listener.log 2>/dev/null || true
+
+      - name: Persistir feedback humano na branch de autoevolução
+        if: always()
+        run: |
+          set -euo pipefail
+          files="atena_evolution/training/telegram_interactions.jsonl atena_evolution/training/human_feedback.jsonl atena_evolution/training/experiences.jsonl"
+          found=false
+          for path in $files; do
+            if [ -s "$path" ]; then found=true; fi
+          done
+          if [ "$found" != "true" ]; then
+            echo "Nenhum feedback humano novo para publicar."
+            exit 0
+          fi
+          publish_dir="$RUNNER_TEMP/atena-feedback-worktree"
+          git fetch origin atena/autoevolution
+          git worktree add --detach "$publish_dir" origin/atena/autoevolution
+          for path in $files; do
+            if [ -f "$path" ]; then
+              mkdir -p "$publish_dir/$(dirname "$path")"
+              cp "$path" "$publish_dir/$path"
+            fi
+          done
+          cd "$publish_dir"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          for path in $files; do
+            test -e "$path" && git add "$path" || true
+          done
+          if git diff --cached --quiet; then
+            echo "Nenhuma alteração de feedback para publicar."
+            exit 0
+          fi
+          git commit -m "chore(atena): record human Telegram feedback"
+          git push origin HEAD:atena/autoevolution

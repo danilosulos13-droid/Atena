@@ -1,0 +1,30 @@
+[
+    {
+        "cycle": 250,
+        "timestamp": "2026-08-11T19:11:47.709135",
+        "sovereignty_index": 99.9646,
+        "network_entropy": 0.000457,
+        "status": "STABLE_EXPANSION"
+    },
+    {
+        "cycle": 500,
+        "timestamp": "2026-08-11T19:11:47.809535",
+        "sovereignty_index": 99.99,
+        "network_entropy": 0.0001,
+        "status": "STABLE_EXPANSION"
+    },
+    {
+        "cycle": 750,
+        "timestamp": "2026-08-11T19:11:47.910005",
+        "sovereignty_index": 99.99,
+        "network_entropy": 0.0001,
+        "status": "STABLE_EXPANSION"
+    },
+    {
+        "cycle": 1000,
+        "timestamp": "2026-08-11T19:11:48.010871",
+        "sovereignty_index": 99.99,
+        "network_entropy": 0.0001,
+        "status": "STABLE_EXPANSION"
+    }
+]

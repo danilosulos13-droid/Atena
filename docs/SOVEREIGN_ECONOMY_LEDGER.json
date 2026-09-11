@@ -1,0 +1,49 @@
+{
+    "protocol": "Sovereign Economy M30",
+    "timestamp": "2026-08-11T19:20:39.324861",
+    "total_transactions": 5,
+    "total_credits_minted": 3335.4300000000003,
+    "ledger": [
+        {
+            "tx_id": "TX-654120",
+            "timestamp": "2026-08-11T19:20:38.823624",
+            "node_id": "NODE-ALPHA-01",
+            "gpu_contributed_hours": 30.3,
+            "storage_contributed_gb": 609.52,
+            "reward_minted": 683.51
+        },
+        {
+            "tx_id": "TX-104104",
+            "timestamp": "2026-08-11T19:20:38.923827",
+            "node_id": "NODE-BETA-04",
+            "gpu_contributed_hours": 35.62,
+            "storage_contributed_gb": 820.54,
+            "reward_minted": 855.52
+        },
+        {
+            "tx_id": "TX-354094",
+            "timestamp": "2026-08-11T19:20:39.024031",
+            "node_id": "NODE-GAMMA-09",
+            "gpu_contributed_hours": 35.44,
+            "storage_contributed_gb": 536.63,
+            "reward_minted": 711.32
+        },
+        {
+            "tx_id": "TX-320393",
+            "timestamp": "2026-08-11T19:20:39.124351",
+            "node_id": "EDGE-NODE-77",
+            "gpu_contributed_hours": 12.68,
+            "storage_contributed_gb": 384.73,
+            "reward_minted": 350.87
+        },
+        {
+            "tx_id": "TX-796970",
+            "timestamp": "2026-08-11T19:20:39.224688",
+            "node_id": "IOT-NODE-99",
+            "gpu_contributed_hours": 39.01,
+            "storage_contributed_gb": 493.16,
+            "reward_minted": 734.21
+        }
+    ],
+    "status": "ECONOMY_OPERATIONAL"
+}

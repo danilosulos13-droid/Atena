@@ -1,0 +1,815 @@
+{
+  "metadata": {
+    "tool": "ATENA-IA — Ferramenta de Previsão Copa 2026",
+    "version": "1.0.0",
+    "generated_at": "2026-06-17 18:39:02",
+    "total_teams_analyzed": 78,
+    "data_sources": [
+      "FIFA World Rankings — Junho 2026",
+      "Opta Analyst Supercomputer (16k simulações)",
+      "FGV EMAp — Escola de Matemática Aplicada",
+      "Goldman Sachs Research Report",
+      "Gato Mestre / Bruno Imaizumi (xG + Ranking + Transfermarkt)",
+      "VegasInsider / Bet365 — Odds de Mercado",
+      "FanDuel Sportsbook — Odds (14 Jun 2026)",
+      "R-Bloggers Hybrid ML Model (100.000 simulações)",
+      "Elo Rating System (Histórico 8 anos)",
+      "Transfermarkt — Valor de Mercado dos Elencos",
+      "Histórico de Copas do Mundo (1930-2022)",
+      "Desempenho nas Eliminatórias 2026",
+      "Desempenho na Eurocopa 2024 / Copa América 2024",
+      "Modelo Joachim Klement (Economista — 3 Copas acertadas)"
+    ],
+    "model_weights": {
+      "supercomputer_avg": 0.3,
+      "bookmaker_consensus": 0.25,
+      "historical_performance": 0.15,
+      "recent_form": 0.15,
+      "squad_quality": 0.1,
+      "elo_rating": 0.05
+    }
+  },
+  "prediction": {
+    "champion": {
+      "team": "Espanha",
+      "team_en": "Spain",
+      "win_probability": "5.86%",
+      "composite_score": 87.977,
+      "supercomputer_avg": "17.49%",
+      "bookmaker_consensus": "15.6%",
+      "fifa_rank": 2,
+      "world_cup_titles": 1,
+      "squad_value": "€1100M"
+    },
+    "runner_up": {
+      "team": "França",
+      "win_probability": "5.57%"
+    },
+    "third_place": {
+      "team": "Argentina",
+      "win_probability": "4.94%"
+    }
+  },
+  "top_10_favorites": [
+    {
+      "rank": 1,
+      "team": "Espanha",
+      "win_probability": "5.86%",
+      "composite_score": 87.977,
+      "fifa_rank": 2,
+      "opta_prob": "16.19%",
+      "goldman_prob": "26.0%",
+      "fgv_prob": "15.57%",
+      "gato_mestre_prob": "11.05%",
+      "ml_hybrid_prob": "14.5%",
+      "bet365_odds_pct": "14.3%",
+      "squad_value": "€1100M",
+      "world_cup_titles": 1,
+      "last_wc": "Quartas de Final"
+    },
+    {
+      "rank": 2,
+      "team": "França",
+      "win_probability": "5.57%",
+      "composite_score": 83.67,
+      "fifa_rank": 1,
+      "opta_prob": "12.69%",
+      "goldman_prob": "19.0%",
+      "fgv_prob": "10.0%",
+      "gato_mestre_prob": "10.85%",
+      "ml_hybrid_prob": "12.4%",
+      "bet365_odds_pct": "14.3%",
+      "squad_value": "€1250M",
+      "world_cup_titles": 2,
+      "last_wc": "Vice-Campeã (Final)"
+    },
+    {
+      "rank": 3,
+      "team": "Argentina",
+      "win_probability": "4.94%",
+      "composite_score": 74.149,
+      "fifa_rank": 1,
+      "opta_prob": "10.15%",
+      "goldman_prob": "14.0%",
+      "fgv_prob": "13.62%",
+      "gato_mestre_prob": "9.8%",
+      "ml_hybrid_prob": "9.5%",
+      "bet365_odds_pct": "9.1%",
+      "squad_value": "€980M",
+      "world_cup_titles": 3,
+      "last_wc": "Campeã"
+    },
+    {
+      "rank": 4,
+      "team": "Brasil",
+      "win_probability": "4.82%",
+      "composite_score": 72.391,
+      "fifa_rank": 5,
+      "opta_prob": "6.81%",
+      "goldman_prob": "8.0%",
+      "fgv_prob": "4.68%",
+      "gato_mestre_prob": "5.03%",
+      "ml_hybrid_prob": "6.5%",
+      "bet365_odds_pct": "14.3%",
+      "squad_value": "€1050M",
+      "world_cup_titles": 5,
+      "last_wc": "Quartas de Final"
+    },
+    {
+      "rank": 5,
+      "team": "Inglaterra",
+      "win_probability": "4.68%",
+      "composite_score": 70.273,
+      "fifa_rank": 3,
+      "opta_prob": "10.83%",
+      "goldman_prob": "12.0%",
+      "fgv_prob": "9.0%",
+      "gato_mestre_prob": "9.5%",
+      "ml_hybrid_prob": "12.4%",
+      "bet365_odds_pct": "12.5%",
+      "squad_value": "€1180M",
+      "world_cup_titles": 1,
+      "last_wc": "Quartas de Final"
+    },
+    {
+      "rank": 6,
+      "team": "Alemanha",
+      "win_probability": "4.43%",
+      "composite_score": 66.563,
+      "fifa_rank": 4,
+      "opta_prob": "5.89%",
+      "goldman_prob": "7.0%",
+      "fgv_prob": "6.0%",
+      "gato_mestre_prob": "7.0%",
+      "ml_hybrid_prob": "11.2%",
+      "bet365_odds_pct": "9.1%",
+      "squad_value": "€1020M",
+      "world_cup_titles": 4,
+      "last_wc": "Fase de Grupos"
+    },
+    {
+      "rank": 7,
+      "team": "Portugal",
+      "win_probability": "3.32%",
+      "composite_score": 49.927,
+      "fifa_rank": 6,
+      "opta_prob": "7.15%",
+      "goldman_prob": "5.0%",
+      "fgv_prob": "5.0%",
+      "gato_mestre_prob": "6.0%",
+      "ml_hybrid_prob": "5.5%",
+      "bet365_odds_pct": "5.9%",
+      "squad_value": "€900M",
+      "world_cup_titles": 0,
+      "last_wc": "Quartas de Final"
+    },
+    {
+      "rank": 8,
+      "team": "Holanda",
+      "win_probability": "2.87%",
+      "composite_score": 43.166,
+      "fifa_rank": 7,
+      "opta_prob": "3.95%",
+      "goldman_prob": "4.0%",
+      "fgv_prob": "4.0%",
+      "gato_mestre_prob": "4.5%",
+      "ml_hybrid_prob": "5.0%",
+      "bet365_odds_pct": "4.8%",
+      "squad_value": "€820M",
+      "world_cup_titles": 0,
+      "last_wc": "Quartas de Final"
+    },
+    {
+      "rank": 9,
+      "team": "Uruguai",
+      "win_probability": "2.34%",
+      "composite_score": 35.072,
+      "fifa_rank": 12,
+      "opta_prob": "1.2%",
+      "goldman_prob": "1.0%",
+      "fgv_prob": "1.5%",
+      "gato_mestre_prob": "1.5%",
+      "ml_hybrid_prob": "1.5%",
+      "bet365_odds_pct": "2.9%",
+      "squad_value": "€420M",
+      "world_cup_titles": 2,
+      "last_wc": "Quartas de Final"
+    },
+    {
+      "rank": 10,
+      "team": "Bélgica",
+      "win_probability": "2.29%",
+      "composite_score": 34.426,
+      "fifa_rank": 8,
+      "opta_prob": "2.31%",
+      "goldman_prob": "2.0%",
+      "fgv_prob": "2.5%",
+      "gato_mestre_prob": "2.8%",
+      "ml_hybrid_prob": "2.5%",
+      "bet365_odds_pct": "2.9%",
+      "squad_value": "€750M",
+      "world_cup_titles": 0,
+      "last_wc": "Oitavas de Final"
+    }
+  ],
+  "by_confederation": {
+    "UEFA": {
+      "best_team": "Espanha",
+      "best_team_prob": 5.86,
+      "total_teams": 31,
+      "combined_prob": 52.91
+    },
+    "CONMEBOL": {
+      "best_team": "Argentina",
+      "best_team_prob": 4.94,
+      "total_teams": 10,
+      "combined_prob": 19.18
+    },
+    "CONCACAF": {
+      "best_team": "Estados Unidos",
+      "best_team_prob": 1.89,
+      "total_teams": 9,
+      "combined_prob": 7.25
+    },
+    "CAF": {
+      "best_team": "Marrocos",
+      "best_team_prob": 1.86,
+      "total_teams": 15,
+      "combined_prob": 11.33
+    },
+    "AFC": {
+      "best_team": "Japão",
+      "best_team_prob": 1.75,
+      "total_teams": 12,
+      "combined_prob": 9.02
+    },
+    "OFC": {
+      "best_team": "Nova Zelândia",
+      "best_team_prob": 0.32,
+      "total_teams": 1,
+      "combined_prob": 0.32
+    }
+  },
+  "all_48_teams": [
+    {
+      "rank": 1,
+      "team": "Espanha",
+      "win_probability": "5.86%",
+      "confederation": "UEFA",
+      "fifa_rank": 2
+    },
+    {
+      "rank": 2,
+      "team": "França",
+      "win_probability": "5.57%",
+      "confederation": "UEFA",
+      "fifa_rank": 1
+    },
+    {
+      "rank": 3,
+      "team": "Argentina",
+      "win_probability": "4.94%",
+      "confederation": "CONMEBOL",
+      "fifa_rank": 1
+    },
+    {
+      "rank": 4,
+      "team": "Brasil",
+      "win_probability": "4.82%",
+      "confederation": "CONMEBOL",
+      "fifa_rank": 5
+    },
+    {
+      "rank": 5,
+      "team": "Inglaterra",
+      "win_probability": "4.68%",
+      "confederation": "UEFA",
+      "fifa_rank": 3
+    },
+    {
+      "rank": 6,
+      "team": "Alemanha",
+      "win_probability": "4.43%",
+      "confederation": "UEFA",
+      "fifa_rank": 4
+    },
+    {
+      "rank": 7,
+      "team": "Portugal",
+      "win_probability": "3.32%",
+      "confederation": "UEFA",
+      "fifa_rank": 6
+    },
+    {
+      "rank": 8,
+      "team": "Holanda",
+      "win_probability": "2.87%",
+      "confederation": "UEFA",
+      "fifa_rank": 7
+    },
+    {
+      "rank": 9,
+      "team": "Uruguai",
+      "win_probability": "2.34%",
+      "confederation": "CONMEBOL",
+      "fifa_rank": 12
+    },
+    {
+      "rank": 10,
+      "team": "Bélgica",
+      "win_probability": "2.29%",
+      "confederation": "UEFA",
+      "fifa_rank": 8
+    },
+    {
+      "rank": 11,
+      "team": "Noruega",
+      "win_probability": "2.19%",
+      "confederation": "UEFA",
+      "fifa_rank": 15
+    },
+    {
+      "rank": 12,
+      "team": "Colômbia",
+      "win_probability": "2.09%",
+      "confederation": "CONMEBOL",
+      "fifa_rank": 9
+    },
+    {
+      "rank": 13,
+      "team": "Croácia",
+      "win_probability": "1.9%",
+      "confederation": "UEFA",
+      "fifa_rank": 10
+    },
+    {
+      "rank": 14,
+      "team": "Estados Unidos",
+      "win_probability": "1.89%",
+      "confederation": "CONCACAF",
+      "fifa_rank": 11
+    },
+    {
+      "rank": 15,
+      "team": "Marrocos",
+      "win_probability": "1.86%",
+      "confederation": "CAF",
+      "fifa_rank": 14
+    },
+    {
+      "rank": 16,
+      "team": "Dinamarca",
+      "win_probability": "1.84%",
+      "confederation": "UEFA",
+      "fifa_rank": 13
+    },
+    {
+      "rank": 17,
+      "team": "Japão",
+      "win_probability": "1.75%",
+      "confederation": "AFC",
+      "fifa_rank": 18
+    },
+    {
+      "rank": 18,
+      "team": "México",
+      "win_probability": "1.72%",
+      "confederation": "CONCACAF",
+      "fifa_rank": 20
+    },
+    {
+      "rank": 19,
+      "team": "Suíça",
+      "win_probability": "1.72%",
+      "confederation": "UEFA",
+      "fifa_rank": 16
+    },
+    {
+      "rank": 20,
+      "team": "Senegal",
+      "win_probability": "1.58%",
+      "confederation": "CAF",
+      "fifa_rank": 17
+    },
+    {
+      "rank": 21,
+      "team": "Áustria",
+      "win_probability": "1.47%",
+      "confederation": "UEFA",
+      "fifa_rank": 24
+    },
+    {
+      "rank": 22,
+      "team": "Coreia do Sul",
+      "win_probability": "1.42%",
+      "confederation": "AFC",
+      "fifa_rank": 23
+    },
+    {
+      "rank": 23,
+      "team": "Sérvia",
+      "win_probability": "1.33%",
+      "confederation": "UEFA",
+      "fifa_rank": 28
+    },
+    {
+      "rank": 24,
+      "team": "Turquia",
+      "win_probability": "1.31%",
+      "confederation": "UEFA",
+      "fifa_rank": 26
+    },
+    {
+      "rank": 25,
+      "team": "Austrália",
+      "win_probability": "1.28%",
+      "confederation": "AFC",
+      "fifa_rank": 25
+    },
+    {
+      "rank": 26,
+      "team": "Equador",
+      "win_probability": "1.27%",
+      "confederation": "CONMEBOL",
+      "fifa_rank": 22
+    },
+    {
+      "rank": 27,
+      "team": "Egito",
+      "win_probability": "1.21%",
+      "confederation": "CAF",
+      "fifa_rank": 35
+    },
+    {
+      "rank": 28,
+      "team": "Irã",
+      "win_probability": "1.19%",
+      "confederation": "AFC",
+      "fifa_rank": 22
+    },
+    {
+      "rank": 29,
+      "team": "Polônia",
+      "win_probability": "1.18%",
+      "confederation": "UEFA",
+      "fifa_rank": 30
+    },
+    {
+      "rank": 30,
+      "team": "Canadá",
+      "win_probability": "1.16%",
+      "confederation": "CONCACAF",
+      "fifa_rank": 40
+    },
+    {
+      "rank": 31,
+      "team": "Ucrânia",
+      "win_probability": "1.12%",
+      "confederation": "UEFA",
+      "fifa_rank": 32
+    },
+    {
+      "rank": 32,
+      "team": "Nigéria",
+      "win_probability": "1.07%",
+      "confederation": "CAF",
+      "fifa_rank": 38
+    },
+    {
+      "rank": 33,
+      "team": "Romênia",
+      "win_probability": "1.05%",
+      "confederation": "UEFA",
+      "fifa_rank": 34
+    },
+    {
+      "rank": 34,
+      "team": "Costa do Marfim",
+      "win_probability": "1.03%",
+      "confederation": "CAF",
+      "fifa_rank": 42
+    },
+    {
+      "rank": 35,
+      "team": "Escócia",
+      "win_probability": "0.96%",
+      "confederation": "UEFA",
+      "fifa_rank": 36
+    },
+    {
+      "rank": 36,
+      "team": "Chile",
+      "win_probability": "0.88%",
+      "confederation": "CONMEBOL",
+      "fifa_rank": 48
+    },
+    {
+      "rank": 37,
+      "team": "Arábia Saudita",
+      "win_probability": "0.87%",
+      "confederation": "AFC",
+      "fifa_rank": 55
+    },
+    {
+      "rank": 38,
+      "team": "Eslováquia",
+      "win_probability": "0.86%",
+      "confederation": "UEFA",
+      "fifa_rank": 38
+    },
+    {
+      "rank": 39,
+      "team": "Venezuela",
+      "win_probability": "0.85%",
+      "confederation": "CONMEBOL",
+      "fifa_rank": 45
+    },
+    {
+      "rank": 40,
+      "team": "Paraguai",
+      "win_probability": "0.83%",
+      "confederation": "CONMEBOL",
+      "fifa_rank": 50
+    },
+    {
+      "rank": 41,
+      "team": "Hungria",
+      "win_probability": "0.82%",
+      "confederation": "UEFA",
+      "fifa_rank": 44
+    },
+    {
+      "rank": 42,
+      "team": "Geórgia",
+      "win_probability": "0.81%",
+      "confederation": "UEFA",
+      "fifa_rank": 42
+    },
+    {
+      "rank": 43,
+      "team": "Argélia",
+      "win_probability": "0.78%",
+      "confederation": "CAF",
+      "fifa_rank": 55
+    },
+    {
+      "rank": 44,
+      "team": "Grécia",
+      "win_probability": "0.76%",
+      "confederation": "UEFA",
+      "fifa_rank": 46
+    },
+    {
+      "rank": 45,
+      "team": "Camarões",
+      "win_probability": "0.76%",
+      "confederation": "CAF",
+      "fifa_rank": 52
+    },
+    {
+      "rank": 46,
+      "team": "Finlândia",
+      "win_probability": "0.73%",
+      "confederation": "UEFA",
+      "fifa_rank": 50
+    },
+    {
+      "rank": 47,
+      "team": "Costa Rica",
+      "win_probability": "0.71%",
+      "confederation": "CONCACAF",
+      "fifa_rank": 62
+    },
+    {
+      "rank": 48,
+      "team": "Catar",
+      "win_probability": "0.71%",
+      "confederation": "AFC",
+      "fifa_rank": 58
+    },
+    {
+      "rank": 49,
+      "team": "Eslovênia",
+      "win_probability": "0.69%",
+      "confederation": "UEFA",
+      "fifa_rank": 48
+    },
+    {
+      "rank": 50,
+      "team": "Gana",
+      "win_probability": "0.69%",
+      "confederation": "CAF",
+      "fifa_rank": 60
+    },
+    {
+      "rank": 51,
+      "team": "Peru",
+      "win_probability": "0.68%",
+      "confederation": "CONMEBOL",
+      "fifa_rank": 60
+    },
+    {
+      "rank": 52,
+      "team": "Albânia",
+      "win_probability": "0.67%",
+      "confederation": "UEFA",
+      "fifa_rank": 52
+    },
+    {
+      "rank": 53,
+      "team": "África do Sul",
+      "win_probability": "0.66%",
+      "confederation": "CAF",
+      "fifa_rank": 65
+    },
+    {
+      "rank": 54,
+      "team": "Iraque",
+      "win_probability": "0.58%",
+      "confederation": "AFC",
+      "fifa_rank": 65
+    },
+    {
+      "rank": 55,
+      "team": "Montenegro",
+      "win_probability": "0.58%",
+      "confederation": "UEFA",
+      "fifa_rank": 56
+    },
+    {
+      "rank": 56,
+      "team": "Irlanda do Norte",
+      "win_probability": "0.55%",
+      "confederation": "UEFA",
+      "fifa_rank": 58
+    },
+    {
+      "rank": 57,
+      "team": "Burkina Faso",
+      "win_probability": "0.52%",
+      "confederation": "CAF",
+      "fifa_rank": 68
+    },
+    {
+      "rank": 58,
+      "team": "Panamá",
+      "win_probability": "0.5%",
+      "confederation": "CONCACAF",
+      "fifa_rank": 70
+    },
+    {
+      "rank": 59,
+      "team": "Islândia",
+      "win_probability": "0.49%",
+      "confederation": "UEFA",
+      "fifa_rank": 62
+    },
+    {
+      "rank": 60,
+      "team": "Bolívia",
+      "win_probability": "0.48%",
+      "confederation": "CONMEBOL",
+      "fifa_rank": 80
+    },
+    {
+      "rank": 61,
+      "team": "RD Congo",
+      "win_probability": "0.48%",
+      "confederation": "CAF",
+      "fifa_rank": 72
+    },
+    {
+      "rank": 62,
+      "team": "Bahrein",
+      "win_probability": "0.46%",
+      "confederation": "AFC",
+      "fifa_rank": 82
+    },
+    {
+      "rank": 63,
+      "team": "Jamaica",
+      "win_probability": "0.46%",
+      "confederation": "CONCACAF",
+      "fifa_rank": 75
+    },
+    {
+      "rank": 64,
+      "team": "Honduras",
+      "win_probability": "0.37%",
+      "confederation": "CONCACAF",
+      "fifa_rank": 85
+    },
+    {
+      "rank": 65,
+      "team": "Israel",
+      "win_probability": "0.35%",
+      "confederation": "UEFA",
+      "fifa_rank": 72
+    },
+    {
+      "rank": 66,
+      "team": "Nova Zelândia",
+      "win_probability": "0.32%",
+      "confederation": "OFC",
+      "fifa_rank": 98
+    },
+    {
+      "rank": 67,
+      "team": "El Salvador",
+      "win_probability": "0.3%",
+      "confederation": "CONCACAF",
+      "fifa_rank": 90
+    },
+    {
+      "rank": 68,
+      "team": "Togo",
+      "win_probability": "0.29%",
+      "confederation": "CAF",
+      "fifa_rank": 95
+    },
+    {
+      "rank": 69,
+      "team": "Luxemburgo",
+      "win_probability": "0.28%",
+      "confederation": "UEFA",
+      "fifa_rank": 80
+    },
+    {
+      "rank": 70,
+      "team": "Indonésia",
+      "win_probability": "0.26%",
+      "confederation": "AFC",
+      "fifa_rank": 130
+    },
+    {
+      "rank": 71,
+      "team": "Cazaquistão",
+      "win_probability": "0.23%",
+      "confederation": "UEFA",
+      "fifa_rank": 85
+    },
+    {
+      "rank": 72,
+      "team": "Benin",
+      "win_probability": "0.21%",
+      "confederation": "CAF",
+      "fifa_rank": 100
+    },
+    {
+      "rank": 73,
+      "team": "Uzbequistão",
+      "win_probability": "0.21%",
+      "confederation": "AFC",
+      "fifa_rank": 88
+    },
+    {
+      "rank": 74,
+      "team": "Palestina",
+      "win_probability": "0.17%",
+      "confederation": "AFC",
+      "fifa_rank": 95
+    },
+    {
+      "rank": 75,
+      "team": "Quênia",
+      "win_probability": "0.15%",
+      "confederation": "CAF",
+      "fifa_rank": 110
+    },
+    {
+      "rank": 76,
+      "team": "Curaçao",
+      "win_probability": "0.14%",
+      "confederation": "CONCACAF",
+      "fifa_rank": 88
+    },
+    {
+      "rank": 77,
+      "team": "Jordânia",
+      "win_probability": "0.12%",
+      "confederation": "AFC",
+      "fifa_rank": 92
+    },
+    {
+      "rank": 78,
+      "team": "Tanzânia",
+      "win_probability": "0.04%",
+      "confederation": "CAF",
+      "fifa_rank": 120
+    }
+  ],
+  "analysis": {
+    "consensus_favorite": "Espanha",
+    "agreement_level": "MÉDIO",
+    "key_factors": [
+      "Espanha lidera em 5 de 5 modelos de supercomputadores.",
+      "Valor de mercado do elenco: €1100M (entre os mais altos do torneio).",
+      "Ranking FIFA: 2º (entre os melhores classificados).",
+      "Últimos resultados nas eliminatórias e torneios recentes: desempenho de elite."
+    ],
+    "biggest_surprise_potential": "Alemanha",
+    "dark_horse": "Portugal",
+    "defending_champion": "Argentina",
+    "defending_champion_odds": "4.94%"
+  }
+}

@@ -1,0 +1,16 @@
+.git
+.env
+.env.*
+*.pem
+*.key
+*.token
+*.sqlite
+*.sqlite3
+*.db
+__pycache__
+.pytest_cache
+.venv
+venv
+logs
+atena_evolution
+node_modules

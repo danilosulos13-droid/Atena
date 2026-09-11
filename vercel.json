@@ -1,0 +1,28 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/main.py",
+      "use": "@vercel/python"
+    },
+    {
+      "src": "api/telegram_webhook.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/telegram/webhook",
+      "dest": "api/telegram_webhook.py"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "api/main.py"
+    }
+  ],
+  "env": {
+    "ATENA_ENV": "production",
+    "ENABLE_RATE_LIMIT": "true",
+    "ENABLE_CACHE": "true"
+  }
+}

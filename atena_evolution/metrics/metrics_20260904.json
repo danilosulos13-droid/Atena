@@ -1,0 +1,16 @@
+{
+    "timestamp": "2026-09-04T18:12:12+00:00",
+    "version": "3.1.0",
+    "environment": "unknown",
+    "system": {
+        "cpu_percent": 23.8,
+        "memory_percent": 52.2233,
+        "disk_percent": 40,
+        "load_average":  2.15
+    },
+    "atena": {
+        "pid": "",
+        "cpu_percent": 0,
+        "memory_percent": 0
+    }
+}

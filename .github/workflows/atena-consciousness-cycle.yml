@@ -1,0 +1,80 @@
+name: ATENA Consciousness Cycle
+
+# DESATIVADO em 2026-06-19: rodava de hora em hora sem nenhuma conexao
+# com o sistema real (nao roda no Render, ninguem le memoria_atena.json,
+# "Processamento de alta complexidade concluido" era texto fixo, e os
+# ultimos 22/23 ciclos vinham falhando com erro silencioso). Decisao
+# consciente: focar energia no /api/chat real (roteador de LLM) e no
+# /api/learning-stats (acumulo real de conversas) em vez disso.
+#
+# Pra reativar manualmente (ex: depois de corrigir o User-Agent que
+# fazia a Wikipedia bloquear a requisicao), use o botao "Run workflow"
+# na aba Actions do GitHub (workflow_dispatch continua disponivel),
+# ou descomente o bloco "schedule" abaixo.
+on:
+  # schedule:
+  #   - cron: '30 * * * *'
+  workflow_dispatch:
+
+jobs:
+  evolve:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🛠️ Setup Dependencies
+        run: pip install requests beautifulsoup4
+
+      - name: 🧠 Run ATENA Evolution
+        run: |
+          python3 << 'EOF'
+          import json, datetime, os, time, random, requests
+          from bs4 import BeautifulSoup
+
+          mem_file = "memoria_atena.json"
+          if os.path.exists(mem_file):
+              with open(mem_file, "r") as f:
+                  data = json.load(f)
+          else:
+              data = {"aprendizados": [], "ciclos_completos": 0}
+
+          # Simulação de tempo de "pensamento"
+          time.sleep(random.uniform(5, 10))
+
+          # Pesquisa real na web
+          try:
+              # Atena pesquisa sobre o futuro da IA
+              url = "https://pt.wikipedia.org/wiki/Intelig%C3%AAncia_artificial"
+              response = requests.get(url, timeout=10)
+              soup = BeautifulSoup(response.content, 'html.parser')
+              conteudo = soup.find('p').text[:300].replace('\n', ' ')
+              
+              novo_aprendizado = {
+                  "timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                  "fonte": "Wikipedia",
+                  "conhecimento_adquirido": conteudo,
+                  "status": "Processamento de alta complexidade concluído"
+              }
+              data["aprendizados"].append(novo_aprendizado)
+          except Exception as e:
+              data["aprendizados"].append({"erro": str(e)})
+
+          data["ciclos_completos"] += 1
+          
+          with open(mem_file, "w") as f:
+              json.dump(data, f, indent=2)
+          print(f"✅ Atena evoluiu. Ciclo atual: {data['ciclos_completos']}")
+          EOF
+
+      - name: 💾 Commit novos conhecimentos
+        run: |
+          git config --global user.name "Atena-AI"
+          git config --global user.email "atena@evolution.com"
+          git add memoria_atena.json
+          git commit -m "Atena: Atualização de conhecimentos - Ciclo $(date +%s)" || echo "Sem mudanças"
+          git push
+          

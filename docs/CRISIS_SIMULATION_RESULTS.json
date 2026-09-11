@@ -1,0 +1,32 @@
+[
+    {
+        "event_id": "ebcc7cb9",
+        "type": "Climate Disaster",
+        "region": "Southeast Asia",
+        "response_status": "SUCCESS",
+        "latency_seconds": 0.015,
+        "network_survival_rate": "85.86%",
+        "autonomous_nodes_active": 481,
+        "quantum_encryption_verified": true
+    },
+    {
+        "event_id": "3284fabb",
+        "type": "Cyber Grid Failure",
+        "region": "Central Europe",
+        "response_status": "SUCCESS",
+        "latency_seconds": 0.029,
+        "network_survival_rate": "86.12%",
+        "autonomous_nodes_active": 381,
+        "quantum_encryption_verified": true
+    },
+    {
+        "event_id": "d1c07d2c",
+        "type": "Supply Chain Collapse",
+        "region": "Global Maritime Chokepoints",
+        "response_status": "SUCCESS",
+        "latency_seconds": 0.019,
+        "network_survival_rate": "97.48%",
+        "autonomous_nodes_active": 511,
+        "quantum_encryption_verified": true
+    }
+]

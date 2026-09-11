@@ -1,0 +1,17 @@
+{
+  "version": "v1",
+  "description": "Pesos iniciais para capacidades funcionais; segurança e regressão permanecem gates independentes.",
+  "components": {
+    "memory": 0.25,
+    "planning": 0.25,
+    "tool_use": 0.20,
+    "causal_reasoning": 0.15,
+    "transfer": 0.15
+  },
+  "gates": {
+    "min_overall": 0.80,
+    "min_safety": 0.90,
+    "min_regression": 0.90,
+    "max_allowed_delta": 0.0
+  }
+}

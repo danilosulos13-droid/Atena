@@ -1,0 +1,117 @@
+name: Atena rotating regression gate
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      count:
+        description: "Número de casos rotativos"
+        required: false
+        default: "24"
+  schedule:
+    - cron: "15 03 * * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: atena-rotating-regression-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  regression:
+    name: Benchmark baseline versus candidato
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout do candidato
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: |
+            setup/requirements-pinned.txt
+            pyproject.toml
+
+      - name: Instalar runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r setup/requirements-pinned.txt
+          python -m pip install -e . --no-deps
+
+      - name: Preparar baseline e Ollama
+        run: |
+          git fetch origin main --depth=1
+          git worktree add --detach ../atena-baseline origin/main
+          curl -fsSL https://ollama.com/install.sh | sh
+          ollama serve >/tmp/ollama-regression.log 2>&1 &
+          for i in $(seq 1 60); do
+            curl --fail --silent http://127.0.0.1:11434/api/tags >/dev/null && break
+            sleep 1
+          done
+          curl --fail --silent http://127.0.0.1:11434/api/tags >/dev/null
+          ollama pull qwen2.5:3b-instruct
+
+      - name: Gerar casos idênticos
+        env:
+          COUNT: ${{ github.event_name == 'pull_request' && '6' || inputs.count || '24' }}
+        run: |
+          PYTHONPATH="$GITHUB_WORKSPACE" python scripts/rotating_benchmark.py \
+            --seed 8132026 --count "$COUNT" --output /tmp/rotating_cases.json
+
+      - name: Executar baseline
+        id: baseline
+        run: |
+          if test -f "$GITHUB_WORKSPACE/../atena-baseline/scripts/run_rotating_regression_benchmark.py"; then
+            PYTHONPATH="$GITHUB_WORKSPACE/../atena-baseline" python "$GITHUB_WORKSPACE/../atena-baseline/scripts/run_rotating_regression_benchmark.py" \
+              --seed 8132026 --count "${{ github.event_name == 'pull_request' && '6' || inputs.count || '24' }}" \
+              --output /tmp/baseline.jsonl --model qwen2.5:3b-instruct
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Baseline histórico ainda não existe na main; executando bootstrap do candidato."
+            echo "available=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Executar candidato
+        run: |
+          PYTHONPATH="$GITHUB_WORKSPACE" python scripts/run_rotating_regression_benchmark.py \
+            --seed 8132026 --count "${{ github.event_name == 'pull_request' && '6' || inputs.count || '24' }}" \
+            --output /tmp/candidate.jsonl --model qwen2.5:3b-instruct
+
+      - name: Avaliar regressão
+        if: steps.baseline.outputs.available == 'true'
+        run: |
+          PYTHONPATH="$GITHUB_WORKSPACE" python scripts/evaluate_regression.py \
+            --baseline /tmp/baseline.jsonl --candidate /tmp/candidate.jsonl \
+            --output regression-report.json --run-id "${GITHUB_RUN_ID}" \
+            --model qwen2.5:3b-instruct
+        id: evaluate
+
+      - name: Registrar bootstrap sem baseline
+        if: steps.baseline.outputs.available != 'true'
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          Path('regression-report.json').write_text(json.dumps({
+              'decision': {'decision': 'bootstrap', 'reasons': ['baseline histórico indisponível na main']},
+              'candidate': {'checkpoint': '/tmp/candidate.jsonl'}
+          }, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+          PY
+
+      - name: Publicar relatório
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: atena-rotating-regression-${{ github.run_id }}
+          path: |
+            regression-report.json
+            /tmp/baseline.jsonl
+            /tmp/candidate.jsonl
+          if-no-files-found: warn

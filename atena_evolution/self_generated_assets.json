@@ -1,0 +1,74 @@
+{
+  "assets": [
+    {
+      "module_path": "modules/generated_ai_safety_029552d9f9.py",
+      "skill_path": "docs/generated_skills/ai_safety_029552d9f9.md",
+      "plugin_path": "plugins/generated_ai_safety_029552d9f9.json"
+    },
+    {
+      "module_path": "modules/generated_autonomous_agents_5dd9af4fc8.py",
+      "skill_path": "docs/generated_skills/autonomous_agents_5dd9af4fc8.md",
+      "plugin_path": "plugins/generated_autonomous_agents_5dd9af4fc8.json"
+    },
+    {
+      "module_path": "modules/generated_autonomous_agents_1a049e75d2.py",
+      "skill_path": "docs/generated_skills/autonomous_agents_1a049e75d2.md",
+      "plugin_path": "plugins/generated_autonomous_agents_1a049e75d2.json"
+    },
+    {
+      "module_path": "modules/generated_agent_memory_1f64c79283.py",
+      "skill_path": "docs/generated_skills/agent_memory_1f64c79283.md",
+      "plugin_path": "plugins/generated_agent_memory_1f64c79283.json"
+    },
+    {
+      "module_path": "modules/generated_ai_safety_d9f5df2ff0.py",
+      "skill_path": "docs/generated_skills/ai_safety_d9f5df2ff0.md",
+      "plugin_path": "plugins/generated_ai_safety_d9f5df2ff0.json"
+    },
+    {
+      "module_path": "modules/generated_autonomous_agents_2055abb2b3.py",
+      "skill_path": "docs/generated_skills/autonomous_agents_2055abb2b3.md",
+      "plugin_path": "plugins/generated_autonomous_agents_2055abb2b3.json"
+    },
+    {
+      "module_path": "modules/generated_agent_memory_e0ddc4997b.py",
+      "skill_path": "docs/generated_skills/agent_memory_e0ddc4997b.md",
+      "plugin_path": "plugins/generated_agent_memory_e0ddc4997b.json"
+    },
+    {
+      "module_path": "modules/generated_ai_safety_af8e3b9447.py",
+      "skill_path": "docs/generated_skills/ai_safety_af8e3b9447.md",
+      "plugin_path": "plugins/generated_ai_safety_af8e3b9447.json"
+    },
+    {
+      "module_path": "modules/generated_autonomous_agents_9284a9a414.py",
+      "skill_path": "docs/generated_skills/autonomous_agents_9284a9a414.md",
+      "plugin_path": "plugins/generated_autonomous_agents_9284a9a414.json"
+    },
+    {
+      "module_path": "modules/generated_agent_memory_30b7de8baa.py",
+      "skill_path": "docs/generated_skills/agent_memory_30b7de8baa.md",
+      "plugin_path": "plugins/generated_agent_memory_30b7de8baa.json"
+    },
+    {
+      "module_path": "modules/generated_ai_safety_9c984abde8.py",
+      "skill_path": "docs/generated_skills/ai_safety_9c984abde8.md",
+      "plugin_path": "plugins/generated_ai_safety_9c984abde8.json"
+    },
+    {
+      "module_path": "modules/generated_autonomous_agents_319a6121ad.py",
+      "skill_path": "docs/generated_skills/autonomous_agents_319a6121ad.md",
+      "plugin_path": "plugins/generated_autonomous_agents_319a6121ad.json"
+    },
+    {
+      "module_path": "modules/generated_autonomous_agents_0ca6eeeada.py",
+      "skill_path": "docs/generated_skills/autonomous_agents_0ca6eeeada.md",
+      "plugin_path": "plugins/generated_autonomous_agents_0ca6eeeada.json"
+    },
+    {
+      "module_path": "modules/generated_agent_memory_ba8b579da9.py",
+      "skill_path": "docs/generated_skills/agent_memory_ba8b579da9.md",
+      "plugin_path": "plugins/generated_agent_memory_ba8b579da9.json"
+    }
+  ]
+}

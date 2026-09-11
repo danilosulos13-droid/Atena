@@ -1,0 +1,11 @@
+{
+  "history": [
+    {
+      "timestamp": "2026-07-04T14:53:31.479538+00:00",
+      "user": "__manus_ec=$?; trap '' PIPE; printf \"%d:%s\\n\" $__manus_ec \"$PWD\" 2>/dev/null >&3; trap - PIPE",
+      "assistant": "<coroutine object AtenaLLMRouterAdvanced.generate at 0x7fb641370680>",
+      "context": "general"
+    }
+  ],
+  "embeddings": {}
+}

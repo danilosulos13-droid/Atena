@@ -1,0 +1,52 @@
+[
+    {
+        "match": "Avaí vs CRB",
+        "home_xg": 1.58,
+        "away_xg": 1.8,
+        "probabilities": {
+            "Avaí": "33.46%",
+            "Draw": "22.59%",
+            "CRB": "42.35%"
+        },
+        "most_likely_scores": [
+            {
+                "score": "1-1",
+                "prob": 9.7
+            },
+            {
+                "score": "1-2",
+                "prob": 8.73
+            },
+            {
+                "score": "2-1",
+                "prob": 7.64
+            }
+        ],
+        "verdict": "CRB"
+    },
+    {
+        "match": "Bodø/Glimt vs Union SG",
+        "home_xg": 3.0,
+        "away_xg": 1.76,
+        "probabilities": {
+            "Bodø/Glimt": "54.64%",
+            "Draw": "16.25%",
+            "Union SG": "19.86%"
+        },
+        "most_likely_scores": [
+            {
+                "score": "2-1",
+                "prob": 6.78
+            },
+            {
+                "score": "3-1",
+                "prob": 6.78
+            },
+            {
+                "score": "2-2",
+                "prob": 5.97
+            }
+        ],
+        "verdict": "Bodø/Glimt"
+    }
+]

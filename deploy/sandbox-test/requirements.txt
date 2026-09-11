@@ -1,0 +1,2 @@
+# Manter versões pinadas; gerar hashes com pip-compile antes de promover a imagem.
+pytest==8.3.5

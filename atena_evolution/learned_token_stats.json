@@ -1,0 +1,18 @@
+{
+  "null": {
+    "count": 1.0,
+    "reward_sum": 0.15
+  },
+  "printf": {
+    "count": 1.0,
+    "reward_sum": 0.15
+  },
+  "trap": {
+    "count": 1.0,
+    "reward_sum": 0.15
+  },
+  "pipe": {
+    "count": 1.0,
+    "reward_sum": 0.15
+  }
+}

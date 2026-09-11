@@ -1,0 +1,228 @@
+name: ATENA QLoRA 1.5B GPU
+
+on:
+  workflow_dispatch:
+    inputs:
+      model:
+        description: "Modelo-base compatível com QLoRA"
+        required: false
+        default: "Qwen/Qwen2.5-1.5B-Instruct"
+        type: string
+      max_pages:
+        description: "Máximo de páginas RSS completas coletadas"
+        required: false
+        default: "1000"
+        type: string
+      epochs:
+        description: "Número de épocas"
+        required: false
+        default: "1"
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: atena-qlora-1.5b
+  cancel-in-progress: false
+
+jobs:
+  qlora:
+    name: QLoRA 1.5B em GPU
+    # O runner precisa estar registrado com estes labels e possuir CUDA/NVIDIA.
+    runs-on: [self-hosted, linux, x64, gpu, nvidia]
+    timeout-minutes: 360
+    env:
+      ATENA_ROOT: ${{ github.workspace }}
+      PYTHONPATH: ${{ github.workspace }}
+      ATENA_QLORA_MODEL: ${{ inputs.model || 'Qwen/Qwen2.5-1.5B-Instruct' }}
+      ATENA_QLORA_EPOCHS: ${{ inputs.epochs || '1' }}
+      ATENA_QLORA_MAX_LENGTH: "512"
+      ATENA_QLORA_BATCH_SIZE: "1"
+      ATENA_QLORA_GRADIENT_ACCUMULATION: "8"
+      TOKENIZERS_PARALLELISM: "false"
+      HF_HOME: ${{ github.workspace }}/.cache/huggingface
+
+    steps:
+      - name: Checkout da main
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: |
+            setup/requirements-pinned.txt
+            setup/requirements-autonomous-learning.txt
+
+      - name: Verificar CUDA e GPU
+        shell: bash
+        run: |
+          set -euo pipefail
+          command -v nvidia-smi
+          nvidia-smi
+          python -m pip install --upgrade pip
+          python -m pip install -r setup/requirements-pinned.txt
+          python -m pip install -r setup/requirements-autonomous-learning.txt
+          python -m pip install bitsandbytes accelerate peft datasets transformers safetensors
+          python - <<'PY'
+          import torch
+          assert torch.cuda.is_available(), "GPU CUDA obrigatória para QLoRA"
+          print("GPU:", torch.cuda.get_device_name(0))
+          print("CUDA:", torch.version.cuda)
+          print("BF16:", torch.cuda.is_bf16_supported())
+          PY
+
+      - name: Pesquisar novas fontes RSS e páginas completas
+        shell: bash
+        run: |
+          python scripts/fetch_research_sources.py \
+            --max-sources 100 \
+            --limit-per-source 10 \
+            --max-pages ${{ inputs.max_pages || '1000' }} \
+            --workers 16 \
+            --timeout 12 \
+            | tee /tmp/atena-qlora-research.json
+
+      - name: Construir dataset de destilação
+        shell: bash
+        run: |
+          python scripts/build_distillation_dataset.py \
+            --output-dir atena_evolution/training/distillation \
+            --min-holdout 5 \
+            | tee /tmp/atena-distillation-manifest.json
+
+      - name: Validar dataset de destilação
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          manifest = json.loads(Path('atena_evolution/training/distillation/manifest.json').read_text())
+          assert manifest['splits']['train'] > 0
+          assert manifest['splits']['holdout'] >= 5
+          assert manifest['sources'] > 0
+          for split in ('train', 'validation', 'holdout'):
+              path = Path('atena_evolution/training/distillation') / f'{split}.jsonl'
+              assert path.exists()
+              for line in path.read_text().splitlines():
+                  row = json.loads(line)
+                  assert row['source_url'].startswith(('http://', 'https://', 'curated://'))
+                  assert len(row['messages']) >= 2
+          print('dataset de destilação: OK')
+          print(json.dumps(manifest, ensure_ascii=False, indent=2))
+          PY
+
+      - name: Treinar adaptador QLoRA 1.5B
+        shell: bash
+        run: |
+          rm -rf atena_evolution/models/qlora-1.5b-candidate
+          python scripts/train_qlora.py \
+            --model "${ATENA_QLORA_MODEL}" \
+            --train atena_evolution/training/distillation/train.jsonl \
+            --output atena_evolution/models/qlora-1.5b-candidate \
+            --max-length "${ATENA_QLORA_MAX_LENGTH}" \
+            --epochs "${ATENA_QLORA_EPOCHS}" \
+            --batch-size "${ATENA_QLORA_BATCH_SIZE}" \
+            --gradient-accumulation "${ATENA_QLORA_GRADIENT_ACCUMULATION}" \
+            | tee /tmp/atena-qlora-training.json
+
+      - name: Verificar pesos do candidato
+        shell: bash
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+          root = Path('atena_evolution/models/qlora-1.5b-candidate')
+          weights = root / 'adapter_model.safetensors'
+          config = root / 'adapter_config.json'
+          manifest = root / 'qlora_manifest.json'
+          assert weights.exists() and weights.stat().st_size > 0
+          assert config.exists() and manifest.exists()
+          digest = hashlib.sha256(weights.read_bytes()).hexdigest()
+          print('adapter_model.safetensors bytes:', weights.stat().st_size)
+          print('sha256:', digest)
+          print(json.dumps(json.loads(manifest.read_text()), ensure_ascii=False, indent=2))
+
+      - name: Validar candidato no holdout antes da promoção
+        shell: bash
+        run: |
+          python scripts/validate_qlora_holdout.py \
+            --base-model "${ATENA_QLORA_MODEL}" \
+            --adapter atena_evolution/models/qlora-1.5b-candidate \
+            --holdout atena_evolution/training/distillation/holdout.jsonl \
+            --report /tmp/atena-qlora-holdout.json \
+            --max-length "${ATENA_QLORA_MAX_LENGTH}" \
+            --min-improvement 0.02
+
+      - name: Preparar llama.cpp e gerar GGUF aprovado
+        shell: bash
+        run: |
+          set -euo pipefail
+          LLAMA_CPP="${RUNNER_TEMP}/llama.cpp"
+          git clone --depth 1 https://github.com/ggerganov/llama.cpp.git "$LLAMA_CPP"
+          cmake -S "$LLAMA_CPP" -B "$LLAMA_CPP/build" -DGGML_CUDA=OFF
+          cmake --build "$LLAMA_CPP/build" --config Release -j2
+          python scripts/merge_qlora_to_gguf.py \
+            --base-model "${ATENA_QLORA_MODEL}" \
+            --adapter atena_evolution/models/qlora-1.5b-candidate \
+            --merged-dir "${RUNNER_TEMP}/atena-merged-1.5b" \
+            --gguf "${RUNNER_TEMP}/atena-1.5b-f16.gguf" \
+            --llama-cpp "$LLAMA_CPP" \
+            --quantize Q4_K_M \
+            --quantized-gguf "${RUNNER_TEMP}/atena-1.5b-Q4_K_M.gguf"
+
+      - name: Configurar SSH do deploy
+        if: success()
+        shell: bash
+        env:
+          ATENA_DEPLOY_SSH_KEY: ${{ secrets.ATENA_DEPLOY_SSH_KEY }}
+          ATENA_DEPLOY_KNOWN_HOSTS: ${{ secrets.ATENA_DEPLOY_KNOWN_HOSTS }}
+        run: |
+          set -euo pipefail
+          test -n "$ATENA_DEPLOY_SSH_KEY"
+          test -n "$ATENA_DEPLOY_KNOWN_HOSTS"
+          install -d -m 0700 "$HOME/.ssh"
+          printf '%s\n' "$ATENA_DEPLOY_SSH_KEY" > "$HOME/.ssh/id_ed25519"
+          printf '%s\n' "$ATENA_DEPLOY_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
+          chmod 600 "$HOME/.ssh/id_ed25519" "$HOME/.ssh/known_hosts"
+
+      - name: Deploy GGUF aprovado no servidor Telegram
+        if: success()
+        env:
+          ATENA_DEPLOY_HOST: ${{ secrets.ATENA_DEPLOY_HOST }}
+          ATENA_DEPLOY_USER: ${{ secrets.ATENA_DEPLOY_USER }}
+          ATENA_DEPLOY_SSH_PORT: ${{ secrets.ATENA_DEPLOY_SSH_PORT || '22' }}
+          ATENA_DEPLOY_REMOTE_DIR: ${{ secrets.ATENA_DEPLOY_REMOTE_DIR || '/opt/atena/models' }}
+          ATENA_DEPLOY_SERVICE: ${{ secrets.ATENA_DEPLOY_SERVICE || 'atena-telegram' }}
+          ATENA_DEPLOY_OLLAMA_MODEL: ${{ secrets.ATENA_DEPLOY_OLLAMA_MODEL || 'atena-1.5b' }}
+        run: |
+          python scripts/deploy_gguf.py \
+            --gguf "${RUNNER_TEMP}/atena-1.5b-Q4_K_M.gguf" \
+            --holdout-report /tmp/atena-qlora-holdout.json \
+            --release "${GITHUB_RUN_ID}" \
+            --ollama-model "${ATENA_DEPLOY_OLLAMA_MODEL}" \
+            --configure-systemd \
+            --restart-service
+          PY
+
+      - name: Publicar relatório e candidato como artefato
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: atena-qlora-1.5b-${{ github.run_id }}
+          path: |
+            atena_evolution/training/distillation/
+            atena_evolution/models/qlora-1.5b-candidate/
+            /tmp/atena-qlora-research.json
+            /tmp/atena-distillation-manifest.json
+            /tmp/atena-qlora-training.json
+            /tmp/atena-qlora-holdout.json
+            ${RUNNER_TEMP}/atena-1.5b-f16.gguf
+            ${RUNNER_TEMP}/atena-1.5b-Q4_K_M.gguf
+          if-no-files-found: warn
+          retention-days: 30

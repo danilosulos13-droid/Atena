@@ -1,0 +1,37 @@
+{
+  "last_collection": {
+    "status": "ok",
+    "collected": {
+      "learning_memory": 0,
+      "consequence_memory": 0,
+      "explicit_feedback": 0
+    },
+    "datasets": {
+      "experiences": 0,
+      "sft": 0,
+      "preferences": 0
+    },
+    "duration_seconds": 0.0
+  },
+  "updated_at": "2026-09-09T02:37:45Z",
+  "last_cycle": {
+    "collection": {
+      "status": "ok",
+      "collected": {
+        "learning_memory": 0,
+        "consequence_memory": 0,
+        "explicit_feedback": 0
+      },
+      "datasets": {
+        "experiences": 0,
+        "sft": 0,
+        "preferences": 0
+      },
+      "duration_seconds": 0.0
+    },
+    "training": {
+      "status": "skipped",
+      "reason": "treino não habilitado"
+    }
+  }
+}

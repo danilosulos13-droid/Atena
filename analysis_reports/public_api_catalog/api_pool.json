@@ -1,0 +1,502 @@
+[
+  {
+    "name": "Cat Facts",
+    "endpoint": "https://catfact.ninja/fact",
+    "category": "animals"
+  },
+  {
+    "name": "Dog CEO",
+    "endpoint": "https://dog.ceo/api/breeds/image/random",
+    "category": "animals"
+  },
+  {
+    "name": "gutenberg",
+    "endpoint": "https://gutendex.com/books",
+    "category": "books"
+  },
+  {
+    "name": "openlibrary",
+    "endpoint": "https://openlibrary.org/search.json",
+    "category": "books"
+  },
+  {
+    "name": "GitHub",
+    "endpoint": "https://api.github.com",
+    "category": "code"
+  },
+  {
+    "name": "GitLab",
+    "endpoint": "https://gitlab.com/api/v4",
+    "category": "code"
+  },
+  {
+    "name": "github",
+    "endpoint": "https://api.github.com/search/repositories",
+    "category": "code"
+  },
+  {
+    "name": "gitlab",
+    "endpoint": "https://gitlab.com/api/v4/projects",
+    "category": "code"
+  },
+  {
+    "name": "StackExchange",
+    "endpoint": "https://api.stackexchange.com/2.3",
+    "category": "community"
+  },
+  {
+    "name": "reddit",
+    "endpoint": "https://www.reddit.com/search.json",
+    "category": "community"
+  },
+  {
+    "name": "stackoverflow",
+    "endpoint": "https://api.stackexchange.com/2.3/search/advanced",
+    "category": "community"
+  },
+  {
+    "name": "domain-seed-1",
+    "endpoint": "https://api.crossref.org",
+    "category": "domain-seed"
+  },
+  {
+    "name": "domain-seed-10",
+    "endpoint": "https://eutils.ncbi.nlm.nih.gov",
+    "category": "domain-seed"
+  },
+  {
+    "name": "domain-seed-11",
+    "endpoint": "https://export.arxiv.org",
+    "category": "domain-seed"
+  },
+  {
+    "name": "domain-seed-12",
+    "endpoint": "https://gitlab.com",
+    "category": "domain-seed"
+  },
+  {
+    "name": "domain-seed-13",
+    "endpoint": "https://gutendex.com",
+    "category": "domain-seed"
+  },
+  {
+    "name": "domain-seed-14",
+    "endpoint": "https://hn.algolia.com",
+    "category": "domain-seed"
+  },
+  {
+    "name": "domain-seed-15",
+    "endpoint": "https://openlibrary.org",
+    "category": "domain-seed"
+  },
+  {
+    "name": "domain-seed-16",
+    "endpoint": "https://packagist.org",
+    "category": "domain-seed"
+  },
+  {
+    "name": "domain-seed-17",
+    "endpoint": "https://registry.npmjs.org",
+    "category": "domain-seed"
+  },
+  {
+    "name": "domain-seed-18",
+    "endpoint": "https://search.maven.org",
+    "category": "domain-seed"
+  },
+  {
+    "name": "domain-seed-19",
+    "endpoint": "https://www.ebi.ac.uk",
+    "category": "domain-seed"
+  },
+  {
+    "name": "domain-seed-20",
+    "endpoint": "https://www.reddit.com",
+    "category": "domain-seed"
+  },
+  {
+    "name": "domain-seed-21",
+    "endpoint": "https://www.thesportsdb.com",
+    "category": "domain-seed"
+  },
+  {
+    "name": "domain-seed-22",
+    "endpoint": "https://www.wikidata.org",
+    "category": "domain-seed"
+  },
+  {
+    "name": "domain-seed-23",
+    "endpoint": "https://zenodo.org",
+    "category": "domain-seed"
+  },
+  {
+    "name": "domain-seed-4",
+    "endpoint": "https://api.openalex.org",
+    "category": "domain-seed"
+  },
+  {
+    "name": "domain-seed-5",
+    "endpoint": "https://api.semanticscholar.org",
+    "category": "domain-seed"
+  },
+  {
+    "name": "domain-seed-6",
+    "endpoint": "https://api.stackexchange.com",
+    "category": "domain-seed"
+  },
+  {
+    "name": "domain-seed-7",
+    "endpoint": "https://clinicaltrials.gov",
+    "category": "domain-seed"
+  },
+  {
+    "name": "domain-seed-8",
+    "endpoint": "https://crates.io",
+    "category": "domain-seed"
+  },
+  {
+    "name": "domain-seed-9",
+    "endpoint": "https://en.wikipedia.org",
+    "category": "domain-seed"
+  },
+  {
+    "name": "Frankfurter",
+    "endpoint": "https://api.frankfurter.app/latest",
+    "category": "finance"
+  },
+  {
+    "name": "alpha_vantage",
+    "endpoint": "https://www.alphavantage.co/query",
+    "category": "finance"
+  },
+  {
+    "name": "coingecko",
+    "endpoint": "https://api.coingecko.com/api/v3",
+    "category": "finance"
+  },
+  {
+    "name": "exchangerate",
+    "endpoint": "https://api.exchangerate-api.com/v4/latest/USD",
+    "category": "finance"
+  },
+  {
+    "name": "openexchange",
+    "endpoint": "https://openexchangerates.org/api/latest.json",
+    "category": "finance"
+  },
+  {
+    "name": "yahoo_finance",
+    "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/",
+    "category": "finance"
+  },
+  {
+    "name": "Open Trivia",
+    "endpoint": "https://opentdb.com/api.php?amount=10",
+    "category": "games"
+  },
+  {
+    "name": "PokeAPI",
+    "endpoint": "https://pokeapi.co/api/v2",
+    "category": "games"
+  },
+  {
+    "name": "geoapify",
+    "endpoint": "https://api.geoapify.com/v1/geocode/search",
+    "category": "geo"
+  },
+  {
+    "name": "ipapi",
+    "endpoint": "https://ipapi.co/json/",
+    "category": "geo"
+  },
+  {
+    "name": "nominatim",
+    "endpoint": "https://nominatim.openstreetmap.org/search",
+    "category": "geo"
+  },
+  {
+    "name": "openrouteservice",
+    "endpoint": "https://api.openrouteservice.org/v2/directions/",
+    "category": "geo"
+  },
+  {
+    "name": "REST Countries",
+    "endpoint": "https://restcountries.com/v3.1/all",
+    "category": "geography"
+  },
+  {
+    "name": "clinicaltrials",
+    "endpoint": "https://clinicaltrials.gov/api/v2/studies",
+    "category": "health"
+  },
+  {
+    "name": "europepmc",
+    "endpoint": "https://www.ebi.ac.uk/europepmc/webservices/rest/search",
+    "category": "health"
+  },
+  {
+    "name": "pubmed",
+    "endpoint": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+    "category": "health"
+  },
+  {
+    "name": "pexels",
+    "endpoint": "https://api.pexels.com/v1/search",
+    "category": "image"
+  },
+  {
+    "name": "pixabay",
+    "endpoint": "https://pixabay.com/api/",
+    "category": "image"
+  },
+  {
+    "name": "unsplash",
+    "endpoint": "https://api.unsplash.com/photos/random",
+    "category": "image"
+  },
+  {
+    "name": "wikidata",
+    "endpoint": "https://www.wikidata.org/w/api.php",
+    "category": "knowledge"
+  },
+  {
+    "name": "wikipedia",
+    "endpoint": "https://en.wikipedia.org/w/api.php",
+    "category": "knowledge"
+  },
+  {
+    "name": "OMDb",
+    "endpoint": "https://www.omdbapi.com",
+    "category": "media"
+  },
+  {
+    "name": "TMDB",
+    "endpoint": "https://api.themoviedb.org/3",
+    "category": "media"
+  },
+  {
+    "name": "TVMaze",
+    "endpoint": "https://api.tvmaze.com/search/shows",
+    "category": "media"
+  },
+  {
+    "name": "BoredAPI",
+    "endpoint": "https://www.boredapi.com/api/activity",
+    "category": "misc"
+  },
+  {
+    "name": "JokeAPI",
+    "endpoint": "https://v2.jokeapi.dev/joke/Any",
+    "category": "misc"
+  },
+  {
+    "name": "Random User",
+    "endpoint": "https://randomuser.me/api",
+    "category": "misc"
+  },
+  {
+    "name": "MusicBrainz",
+    "endpoint": "https://musicbrainz.org/ws/2",
+    "category": "music"
+  },
+  {
+    "name": "itunes",
+    "endpoint": "https://itunes.apple.com/search",
+    "category": "music"
+  },
+  {
+    "name": "lastfm",
+    "endpoint": "https://ws.audioscrobbler.com/2.0/",
+    "category": "music"
+  },
+  {
+    "name": "musicbrainz",
+    "endpoint": "https://musicbrainz.org/ws/2/recording/",
+    "category": "music"
+  },
+  {
+    "name": "hackernews",
+    "endpoint": "https://hn.algolia.com/api/v1/search",
+    "category": "news"
+  },
+  {
+    "name": "cratesio",
+    "endpoint": "https://crates.io/api/v1/crates",
+    "category": "packages"
+  },
+  {
+    "name": "maven",
+    "endpoint": "https://search.maven.org/solrsearch/select",
+    "category": "packages"
+  },
+  {
+    "name": "npm",
+    "endpoint": "https://registry.npmjs.org/-/v1/search",
+    "category": "packages"
+  },
+  {
+    "name": "packagist",
+    "endpoint": "https://packagist.org/search.json",
+    "category": "packages"
+  },
+  {
+    "name": "Semantic Scholar",
+    "endpoint": "https://api.semanticscholar.org/graph/v1",
+    "category": "research"
+  },
+  {
+    "name": "arxiv",
+    "endpoint": "https://export.arxiv.org/api/query",
+    "category": "research"
+  },
+  {
+    "name": "crossref",
+    "endpoint": "https://api.crossref.org/works",
+    "category": "research"
+  },
+  {
+    "name": "openalex",
+    "endpoint": "https://api.openalex.org/works",
+    "category": "research"
+  },
+  {
+    "name": "semantic_scholar",
+    "endpoint": "https://api.semanticscholar.org/graph/v1/paper/search",
+    "category": "research"
+  },
+  {
+    "name": "zenodo",
+    "endpoint": "https://zenodo.org/api/records",
+    "category": "research"
+  },
+  {
+    "name": "DuckDuckGo",
+    "endpoint": "https://api.duckduckgo.com",
+    "category": "search"
+  },
+  {
+    "name": "duckduckgo",
+    "endpoint": "https://api.duckduckgo.com/",
+    "category": "search"
+  },
+  {
+    "name": "NASA",
+    "endpoint": "https://api.nasa.gov",
+    "category": "space"
+  },
+  {
+    "name": "SpaceX",
+    "endpoint": "https://api.spacexdata.com/v4",
+    "category": "space"
+  },
+  {
+    "name": "astro_api",
+    "endpoint": "https://api.astronomyapi.com/api/v2",
+    "category": "space"
+  },
+  {
+    "name": "le_systeme_solaire",
+    "endpoint": "https://api.le-systeme-solaire.net/rest/bodies/",
+    "category": "space"
+  },
+  {
+    "name": "nasa_apod",
+    "endpoint": "https://api.nasa.gov/planetary/apod",
+    "category": "space"
+  },
+  {
+    "name": "nasa_neo",
+    "endpoint": "https://api.nasa.gov/neo/rest/v1/feed",
+    "category": "space"
+  },
+  {
+    "name": "open_notify",
+    "endpoint": "http://api.open-notify.org/iss-now.json",
+    "category": "space"
+  },
+  {
+    "name": "TheSportsDB",
+    "endpoint": "https://www.thesportsdb.com/api/v1/json/3",
+    "category": "sports"
+  },
+  {
+    "name": "thesportsdb",
+    "endpoint": "https://www.thesportsdb.com/api/v1/json/3/",
+    "category": "sports"
+  },
+  {
+    "name": "synthetic-seed-1",
+    "endpoint": "https://catalog-seed.atena.local/api/1",
+    "category": "synthetic-seed"
+  },
+  {
+    "name": "synthetic-seed-2",
+    "endpoint": "https://catalog-seed.atena.local/api/2",
+    "category": "synthetic-seed"
+  },
+  {
+    "name": "synthetic-seed-3",
+    "endpoint": "https://catalog-seed.atena.local/api/3",
+    "category": "synthetic-seed"
+  },
+  {
+    "name": "synthetic-seed-4",
+    "endpoint": "https://catalog-seed.atena.local/api/4",
+    "category": "synthetic-seed"
+  },
+  {
+    "name": "synthetic-seed-5",
+    "endpoint": "https://catalog-seed.atena.local/api/5",
+    "category": "synthetic-seed"
+  },
+  {
+    "name": "synthetic-seed-6",
+    "endpoint": "https://catalog-seed.atena.local/api/6",
+    "category": "synthetic-seed"
+  },
+  {
+    "name": "synthetic-seed-7",
+    "endpoint": "https://catalog-seed.atena.local/api/7",
+    "category": "synthetic-seed"
+  },
+  {
+    "name": "libretranslate",
+    "endpoint": "https://libretranslate.com/translate",
+    "category": "translation"
+  },
+  {
+    "name": "lingva",
+    "endpoint": "https://lingva.ml/api/v1/",
+    "category": "translation"
+  },
+  {
+    "name": "mymemory",
+    "endpoint": "https://api.mymemory.translated.net/get",
+    "category": "translation"
+  },
+  {
+    "name": "OpenWeather",
+    "endpoint": "https://api.openweathermap.org",
+    "category": "weather"
+  },
+  {
+    "name": "meteo_br",
+    "endpoint": "https://apitempo.inmet.gov.br/",
+    "category": "weather"
+  },
+  {
+    "name": "open_meteo",
+    "endpoint": "https://api.open-meteo.com/v1/forecast",
+    "category": "weather"
+  },
+  {
+    "name": "open_weather",
+    "endpoint": "https://api.openweathermap.org/data/2.5/weather",
+    "category": "weather"
+  },
+  {
+    "name": "wttr",
+    "endpoint": "https://wttr.in/",
+    "category": "weather"
+  }
+]

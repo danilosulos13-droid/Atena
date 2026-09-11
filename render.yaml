@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: atena-api
+    env: python
+    buildCommand: ./build.sh
+    startCommand: uvicorn api.main:app --host 0.0.0.0 --port $PORT
+    
+  - type: web
+    name: atena-dashboard
+    env: node
+    rootDir: dashboard
+    buildCommand: pnpm install && pnpm build
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production

@@ -1,0 +1,16 @@
+{
+  "null_pipe_printf_trap": {
+    "count": 1,
+    "success_count": 1,
+    "responses": [
+      {
+        "response": "<coroutine object AtenaLLMRouterAdvanced.generate at 0x7fb641370680>",
+        "timestamp": "2026-07-04T14:53:31.479780+00:00",
+        "feedback": null,
+        "reward": 0.15
+      }
+    ],
+    "last_seen": "2026-07-04T14:53:31.479789+00:00",
+    "avg_reward": 0.15
+  }
+}

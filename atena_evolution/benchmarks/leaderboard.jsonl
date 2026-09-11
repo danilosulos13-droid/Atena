@@ -1,0 +1,2 @@
+{"timestamp": "2026-09-09T02:38:38.636004+00:00", "score": 60, "details": [{"suite": "quick", "status": "ok", "points": 20, "returncode": 0}, {"suite": "security", "status": "failed", "points": 0, "returncode": 2}, {"suite": "perf", "status": "ok", "points": 40, "returncode": 0}]}
+{"timestamp": "2026-09-09T02:39:33.791001+00:00", "score": 60, "details": [{"suite": "quick", "status": "ok", "points": 20, "returncode": 0}, {"suite": "security", "status": "failed", "points": 0, "returncode": 2}, {"suite": "perf", "status": "ok", "points": 40, "returncode": 0}]}

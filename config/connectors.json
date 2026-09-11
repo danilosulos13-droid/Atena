@@ -1,0 +1,104 @@
+{
+  "whatsapp_business": {
+    "type": "whatsapp",
+    "config": {
+      "name": "whatsapp_business",
+      "service_type": "messaging",
+      "api_key": "YOUR_WHATSAPP_API_KEY",
+      "webhook_url": "https://seu-dominio.com/webhooks/whatsapp",
+      "custom_config": {
+        "phone_number_id": "YOUR_PHONE_NUMBER_ID",
+        "business_account_id": "YOUR_BUSINESS_ACCOUNT_ID"
+      },
+      "enabled": false
+    }
+  },
+  "discord_bot": {
+    "type": "discord",
+    "config": {
+      "name": "discord_bot",
+      "service_type": "social",
+      "api_key": "YOUR_DISCORD_BOT_TOKEN",
+      "webhook_url": null,
+      "custom_config": {},
+      "enabled": false
+    }
+  },
+  "telegram_bot": {
+    "type": "telegram",
+    "config": {
+      "name": "telegram_bot",
+      "service_type": "messaging",
+      "api_key": "YOUR_TELEGRAM_BOT_TOKEN",
+      "webhook_url": "https://seu-dominio.com/webhooks/telegram",
+      "custom_config": {},
+      "enabled": false
+    }
+  },
+  "slack_bot": {
+    "type": "slack",
+    "config": {
+      "name": "slack_bot",
+      "service_type": "social",
+      "api_key": "YOUR_SLACK_BOT_TOKEN",
+      "webhook_url": "https://seu-dominio.com/webhooks/slack",
+      "custom_config": {},
+      "enabled": false
+    }
+  },
+  "teams_bot": {
+    "type": "teams",
+    "config": {
+      "name": "teams_bot",
+      "service_type": "social",
+      "api_key": "YOUR_TEAMS_APP_PASSWORD",
+      "api_secret": "YOUR_TEAMS_APP_PASSWORD",
+      "webhook_url": "https://seu-dominio.com/webhooks/teams",
+      "custom_config": {
+        "app_id": "YOUR_TEAMS_APP_ID"
+      },
+      "enabled": false
+    }
+  },
+  "instagram_business": {
+    "type": "instagram",
+    "config": {
+      "name": "instagram_business",
+      "service_type": "social",
+      "api_key": "YOUR_INSTAGRAM_ACCESS_TOKEN",
+      "webhook_url": "https://seu-dominio.com/webhooks/instagram",
+      "custom_config": {
+        "business_account_id": "YOUR_BUSINESS_ACCOUNT_ID"
+      },
+      "enabled": false
+    }
+  },
+  "sms_twilio": {
+    "type": "sms",
+    "config": {
+      "name": "sms_twilio",
+      "service_type": "messaging",
+      "api_key": "YOUR_TWILIO_AUTH_TOKEN",
+      "webhook_url": "https://seu-dominio.com/webhooks/sms",
+      "custom_config": {
+        "account_sid": "YOUR_TWILIO_ACCOUNT_SID",
+        "from_number": "+1234567890"
+      },
+      "enabled": false
+    }
+  },
+  "email_smtp": {
+    "type": "email",
+    "config": {
+      "name": "email_smtp",
+      "service_type": "messaging",
+      "api_key": "YOUR_EMAIL_PASSWORD",
+      "custom_config": {
+        "email_address": "seu-email@gmail.com",
+        "smtp_host": "smtp.gmail.com",
+        "smtp_port": 587
+      },
+      "enabled": false
+    }
+  }
+}

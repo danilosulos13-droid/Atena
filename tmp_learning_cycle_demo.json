@@ -1,0 +1,1 @@
+{"benchmark": "demo-benchmark-v1", "models": {"llama3.2": {"score": 0.82, "total": 5}, "qwen2.5:3b-instruct": {"score": 0.75, "total": 5}}, "results": [{"score": 0.82}, {"score": 0.7}, {"score": 0.8}]}

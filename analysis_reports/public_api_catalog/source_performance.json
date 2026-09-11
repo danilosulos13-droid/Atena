@@ -1,0 +1,42 @@
+{
+  "duckduckgo": {
+    "success_count": 17,
+    "fail_count": 0,
+    "success_rate": 1.0,
+    "avg_response_time_ms": 0.03,
+    "last_success": "2026-09-04T19:26:49.933311+00:00",
+    "quality_score": 1.0
+  },
+  "stackoverflow": {
+    "success_count": 17,
+    "fail_count": 0,
+    "success_rate": 1.0,
+    "avg_response_time_ms": 0.02,
+    "last_success": "2026-09-04T19:26:49.948343+00:00",
+    "quality_score": 1.0
+  },
+  "wikipedia": {
+    "success_count": 17,
+    "fail_count": 0,
+    "success_rate": 1.0,
+    "avg_response_time_ms": 170.89,
+    "last_success": "2026-09-04T19:26:50.250777+00:00",
+    "quality_score": 0.966
+  },
+  "github": {
+    "success_count": 17,
+    "fail_count": 0,
+    "success_rate": 1.0,
+    "avg_response_time_ms": 203.3,
+    "last_success": "2026-09-04T19:26:50.305639+00:00",
+    "quality_score": 0.959
+  },
+  "arxiv": {
+    "success_count": 16,
+    "fail_count": 0,
+    "success_rate": 1.0,
+    "avg_response_time_ms": 89.98,
+    "last_success": "2026-09-04T19:26:50.377931+00:00",
+    "quality_score": 0.982
+  }
+}

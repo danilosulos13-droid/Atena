@@ -1,0 +1,59 @@
+name: Atena self-modification sandbox
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: atena-selfmod-sandbox-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  sandbox:
+    name: Validar auto-modificação isolada
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout completo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: |
+            setup/requirements-pinned.txt
+            setup/requirements-dev.txt
+            pyproject.toml
+
+      - name: Instalar dependências do projeto
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r setup/requirements-pinned.txt
+          python -m pip install -r setup/requirements-dev.txt
+          python -m pip install -e . --no-deps
+
+      - name: Buscar baseline
+        run: git fetch origin main --depth=1
+
+      - name: Executar validação isolada
+        run: |
+          PYTHONPATH="$GITHUB_WORKSPACE" python scripts/run_sandbox_selfmod_validation.py \
+            --base origin/main \
+            --output sandbox-validation.json \
+            --pytest tests/unit
+
+      - name: Publicar evidências
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: atena-selfmod-sandbox-${{ github.run_id }}
+          path: sandbox-validation.json
+          if-no-files-found: warn

@@ -1,0 +1,10 @@
+{
+    "timestamp": "2026-08-11T19:34:48.381417",
+    "protocol": "Max Capacity Analyzer M36",
+    "active_nodes": 27,
+    "local_throughput_mb_s": 882.62,
+    "total_cluster_storage_tb": 54.0,
+    "aggregate_throughput_gb_s": 23.2722,
+    "max_daily_absorption_tb": 1963.59,
+    "verdict": "A malha atual de 27 nós pode absorver e processar até 1963.59 Terabytes de dados por dia em operação contínua."
+}

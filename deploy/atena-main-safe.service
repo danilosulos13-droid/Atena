@@ -1,0 +1,37 @@
+[Unit]
+Description=Atena main cognitive core (safe continuous mode)
+Documentation=https://github.com/danilosullos-lang/Atena-IA
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/home/ubuntu/Atena-IA
+EnvironmentFile=-/etc/atena/core.env
+Environment=PYTHONPATH=/home/ubuntu/Atena-IA
+Environment=ALLOW_DEEP_SELF_MOD=true
+Environment=ALLOW_CHECKER_EVOLVE=true
+Environment=ALLOW_WORKFLOW_MUTATION=false
+Environment=ATENA_LM_ENABLED=false
+Environment=DEPLOY_GIT_REPO=
+Environment=DEPLOY_DOCKER_IMAGE=
+Environment=DEPLOY_COMMAND=
+ExecStart=/usr/bin/python3 /home/ubuntu/Atena-IA/main.py --auto --cycles 0
+Restart=on-failure
+RestartSec=15
+TimeoutStopSec=30
+KillSignal=SIGINT
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectKernelTunables=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+LockPersonality=true
+ReadWritePaths=/home/ubuntu/Atena-IA/atena_evolution /home/ubuntu/Atena-IA/logs /home/ubuntu/Atena-IA/evolution
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,128 @@
+# 🔧 ATENA-IA Dashboard Render Deployment - FIXES APPLIED
+
+## Resumo Rápido
+
+✅ **2 bugs corrigidos** que impediam o dashboard no Render de funcionar
+
+---
+
+## O que foi encontrado?
+
+### 🔴 **Bug #1: render.yaml**
+- **Problema:** `startCommand: node server.js` — mas o build cria `dist/index.js`
+- **Solução:** Alterar para `startCommand: node dist/index.js`
+
+### 🟡 **Bug #2: dashboard/server.js**
+- **Problema:** Sem debug logs para diagnosticar falhas
+- **Solução:** Adicionado console.log() com informações de __dirname e PORT
+
+---
+
+## Como Aplicar as Correções
+
+### Opção 1: Usar Patch File (Recomendado para Termux/Android)
+
+```bash
+cd ~/Atena-IA
+git apply atena-dashboard-fixes.patch
+```
+
+### Opção 2: Aplicar Manualmente
+
+**Arquivo 1: render.yaml (linha 13)**
+```yaml
+# ANTES:
+startCommand: node server.js
+
+# DEPOIS:
+startCommand: node dist/index.js
+```
+
+**Arquivo 2: dashboard/server.js (após linha 9)**
+```javascript
+// Adicione após: const PORT = process.env.PORT || 3000;
+
+console.log(`[DEBUG] PORT from env: ${process.env.PORT}`);
+console.log(`[DEBUG] Using PORT: ${PORT}`);
+console.log(`[DEBUG] __dirname: ${__dirname}`);
+console.log(`[DEBUG] Static path: ${path.join(__dirname, 'dist/public')}`);
+```
+
+---
+
+## Depois de Aplicar
+
+### 1. Verificar que tudo está pronto
+```bash
+cd ~/Atena-IA
+# Verificar arquivos modificados
+git status
+
+# Verificar que as mudanças estão corretas
+git diff render.yaml
+git diff dashboard/server.js
+```
+
+### 2. Fazer commit e push
+```bash
+git add render.yaml dashboard/server.js
+git commit -m "fix: Render dashboard deployment - use bundled server entry point"
+git push
+```
+
+### 3. No Render
+- Dashboard fará **auto-redeploy** após git push
+- Verificar logs em tempo real no painel do Render
+- Testar acesso a `https://atena-dashboard.onrender.com` (substituir URL real)
+
+---
+
+## Testes Locais (Opcional)
+
+Você pode testar localmente antes de fazer push:
+
+```bash
+cd ~/Atena-IA/dashboard
+
+# Instalar dependências (se não tiver)
+pnpm install
+
+# Build
+pnpm build
+
+# Testar servidor em produção
+NODE_ENV=production node dist/index.js
+# Deve ver: "Server running on http://localhost:3000/"
+
+# Em outro terminal, verificar:
+curl http://localhost:3000/
+# Deve retornar o HTML da página
+```
+
+---
+
+## Próximas Otimizações (Futuro)
+
+1. Remover `server.js` obsoleto (usar apenas `dist/index.js`)
+2. Adicionar health check routes (`/health`, `/ping`)
+3. Adicionar variáveis de analytics no `.env.production` ou remover do HTML
+4. Considerar usar PM2 ou forever se precisar de high availability
+
+---
+
+## Documentação
+
+- 📄 `ATENA_DASHBOARD_DIAGNOSTIC_REPORT.md` - Relatório técnico completo
+- 📄 `atena-dashboard-fixes.patch` - Arquivo de patch unificado
+- 📄 Este arquivo - Instruções rápidas
+
+---
+
+## Suporte
+
+Se tiver problemas após aplicar:
+
+1. Verificar logs no Render em tempo real
+2. Confirmar que `dist/public/index.html` existe localmente
+3. Confirmar que `node dist/index.js` roda sem erro localmente
+4. Revisar `ATENA_DASHBOARD_DIAGNOSTIC_REPORT.md` para detalhes técnicos

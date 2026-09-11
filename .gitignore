@@ -1,0 +1,40 @@
+# Python runtime artifacts
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+venv/
+venv_*/
+.env
+atena_evolution/provider_quota.sqlite3
+atena_evolution/provider_quota.sqlite3-*
+
+# Local production-center runtime state; regenerate with scripts/bootstrap_production_readiness.py
+atena_evolution/production_center/
+
+# Local Android/Gradle cache
+generated/atena_playstore_app/.gradle/
+.gradle/
+
+# Local assistant runtime state
+atena_evolution/task_reports/
+atena_evolution/knowledge/
+atena_evolution/learning_memory.jsonl
+plugins/assistant_plugins/__pycache__/
+
+# Acúmulo de interações (gerado em runtime, efêmero no Render free)
+atena_chat_history.db
+
+# --- Dashboard (Node/React) — NUNCA commitar build nem deps instaladas ---
+dashboard/node_modules/
+dashboard/dist/
+dashboard/.vite/
+
+# Diretório local opcional; não é um submódulo versionado
+llama.cpp/
+
+# Google Workspace OAuth local credentials
+credentials.json
+secrets/google/
+**/token.json
+**/calendar-token.json

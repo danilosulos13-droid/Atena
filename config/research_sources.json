@@ -1,0 +1,1584 @@
+{
+  "version": 2,
+  "sources": [
+    {
+      "name": "ArXiv Quantum Physics",
+      "type": "rss",
+      "url": "https://export.arxiv.org/rss/quant-ph",
+      "category": "quantum_technology",
+      "weight": 0.9,
+      "enabled": true,
+      "keywords": [
+        "quantum",
+        "quantum computing",
+        "qubit",
+        "quantum technology"
+      ]
+    },
+    {
+      "name": "ArXiv Artificial Intelligence",
+      "type": "rss",
+      "url": "https://export.arxiv.org/rss/cs.AI",
+      "category": "artificial_intelligence",
+      "mode": "autonomous",
+      "weight": 0.86,
+      "enabled": true,
+      "keywords": [
+        "artificial intelligence",
+        "machine learning",
+        "agents",
+        "reasoning",
+        "llm"
+      ]
+    },
+    {
+      "name": "ArXiv Machine Learning",
+      "type": "rss",
+      "url": "https://export.arxiv.org/rss/cs.LG",
+      "category": "machine_learning",
+      "mode": "autonomous",
+      "weight": 0.84,
+      "enabled": true,
+      "keywords": [
+        "machine learning",
+        "deep learning",
+        "neural network",
+        "training"
+      ]
+    },
+    {
+      "name": "ArXiv Computation and Language",
+      "type": "rss",
+      "url": "https://export.arxiv.org/rss/cs.CL",
+      "category": "language_models",
+      "mode": "autonomous",
+      "weight": 0.84,
+      "enabled": true,
+      "keywords": [
+        "language model",
+        "nlp",
+        "llm",
+        "translation",
+        "language"
+      ]
+    },
+    {
+      "name": "MIT Technology Review",
+      "type": "rss",
+      "url": "https://www.technologyreview.com/feed/",
+      "category": "technology",
+      "weight": 0.75,
+      "enabled": true,
+      "keywords": [
+        "technology",
+        "science",
+        "ai",
+        "quantum"
+      ]
+    },
+    {
+      "name": "TechCrunch",
+      "type": "rss",
+      "url": "https://techcrunch.com/feed/",
+      "category": "technology_business",
+      "mode": "autonomous",
+      "weight": 0.78,
+      "enabled": true,
+      "keywords": [
+        "startup",
+        "technology",
+        "ai",
+        "cybersecurity",
+        "business"
+      ]
+    },
+    {
+      "name": "The Verge",
+      "type": "rss",
+      "url": "https://www.theverge.com/rss/index.xml",
+      "category": "technology_gadgets",
+      "mode": "autonomous",
+      "weight": 0.78,
+      "enabled": true,
+      "keywords": [
+        "technology",
+        "ai",
+        "games",
+        "smartphone",
+        "internet",
+        "gadget"
+      ]
+    },
+    {
+      "name": "Olhar Digital",
+      "type": "rss",
+      "url": "https://olhardigital.com.br/feed/",
+      "category": "technology",
+      "mode": "autonomous",
+      "weight": 0.86,
+      "enabled": true,
+      "keywords": [
+        "tecnologia",
+        "internet",
+        "jogos",
+        "celular",
+        "inteligência artificial",
+        "ciência"
+      ]
+    },
+    {
+      "name": "CNN Brasil",
+      "type": "rss",
+      "url": "https://www.cnnbrasil.com.br/feed/",
+      "category": "general_news",
+      "mode": "autonomous",
+      "weight": 0.76,
+      "enabled": true,
+      "keywords": [
+        "brasil",
+        "mundo",
+        "política",
+        "economia",
+        "saúde",
+        "tecnologia"
+      ]
+    },
+    {
+      "name": "BBC Brasil",
+      "type": "rss",
+      "url": "https://feeds.bbci.co.uk/portuguese/rss.xml",
+      "category": "general_news",
+      "weight": 0.7,
+      "enabled": true,
+      "keywords": [
+        "brasil",
+        "mundo",
+        "política",
+        "ciência",
+        "tecnologia"
+      ]
+    },
+    {
+      "name": "Agência Brasil",
+      "type": "rss",
+      "url": "https://agenciabrasil.ebc.com.br/rss/ultimasnoticias/feed.xml",
+      "category": "general_news",
+      "weight": 0.8,
+      "enabled": true,
+      "keywords": [
+        "brasil",
+        "política",
+        "economia",
+        "saúde",
+        "notícias"
+      ]
+    },
+    {
+      "name": "NASA Breaking News",
+      "type": "rss",
+      "url": "https://www.nasa.gov/rss/dyn/breaking_news.rss",
+      "category": "space_science",
+      "mode": "autonomous",
+      "weight": 0.9,
+      "enabled": true,
+      "keywords": [
+        "nasa",
+        "espaço",
+        "lua",
+        "marte",
+        "astronomia",
+        "ciência"
+      ]
+    },
+    {
+      "name": "CISA Cybersecurity Advisories",
+      "type": "rss",
+      "url": "https://www.cisa.gov/cybersecurity-advisories/all.xml",
+      "category": "cybersecurity",
+      "mode": "autonomous",
+      "weight": 0.9,
+      "enabled": true,
+      "keywords": [
+        "cybersecurity",
+        "cibersegurança",
+        "vulnerability",
+        "ransomware",
+        "cve"
+      ]
+    },
+    {
+      "name": "Santos FC Oficial",
+      "type": "rss",
+      "url": "https://www.santosfc.com.br/feed/",
+      "category": "santos",
+      "mode": "interactive",
+      "weight": 0.95,
+      "enabled": true,
+      "keywords": [
+        "santos",
+        "santos fc",
+        "peixe",
+        "futebol"
+      ]
+    },
+    {
+      "name": "Palmeiras Oficial",
+      "type": "rss",
+      "url": "https://www.palmeiras.com.br/feed/",
+      "category": "palmeiras",
+      "mode": "interactive",
+      "weight": 0.95,
+      "enabled": true,
+      "keywords": [
+        "palmeiras",
+        "verdão",
+        "futebol"
+      ]
+    },
+    {
+      "name": "Gazeta Esportiva Santos",
+      "type": "rss",
+      "url": "https://www.gazetaesportiva.com/times/santos/feed/",
+      "category": "santos",
+      "mode": "interactive",
+      "weight": 0.9,
+      "enabled": true,
+      "keywords": [
+        "santos",
+        "santos fc",
+        "peixe",
+        "vila belmiro",
+        "futebol"
+      ]
+    },
+    {
+      "name": "Google News Santos Palmeiras",
+      "type": "rss",
+      "url": "https://news.google.com/rss/search?q=Santos+Palmeiras&hl=pt-BR&gl=BR&ceid=BR:pt-419",
+      "category": "santos_palmeiras",
+      "mode": "interactive",
+      "weight": 0.7,
+      "enabled": true,
+      "keywords": [
+        "santos",
+        "palmeiras",
+        "jogo",
+        "notícia"
+      ]
+    },
+    {
+      "name": "G1 Brasil",
+      "type": "rss",
+      "url": "https://g1.globo.com/rss/g1/",
+      "category": "general_news",
+      "mode": "autonomous",
+      "weight": 0.86,
+      "enabled": true,
+      "keywords": [
+        "brasil",
+        "política",
+        "economia",
+        "mundo",
+        "saúde",
+        "notícias"
+      ]
+    },
+    {
+      "name": "UOL Notícias",
+      "type": "rss",
+      "url": "https://rss.uol.com.br/feed/noticias.xml",
+      "category": "general_news",
+      "mode": "autonomous",
+      "weight": 0.82,
+      "enabled": true,
+      "keywords": [
+        "brasil",
+        "política",
+        "economia",
+        "mundo",
+        "notícias"
+      ]
+    },
+    {
+      "name": "The Guardian World",
+      "type": "rss",
+      "url": "https://www.theguardian.com/world/rss",
+      "category": "general_news",
+      "mode": "autonomous",
+      "weight": 0.84,
+      "enabled": true,
+      "keywords": [
+        "world",
+        "mundo",
+        "politics",
+        "climate",
+        "technology"
+      ]
+    },
+    {
+      "name": "NPR News",
+      "type": "rss",
+      "url": "https://feeds.npr.org/1001/rss.xml",
+      "category": "general_news",
+      "mode": "autonomous",
+      "weight": 0.82,
+      "enabled": true,
+      "keywords": [
+        "world",
+        "us",
+        "politics",
+        "science",
+        "technology"
+      ]
+    },
+    {
+      "name": "BBC World News",
+      "type": "rss",
+      "url": "https://feeds.bbci.co.uk/news/world/rss.xml",
+      "category": "general_news",
+      "mode": "autonomous",
+      "weight": 0.86,
+      "enabled": true,
+      "keywords": [
+        "world",
+        "international",
+        "politics",
+        "science",
+        "technology"
+      ]
+    },
+    {
+      "name": "Al Jazeera English",
+      "type": "rss",
+      "url": "https://www.aljazeera.com/xml/rss/all.xml",
+      "category": "general_news",
+      "mode": "autonomous",
+      "weight": 0.78,
+      "enabled": true,
+      "keywords": [
+        "world",
+        "middle east",
+        "politics",
+        "international"
+      ]
+    },
+    {
+      "name": "ScienceDaily All Science",
+      "type": "rss",
+      "url": "https://www.sciencedaily.com/rss/all.xml",
+      "category": "science_policy",
+      "mode": "autonomous",
+      "weight": 0.84,
+      "enabled": true,
+      "keywords": [
+        "science",
+        "research",
+        "health",
+        "space",
+        "technology"
+      ]
+    },
+    {
+      "name": "Nature News",
+      "type": "rss",
+      "url": "https://www.nature.com/nature.rss",
+      "category": "science_policy",
+      "mode": "autonomous",
+      "weight": 0.92,
+      "enabled": true,
+      "keywords": [
+        "science",
+        "research",
+        "biology",
+        "climate",
+        "technology"
+      ]
+    },
+    {
+      "name": "WHO News",
+      "type": "rss",
+      "url": "https://www.who.int/rss-feeds/news-english.xml",
+      "category": "health",
+      "mode": "autonomous",
+      "weight": 0.9,
+      "enabled": true,
+      "keywords": [
+        "health",
+        "public health",
+        "disease",
+        "pandemic",
+        "medicine"
+      ]
+    },
+    {
+      "name": "European Space Agency Top News",
+      "type": "rss",
+      "url": "https://www.esa.int/rssfeed/TopNews",
+      "category": "space_science",
+      "mode": "autonomous",
+      "weight": 0.9,
+      "enabled": true,
+      "keywords": [
+        "space",
+        "esa",
+        "astronomy",
+        "earth",
+        "science"
+      ]
+    },
+    {
+      "name": "NIST Cybersecurity News",
+      "type": "rss",
+      "url": "https://www.nist.gov/news-events/news/rss.xml",
+      "category": "cybersecurity",
+      "mode": "autonomous",
+      "weight": 0.9,
+      "enabled": true,
+      "keywords": [
+        "cybersecurity",
+        "security",
+        "vulnerability",
+        "nist",
+        "technology"
+      ]
+    },
+    {
+      "name": "The New York Times World",
+      "type": "rss",
+      "url": "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
+      "category": "general_news",
+      "mode": "autonomous",
+      "weight": 0.84,
+      "enabled": true,
+      "keywords": [
+        "world",
+        "international",
+        "politics",
+        "diplomacy"
+      ]
+    },
+    {
+      "name": "WIRED",
+      "type": "rss",
+      "url": "https://www.wired.com/feed/rss",
+      "category": "technology",
+      "mode": "autonomous",
+      "weight": 0.84,
+      "enabled": true,
+      "keywords": [
+        "technology",
+        "ai",
+        "science",
+        "security",
+        "internet"
+      ]
+    },
+    {
+      "name": "Ars Technica",
+      "type": "rss",
+      "url": "https://feeds.arstechnica.com/arstechnica/index",
+      "category": "technology",
+      "mode": "autonomous",
+      "weight": 0.9,
+      "enabled": true,
+      "keywords": [
+        "technology",
+        "ai",
+        "science",
+        "security",
+        "software"
+      ]
+    },
+    {
+      "name": "Engadget",
+      "type": "rss",
+      "url": "https://www.engadget.com/rss.xml",
+      "category": "technology_gadgets",
+      "mode": "autonomous",
+      "weight": 0.8,
+      "enabled": true,
+      "keywords": [
+        "technology",
+        "gadgets",
+        "ai",
+        "mobile",
+        "internet"
+      ]
+    },
+    {
+      "name": "WIRED AI",
+      "type": "rss",
+      "url": "https://www.wired.com/feed/tag/ai/latest/rss",
+      "category": "artificial_intelligence",
+      "mode": "autonomous",
+      "weight": 0.88,
+      "enabled": true,
+      "keywords": [
+        "ai",
+        "artificial intelligence",
+        "machine learning",
+        "technology"
+      ]
+    },
+    {
+      "name": "WIRED Security",
+      "type": "rss",
+      "url": "https://www.wired.com/feed/category/security/latest/rss",
+      "category": "cybersecurity",
+      "mode": "autonomous",
+      "weight": 0.88,
+      "enabled": true,
+      "keywords": [
+        "security",
+        "cybersecurity",
+        "privacy",
+        "vulnerability",
+        "internet"
+      ]
+    },
+    {
+      "name": "NVIDIA Technical Blog",
+      "type": "rss",
+      "url": "https://blogs.nvidia.com/feed/",
+      "category": "artificial_intelligence",
+      "mode": "autonomous",
+      "weight": 0.82,
+      "enabled": true,
+      "keywords": [
+        "ai",
+        "gpu",
+        "machine learning",
+        "robotics",
+        "technology"
+      ]
+    },
+    {
+      "name": "Google AI Blog",
+      "type": "rss",
+      "url": "https://blog.google/technology/ai/rss/",
+      "category": "artificial_intelligence",
+      "mode": "autonomous",
+      "weight": 0.88,
+      "enabled": true,
+      "keywords": [
+        "ai",
+        "artificial intelligence",
+        "machine learning",
+        "gemini",
+        "research"
+      ]
+    },
+    {
+      "name": "Hacker News Front Page",
+      "type": "rss",
+      "url": "https://hnrss.org/frontpage",
+      "category": "technology_business",
+      "mode": "autonomous",
+      "weight": 0.76,
+      "enabled": true,
+      "keywords": [
+        "technology",
+        "startups",
+        "programming",
+        "ai",
+        "security"
+      ]
+    },
+    {
+      "name": "Dark Reading",
+      "type": "rss",
+      "url": "https://www.darkreading.com/rss.xml",
+      "category": "cybersecurity",
+      "mode": "autonomous",
+      "weight": 0.86,
+      "enabled": true,
+      "keywords": [
+        "cybersecurity",
+        "threats",
+        "ransomware",
+        "vulnerability",
+        "security"
+      ]
+    },
+    {
+      "name": "Zero Day Initiative",
+      "type": "rss",
+      "url": "https://www.zerodayinitiative.com/rss/",
+      "category": "cybersecurity",
+      "mode": "autonomous",
+      "weight": 0.9,
+      "enabled": false,
+      "keywords": [
+        "vulnerability",
+        "zero day",
+        "security",
+        "cve",
+        "exploit"
+      ],
+      "validation_note": "Desativado: RSS não retornou XML parseável/item no teste de 2026-09-09."
+    },
+    {
+      "name": "Conselho Nacional de Justiça",
+      "type": "rss",
+      "url": "https://www.cnj.jus.br/feed/",
+      "category": "law_brazil",
+      "mode": "autonomous",
+      "weight": 0.95,
+      "enabled": false,
+      "keywords": [
+        "direito",
+        "justiça",
+        "tribunais",
+        "cnj",
+        "jurisprudência",
+        "brasil"
+      ],
+      "validation_note": "Desativado: URL não retornou RSS XML parseável no teste de 2026-09-09; revisar antes de reativar."
+    },
+    {
+      "name": "Câmara dos Deputados Notícias",
+      "type": "rss",
+      "url": "https://www.camara.leg.br/noticias/rss/",
+      "category": "law_brazil",
+      "mode": "autonomous",
+      "weight": 0.9,
+      "enabled": false,
+      "keywords": [
+        "direito",
+        "legislação",
+        "projetos de lei",
+        "câmara",
+        "brasil"
+      ],
+      "validation_note": "Desativado: URL não retornou RSS XML parseável no teste de 2026-09-09; revisar antes de reativar."
+    },
+    {
+      "name": "Senado Federal Notícias",
+      "type": "rss",
+      "url": "https://www12.senado.leg.br/noticias/rss",
+      "category": "law_brazil",
+      "mode": "autonomous",
+      "weight": 0.9,
+      "enabled": true,
+      "keywords": [
+        "direito",
+        "legislação",
+        "senado",
+        "constituição",
+        "brasil"
+      ]
+    },
+    {
+      "name": "Supremo Tribunal Federal",
+      "type": "rss",
+      "url": "https://portal.stf.jus.br/rss/portal.asp",
+      "category": "law_brazil",
+      "mode": "autonomous",
+      "weight": 0.98,
+      "enabled": false,
+      "keywords": [
+        "stf",
+        "supremo",
+        "constitucional",
+        "jurisprudência",
+        "direito"
+      ],
+      "validation_note": "Desativado: URL não retornou RSS XML parseável no teste de 2026-09-09; revisar antes de reativar."
+    },
+    {
+      "name": "ConJur",
+      "type": "rss",
+      "url": "https://www.conjur.com.br/rss.xml",
+      "category": "law_news",
+      "mode": "autonomous",
+      "weight": 0.82,
+      "enabled": true,
+      "keywords": [
+        "direito",
+        "advocacia",
+        "jurisprudência",
+        "tribunais",
+        "law"
+      ]
+    },
+    {
+      "name": "Inner Temple Library Legal RSS",
+      "type": "rss",
+      "url": "https://www.innertemplelibrary.com/about/subscribing-and-reusing/rss-feeds/",
+      "category": "law_news",
+      "mode": "autonomous",
+      "weight": 0.7,
+      "enabled": false,
+      "keywords": [
+        "law",
+        "legal news",
+        "jurisprudence",
+        "direito"
+      ],
+      "validation_note": "Desativado: URL não retornou RSS XML parseável no teste de 2026-09-09; revisar antes de reativar."
+    },
+    {
+      "name": "JDSupra Legal News",
+      "type": "rss",
+      "url": "https://www.jdsupra.com/legal-news/rss-law-feeds.aspx",
+      "category": "law_news",
+      "mode": "autonomous",
+      "weight": 0.72,
+      "enabled": false,
+      "keywords": [
+        "law",
+        "legal",
+        "litigation",
+        "direito"
+      ],
+      "validation_note": "Desativado: URL não retornou RSS XML parseável no teste de 2026-09-09; revisar antes de reativar."
+    },
+    {
+      "name": "MedlinePlus Health Topics",
+      "type": "rss",
+      "url": "https://medlineplus.gov/feeds/healthtopics.xml",
+      "category": "medicine",
+      "mode": "autonomous",
+      "weight": 0.95,
+      "enabled": false,
+      "keywords": [
+        "medicina",
+        "saúde",
+        "doença",
+        "tratamento",
+        "health"
+      ],
+      "validation_note": "Desativado: URL não retornou RSS XML parseável no teste de 2026-09-09; revisar antes de reativar."
+    },
+    {
+      "name": "MedlinePlus News",
+      "type": "rss",
+      "url": "https://medlineplus.gov/feeds/news.xml",
+      "category": "medicine",
+      "mode": "autonomous",
+      "weight": 0.9,
+      "enabled": false,
+      "keywords": [
+        "medicina",
+        "saúde pública",
+        "pesquisa médica",
+        "health"
+      ],
+      "validation_note": "Desativado: URL não retornou RSS XML parseável no teste de 2026-09-09; revisar antes de reativar."
+    },
+    {
+      "name": "NIH News in Health",
+      "type": "rss",
+      "url": "https://newsinhealth.nih.gov/rss.xml",
+      "category": "medicine",
+      "mode": "autonomous",
+      "weight": 0.94,
+      "enabled": false,
+      "keywords": [
+        "medicina",
+        "nih",
+        "saúde",
+        "pesquisa médica",
+        "health"
+      ],
+      "validation_note": "Desativado: URL não retornou RSS XML parseável no teste de 2026-09-09; revisar antes de reativar."
+    },
+    {
+      "name": "CDC Newsroom",
+      "type": "rss",
+      "url": "https://tools.cdc.gov/api/v2/resources/media/132608.rss",
+      "category": "public_health",
+      "mode": "autonomous",
+      "weight": 0.94,
+      "enabled": true,
+      "keywords": [
+        "cdc",
+        "epidemiologia",
+        "saúde pública",
+        "doenças",
+        "health"
+      ]
+    },
+    {
+      "name": "BMJ Latest Research",
+      "type": "rss",
+      "url": "https://www.bmj.com/rss/recent.xml",
+      "category": "medicine_research",
+      "mode": "autonomous",
+      "weight": 0.9,
+      "enabled": true,
+      "keywords": [
+        "medicina",
+        "bmj",
+        "pesquisa clínica",
+        "evidence based medicine"
+      ]
+    },
+    {
+      "name": "NEJM New England Journal of Medicine",
+      "type": "rss",
+      "url": "https://www.nejm.org/action/showFeed?type=etoc&feed=rss&jc=nejm",
+      "category": "medicine_research",
+      "mode": "autonomous",
+      "weight": 0.94,
+      "enabled": true,
+      "keywords": [
+        "medicina",
+        "nejm",
+        "pesquisa clínica",
+        "medical research"
+      ]
+    },
+    {
+      "name": "The Lancet Current Issue",
+      "type": "rss",
+      "url": "https://www.thelancet.com/rssfeed/lancet_current.xml",
+      "category": "medicine_research",
+      "mode": "autonomous",
+      "weight": 0.92,
+      "enabled": true,
+      "keywords": [
+        "medicina",
+        "lancet",
+        "saúde global",
+        "medical research"
+      ]
+    },
+    {
+      "name": "Global Health Science and Practice",
+      "type": "rss",
+      "url": "https://www.ghspjournal.org/rss",
+      "category": "public_health",
+      "mode": "autonomous",
+      "weight": 0.86,
+      "enabled": false,
+      "keywords": [
+        "saúde global",
+        "medicina",
+        "public health",
+        "global health"
+      ],
+      "validation_note": "Desativado: URL não retornou RSS XML parseável no teste de 2026-09-09; revisar antes de reativar."
+    },
+    {
+      "name": "Banco Central Europeu Press Releases",
+      "type": "rss",
+      "url": "https://www.ecb.europa.eu/rss/press.html",
+      "category": "finance_economics",
+      "mode": "autonomous",
+      "weight": 0.94,
+      "enabled": true,
+      "keywords": [
+        "economia",
+        "banco central",
+        "juros",
+        "inflação",
+        "euro"
+      ]
+    },
+    {
+      "name": "Federal Reserve Press Releases",
+      "type": "rss",
+      "url": "https://www.federalreserve.gov/feeds/press_all.xml",
+      "category": "finance_economics",
+      "mode": "autonomous",
+      "weight": 0.96,
+      "enabled": true,
+      "keywords": [
+        "economia",
+        "fed",
+        "juros",
+        "inflação",
+        "monetary policy"
+      ]
+    },
+    {
+      "name": "Federal Reserve FEDS Notes",
+      "type": "rss",
+      "url": "https://www.federalreserve.gov/feeds/feds_notes.xml",
+      "category": "finance_research",
+      "mode": "autonomous",
+      "weight": 0.9,
+      "enabled": true,
+      "keywords": [
+        "economia",
+        "finanças",
+        "pesquisa econômica",
+        "fed"
+      ]
+    },
+    {
+      "name": "IMF News",
+      "type": "rss",
+      "url": "https://www.imf.org/en/News/RSS",
+      "category": "finance_economics",
+      "mode": "autonomous",
+      "weight": 0.94,
+      "enabled": false,
+      "keywords": [
+        "imf",
+        "economia",
+        "finanças",
+        "macroeconomia",
+        "fmi"
+      ],
+      "validation_note": "Desativado: URL não retornou RSS XML parseável no teste de 2026-09-09; revisar antes de reativar."
+    },
+    {
+      "name": "World Bank News",
+      "type": "rss",
+      "url": "https://www.worldbank.org/en/news/all?format=rss",
+      "category": "finance_economics",
+      "mode": "autonomous",
+      "weight": 0.9,
+      "enabled": false,
+      "keywords": [
+        "world bank",
+        "economia",
+        "desenvolvimento",
+        "finanças"
+      ],
+      "validation_note": "Desativado: URL não retornou RSS XML parseável no teste de 2026-09-09; revisar antes de reativar."
+    },
+    {
+      "name": "U.S. SEC Press Releases",
+      "type": "rss",
+      "url": "https://www.sec.gov/news/pressreleases.rss",
+      "category": "finance_regulation",
+      "mode": "autonomous",
+      "weight": 0.94,
+      "enabled": true,
+      "keywords": [
+        "sec",
+        "mercado de capitais",
+        "regulação",
+        "ações",
+        "investimentos"
+      ]
+    },
+    {
+      "name": "U.S. Treasury Press Releases",
+      "type": "rss",
+      "url": "https://home.treasury.gov/rss/press-releases.xml",
+      "category": "finance_regulation",
+      "mode": "autonomous",
+      "weight": 0.9,
+      "enabled": false,
+      "keywords": [
+        "treasury",
+        "finanças",
+        "dívida pública",
+        "economia",
+        "regulação"
+      ],
+      "validation_note": "Desativado: URL não retornou RSS XML parseável no teste de 2026-09-09; revisar antes de reativar."
+    },
+    {
+      "name": "OECD Newsroom",
+      "type": "rss",
+      "url": "https://www.oecd.org/newsroom/rss.xml",
+      "category": "finance_economics",
+      "mode": "autonomous",
+      "weight": 0.9,
+      "enabled": false,
+      "keywords": [
+        "oecd",
+        "economia",
+        "políticas públicas",
+        "finanças",
+        "desenvolvimento"
+      ],
+      "validation_note": "Desativado: URL não retornou RSS XML parseável no teste de 2026-09-09; revisar antes de reativar."
+    },
+    {
+      "name": "BIS Central Bankers' Speeches and News",
+      "type": "rss",
+      "url": "https://www.bis.org/rss/index.htm",
+      "category": "finance_economics",
+      "mode": "autonomous",
+      "weight": 0.88,
+      "enabled": false,
+      "keywords": [
+        "bis",
+        "bancos centrais",
+        "economia",
+        "finanças",
+        "monetary policy"
+      ],
+      "validation_note": "Desativado: URL não retornou RSS XML parseável no teste de 2026-09-09; revisar antes de reativar."
+    },
+    {
+      "name": "ArXiv Computer Vision",
+      "type": "rss",
+      "url": "https://export.arxiv.org/rss/cs.CV",
+      "category": "computer_vision",
+      "mode": "autonomous",
+      "weight": 0.88,
+      "enabled": false,
+      "keywords": [
+        "computer vision",
+        "vision",
+        "image",
+        "video",
+        "multimodal"
+      ],
+      "validation_note": "Desativado: RSS não retornou XML parseável/item no teste de 2026-09-09."
+    },
+    {
+      "name": "ArXiv Robotics",
+      "type": "rss",
+      "url": "https://export.arxiv.org/rss/cs.RO",
+      "category": "robotics",
+      "mode": "autonomous",
+      "weight": 0.88,
+      "enabled": false,
+      "keywords": [
+        "robotics",
+        "robot",
+        "autonomous systems",
+        "ros"
+      ],
+      "validation_note": "Desativado: RSS não retornou XML parseável/item no teste de 2026-09-09."
+    },
+    {
+      "name": "ArXiv Cryptography and Security",
+      "type": "rss",
+      "url": "https://export.arxiv.org/rss/cs.CR",
+      "category": "cybersecurity",
+      "mode": "autonomous",
+      "weight": 0.88,
+      "enabled": false,
+      "keywords": [
+        "cryptography",
+        "security",
+        "privacy",
+        "zero knowledge"
+      ],
+      "validation_note": "Desativado: RSS não retornou XML parseável/item no teste de 2026-09-09."
+    },
+    {
+      "name": "ArXiv Software Engineering",
+      "type": "rss",
+      "url": "https://export.arxiv.org/rss/cs.SE",
+      "category": "software_engineering",
+      "mode": "autonomous",
+      "weight": 0.88,
+      "enabled": false,
+      "keywords": [
+        "software engineering",
+        "testing",
+        "programming",
+        "devops"
+      ],
+      "validation_note": "Desativado: RSS não retornou XML parseável/item no teste de 2026-09-09."
+    },
+    {
+      "name": "ArXiv Information Retrieval",
+      "type": "rss",
+      "url": "https://export.arxiv.org/rss/cs.IR",
+      "category": "information_retrieval",
+      "mode": "autonomous",
+      "weight": 0.88,
+      "enabled": false,
+      "keywords": [
+        "search",
+        "retrieval",
+        "rag",
+        "information retrieval"
+      ],
+      "validation_note": "Desativado: RSS não retornou XML parseável/item no teste de 2026-09-09."
+    },
+    {
+      "name": "ArXiv Neural and Evolutionary Computing",
+      "type": "rss",
+      "url": "https://export.arxiv.org/rss/cs.NE",
+      "category": "neural_computing",
+      "mode": "autonomous",
+      "weight": 0.88,
+      "enabled": false,
+      "keywords": [
+        "neural networks",
+        "evolutionary computing",
+        "deep learning"
+      ],
+      "validation_note": "Desativado: RSS não retornou XML parseável/item no teste de 2026-09-09."
+    },
+    {
+      "name": "ArXiv Human-Computer Interaction",
+      "type": "rss",
+      "url": "https://export.arxiv.org/rss/cs.HC",
+      "category": "human_ai_interaction",
+      "mode": "autonomous",
+      "weight": 0.88,
+      "enabled": false,
+      "keywords": [
+        "hci",
+        "user experience",
+        "human computer interaction",
+        "ai safety"
+      ],
+      "validation_note": "Desativado: RSS não retornou XML parseável/item no teste de 2026-09-09."
+    },
+    {
+      "name": "ArXiv Statistics Machine Learning",
+      "type": "rss",
+      "url": "https://export.arxiv.org/rss/stat.ML",
+      "category": "machine_learning_research",
+      "mode": "autonomous",
+      "weight": 0.88,
+      "enabled": false,
+      "keywords": [
+        "statistics",
+        "machine learning",
+        "causal inference",
+        "bayesian"
+      ],
+      "validation_note": "Desativado: RSS não retornou XML parseável/item no teste de 2026-09-09."
+    },
+    {
+      "name": "Hugging Face Blog",
+      "type": "rss",
+      "url": "https://huggingface.co/blog/feed.xml",
+      "category": "ai_open_source",
+      "mode": "autonomous",
+      "weight": 0.92,
+      "enabled": true,
+      "keywords": [
+        "hugging face",
+        "transformers",
+        "datasets",
+        "llm",
+        "open source ai"
+      ]
+    },
+    {
+      "name": "BAIR Berkeley AI Research",
+      "type": "rss",
+      "url": "https://bair.berkeley.edu/blog/feed.xml",
+      "category": "ai_research",
+      "mode": "autonomous",
+      "weight": 0.92,
+      "enabled": false,
+      "keywords": [
+        "ai research",
+        "machine learning",
+        "robotics",
+        "berkeley"
+      ],
+      "validation_note": "Desativado: RSS não retornou XML parseável/item no teste de 2026-09-09."
+    },
+    {
+      "name": "Google DeepMind Blog",
+      "type": "rss",
+      "url": "https://deepmind.google/blog/rss.xml",
+      "category": "ai_research",
+      "mode": "autonomous",
+      "weight": 0.94,
+      "enabled": true,
+      "keywords": [
+        "deepmind",
+        "ai research",
+        "reinforcement learning",
+        "science"
+      ]
+    },
+    {
+      "name": "Apple Machine Learning Research",
+      "type": "rss",
+      "url": "https://machinelearning.apple.com/rss.xml",
+      "category": "ai_research",
+      "mode": "autonomous",
+      "weight": 0.9,
+      "enabled": true,
+      "keywords": [
+        "apple",
+        "machine learning",
+        "computer vision",
+        "speech",
+        "ai research"
+      ]
+    },
+    {
+      "name": "Microsoft Research Blog",
+      "type": "rss",
+      "url": "https://www.microsoft.com/en-us/research/feed/",
+      "category": "ai_research",
+      "mode": "autonomous",
+      "weight": 0.9,
+      "enabled": true,
+      "keywords": [
+        "microsoft research",
+        "ai",
+        "machine learning",
+        "systems"
+      ]
+    },
+    {
+      "name": "IBM Research Blog",
+      "type": "rss",
+      "url": "https://research.ibm.com/blog/rss",
+      "category": "ai_research",
+      "mode": "autonomous",
+      "weight": 0.86,
+      "enabled": false,
+      "keywords": [
+        "ibm research",
+        "ai",
+        "quantum",
+        "machine learning"
+      ],
+      "validation_note": "Desativado: RSS não retornou XML parseável/item no teste de 2026-09-09."
+    },
+    {
+      "name": "MIT News Artificial Intelligence",
+      "type": "rss",
+      "url": "https://news.mit.edu/rss/topic/artificial-intelligence2",
+      "category": "ai_research",
+      "mode": "autonomous",
+      "weight": 0.9,
+      "enabled": true,
+      "keywords": [
+        "mit",
+        "artificial intelligence",
+        "science",
+        "research"
+      ]
+    },
+    {
+      "name": "Nature Machine Learning",
+      "type": "rss",
+      "url": "https://www.nature.com/subjects/machine-learning.rss",
+      "category": "ai_research",
+      "mode": "autonomous",
+      "weight": 0.94,
+      "enabled": true,
+      "keywords": [
+        "machine learning",
+        "research",
+        "deep learning",
+        "science"
+      ]
+    },
+    {
+      "name": "ScienceDaily Artificial Intelligence",
+      "type": "rss",
+      "url": "https://www.sciencedaily.com/rss/computers_math/artificial_intelligence.xml",
+      "category": "ai_science",
+      "mode": "autonomous",
+      "weight": 0.84,
+      "enabled": true,
+      "keywords": [
+        "artificial intelligence",
+        "research",
+        "science",
+        "ai"
+      ]
+    },
+    {
+      "name": "PyTorch Blog",
+      "type": "rss",
+      "url": "https://pytorch.org/blog/feed.xml",
+      "category": "ml_frameworks",
+      "mode": "autonomous",
+      "weight": 0.94,
+      "enabled": true,
+      "keywords": [
+        "pytorch",
+        "deep learning",
+        "machine learning",
+        "gpu"
+      ]
+    },
+    {
+      "name": "TensorFlow Blog",
+      "type": "rss",
+      "url": "https://blog.tensorflow.org/feeds/posts/default",
+      "category": "ml_frameworks",
+      "mode": "autonomous",
+      "weight": 0.9,
+      "enabled": true,
+      "keywords": [
+        "tensorflow",
+        "machine learning",
+        "deep learning",
+        "ai"
+      ]
+    },
+    {
+      "name": "AWS Machine Learning Blog",
+      "type": "rss",
+      "url": "https://aws.amazon.com/blogs/machine-learning/feed/",
+      "category": "cloud_ai",
+      "mode": "autonomous",
+      "weight": 0.86,
+      "enabled": true,
+      "keywords": [
+        "aws",
+        "machine learning",
+        "cloud",
+        "mlops"
+      ]
+    },
+    {
+      "name": "Google Cloud AI and Machine Learning",
+      "type": "rss",
+      "url": "https://cloud.google.com/feeds/blog/products/ai-machine-learning",
+      "category": "cloud_ai",
+      "mode": "autonomous",
+      "weight": 0.86,
+      "enabled": false,
+      "keywords": [
+        "google cloud",
+        "ai",
+        "machine learning",
+        "cloud"
+      ],
+      "validation_note": "Desativado: RSS não retornou XML parseável/item no teste de 2026-09-09."
+    },
+    {
+      "name": "Kubernetes Blog",
+      "type": "rss",
+      "url": "https://kubernetes.io/feed.xml",
+      "category": "cloud_native",
+      "mode": "autonomous",
+      "weight": 0.84,
+      "enabled": true,
+      "keywords": [
+        "kubernetes",
+        "cloud native",
+        "containers",
+        "devops"
+      ]
+    },
+    {
+      "name": "CNCF Blog",
+      "type": "rss",
+      "url": "https://www.cncf.io/feed/",
+      "category": "cloud_native",
+      "mode": "autonomous",
+      "weight": 0.84,
+      "enabled": true,
+      "keywords": [
+        "cncf",
+        "cloud native",
+        "kubernetes",
+        "devops"
+      ]
+    },
+    {
+      "name": "GitHub Blog",
+      "type": "rss",
+      "url": "https://github.blog/feed/",
+      "category": "developer_tools",
+      "mode": "autonomous",
+      "weight": 0.86,
+      "enabled": true,
+      "keywords": [
+        "github",
+        "software development",
+        "ai",
+        "open source"
+      ]
+    },
+    {
+      "name": "InfoQ AI Engineering",
+      "type": "rss",
+      "url": "https://feed.infoq.com/ai",
+      "category": "ai_engineering",
+      "mode": "autonomous",
+      "weight": 0.82,
+      "enabled": false,
+      "keywords": [
+        "ai engineering",
+        "software architecture",
+        "machine learning",
+        "devops"
+      ],
+      "validation_note": "Desativado: RSS não retornou XML parseável/item no teste de 2026-09-09."
+    },
+    {
+      "name": "KDnuggets",
+      "type": "rss",
+      "url": "https://www.kdnuggets.com/feed",
+      "category": "data_science",
+      "mode": "autonomous",
+      "weight": 0.8,
+      "enabled": true,
+      "keywords": [
+        "data science",
+        "machine learning",
+        "analytics",
+        "python"
+      ]
+    },
+    {
+      "name": "Towards Data Science",
+      "type": "rss",
+      "url": "https://towardsdatascience.com/feed",
+      "category": "data_science",
+      "mode": "autonomous",
+      "weight": 0.76,
+      "enabled": true,
+      "keywords": [
+        "data science",
+        "machine learning",
+        "statistics",
+        "python"
+      ]
+    },
+    {
+      "name": "IEEE Spectrum Artificial Intelligence",
+      "type": "rss",
+      "url": "https://spectrum.ieee.org/feeds/topic/artificial-intelligence.rss",
+      "category": "ai_engineering",
+      "mode": "autonomous",
+      "weight": 0.9,
+      "enabled": true,
+      "keywords": [
+        "ieee",
+        "artificial intelligence",
+        "robotics",
+        "engineering"
+      ]
+    },
+    {
+      "name": "IEEE Spectrum Robotics",
+      "type": "rss",
+      "url": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+      "category": "robotics",
+      "mode": "autonomous",
+      "weight": 0.9,
+      "enabled": true,
+      "keywords": [
+        "robotics",
+        "automation",
+        "engineering",
+        "robot"
+      ]
+    },
+    {
+      "name": "The Robot Report",
+      "type": "rss",
+      "url": "https://www.therobotreport.com/feed/",
+      "category": "robotics",
+      "mode": "autonomous",
+      "weight": 0.84,
+      "enabled": true,
+      "keywords": [
+        "robotics",
+        "automation",
+        "industrial robots",
+        "ai"
+      ]
+    },
+    {
+      "name": "ROS Discourse",
+      "type": "rss",
+      "url": "https://discourse.ros.org/latest.rss",
+      "category": "robotics",
+      "mode": "autonomous",
+      "weight": 0.82,
+      "enabled": true,
+      "keywords": [
+        "ros",
+        "robotics",
+        "autonomous systems",
+        "open source"
+      ]
+    },
+    {
+      "name": "Semiconductor Engineering",
+      "type": "rss",
+      "url": "https://semiengineering.com/feed/",
+      "category": "semiconductors",
+      "mode": "autonomous",
+      "weight": 0.86,
+      "enabled": true,
+      "keywords": [
+        "semiconductor",
+        "chip design",
+        "hardware",
+        "ai accelerators"
+      ]
+    },
+    {
+      "name": "EE Times AI",
+      "type": "rss",
+      "url": "https://www.eetimes.com/feed/",
+      "category": "semiconductors",
+      "mode": "autonomous",
+      "weight": 0.8,
+      "enabled": false,
+      "keywords": [
+        "electronics",
+        "semiconductor",
+        "embedded",
+        "ai hardware"
+      ],
+      "validation_note": "Desativado: RSS não retornou XML parseável/item no teste de 2026-09-09."
+    },
+    {
+      "name": "The Register AI",
+      "type": "rss",
+      "url": "https://www.theregister.com/software/ai/headlines.atom",
+      "category": "ai_industry",
+      "mode": "autonomous",
+      "weight": 0.78,
+      "enabled": false,
+      "keywords": [
+        "ai",
+        "cloud",
+        "software",
+        "security"
+      ],
+      "validation_note": "Desativado: RSS não retornou XML parseável/item no teste de 2026-09-09."
+    },
+    {
+      "name": "VentureBeat Artificial Intelligence",
+      "type": "rss",
+      "url": "https://venturebeat.com/category/ai/feed/",
+      "category": "ai_industry",
+      "mode": "autonomous",
+      "weight": 0.78,
+      "enabled": false,
+      "keywords": [
+        "ai industry",
+        "startups",
+        "enterprise ai",
+        "technology"
+      ],
+      "validation_note": "Desativado: RSS não retornou XML parseável/item no teste de 2026-09-09."
+    },
+    {
+      "name": "TechCrunch Artificial Intelligence",
+      "type": "rss",
+      "url": "https://techcrunch.com/category/artificial-intelligence/feed/",
+      "category": "ai_industry",
+      "mode": "autonomous",
+      "weight": 0.78,
+      "enabled": true,
+      "keywords": [
+        "ai startups",
+        "technology",
+        "venture capital",
+        "artificial intelligence"
+      ]
+    },
+    {
+      "name": "Mozilla Blog AI",
+      "type": "rss",
+      "url": "https://blog.mozilla.org/feed/",
+      "category": "responsible_ai",
+      "mode": "autonomous",
+      "weight": 0.84,
+      "enabled": true,
+      "keywords": [
+        "mozilla",
+        "privacy",
+        "ai safety",
+        "open source",
+        "internet"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "robots": [
+    {
+      "robot_id": "robot-casa",
+      "display_name": "Robô da casa",
+      "location": "casa",
+      "transport": "manufacturer-api",
+      "capabilities": ["robot_status", "robot_stop"],
+      "enabled": false
+    },
+    {
+      "robot_id": "robot-sitio",
+      "display_name": "Robô do sítio",
+      "location": "sitio",
+      "transport": "manufacturer-api",
+      "capabilities": ["robot_status", "robot_stop"],
+      "enabled": false
+    }
+  ]
+}

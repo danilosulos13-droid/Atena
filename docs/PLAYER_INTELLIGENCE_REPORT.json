@@ -1,0 +1,10 @@
+{
+    "protocol": "Player Intelligence Layer M42",
+    "timestamp": "2026-08-11T19:51:36.953122",
+    "matchup": "Santos vs Palmeiras - Copa do Brasil 2026",
+    "aggregate_xG_with_players": {
+        "Santos": 1.98,
+        "Palmeiras": 4.7
+    },
+    "predicted_qualifier": "Palmeiras"
+}

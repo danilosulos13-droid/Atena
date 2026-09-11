@@ -1,0 +1,79 @@
+2026-09-04 18:11:43,175 - atena.launcher - INFO - {"timestamp": "2026-09-04T18:11:43.175207", "message": "Loaded 23 commands", "context": {"commands": ["start", "invoke", "dialog", "assistant", "doctor", "skills", "pipeline", "dashboard", "kyros", "production-center", "bootstrap", "secret-scan", "hacker-recon", "capabilities", "research-lab", "future-ai", "codex-advanced", "genius", "guardian", "production-ready", "orchestrator-mission", "agi-uplift", "digital-organism-audit"]}}
+2026-09-04 18:11:43,180 - atena.launcher - INFO - {"timestamp": "2026-09-04T18:11:43.180845", "message": "Session created", "context": {"session_id": "73371b77-606e-440f-a1af-5a78df8f5c28", "user": "cli"}}
+2026-09-04 18:11:55,049 - atena.launcher - INFO - {"timestamp": "2026-09-04T18:11:55.049410", "message": "Command executed", "context": {"command": "start", "status": "success", "duration_ms": 11355, "user": "unknown", "session_id": "73371b77-606e-440f-a1af-5a78df8f5c28"}}
+2026-09-09 02:36:52,107 - modules.computer_actuator - INFO - [ComputerActuator] Inicializado no sistema Linux
+2026-09-09 02:36:52,136 - atena.curiosity - INFO - 🧠 Curiosity Engine v3.0 inicializado
+2026-09-09 02:36:52,137 - atena.curiosity - INFO -    Epsilon: 0.300 (decay=0.995)
+2026-09-09 02:36:52,138 - atena.curiosity - INFO -    Fontes externas: ✅
+2026-09-09 02:36:52,139 - atena.curiosity - INFO -    Tópicos base: 12
+2026-09-09 02:36:52,194 - atena.meta_learner - INFO - 🔬 SelfReflectiveMetaLearner v3.0 inicializado
+2026-09-09 02:36:53,705 - atena.rate_limiter - INFO - 🚦 AdvancedRateLimiter v3.0 inicializado
+2026-09-09 02:36:53,706 - atena.rate_limiter - INFO - 🔗 SmartURLDeduplicator v3.0 inicializado (TTL=120.0s)
+2026-09-09 02:37:18,163 - modules.computer_actuator - INFO - [ComputerActuator] Inicializado no sistema Linux
+2026-09-09 02:37:18,178 - atena.curiosity - INFO - 🧠 Curiosity Engine v3.0 inicializado
+2026-09-09 02:37:18,180 - atena.curiosity - INFO -    Epsilon: 0.300 (decay=0.995)
+2026-09-09 02:37:18,180 - atena.curiosity - INFO -    Fontes externas: ✅
+2026-09-09 02:37:18,181 - atena.curiosity - INFO -    Tópicos base: 12
+2026-09-09 02:37:18,199 - atena.meta_learner - INFO - 🔬 SelfReflectiveMetaLearner v3.0 inicializado
+2026-09-09 02:37:19,156 - atena.rate_limiter - INFO - 🚦 AdvancedRateLimiter v3.0 inicializado
+2026-09-09 02:37:19,163 - atena.rate_limiter - INFO - 🔗 SmartURLDeduplicator v3.0 inicializado (TTL=120.0s)
+2026-09-09 02:37:30,472 - atena.rate_limiter - INFO - 🚦 AdvancedRateLimiter v3.0 inicializado
+2026-09-09 02:37:30,475 - atena.rate_limiter - INFO - 🔗 SmartURLDeduplicator v3.0 inicializado (TTL=120.0s)
+2026-09-09 02:37:30,509 - atena.rate_limiter - INFO - 🚦 AdvancedRateLimiter v3.0 inicializado
+2026-09-09 02:37:30,511 - atena.rate_limiter - INFO - 🔗 SmartURLDeduplicator v3.0 inicializado (TTL=60s)
+2026-09-09 02:37:30,513 - atena.rate_limiter - INFO - 🔗 SmartURLDeduplicator v3.0 inicializado (TTL=0.05s)
+2026-09-09 02:37:30,615 - atena.rate_limiter - INFO - 🔗 SmartURLDeduplicator v3.0 inicializado (TTL=60s)
+2026-09-09 02:37:30,617 - atena.rate_limiter - INFO - URL deduplicator cache cleared
+2026-09-09 02:37:43,473 - atena.launcher - INFO - {"timestamp": "2026-09-09T02:37:43.473030", "message": "Loaded 23 commands", "context": {"commands": ["start", "invoke", "dialog", "assistant", "doctor", "skills", "pipeline", "dashboard", "kyros", "production-center", "bootstrap", "secret-scan", "hacker-recon", "capabilities", "research-lab", "future-ai", "codex-advanced", "genius", "guardian", "production-ready", "orchestrator-mission", "agi-uplift", "digital-organism-audit"]}}
+2026-09-09 02:37:43,477 - atena.launcher - INFO - {"timestamp": "2026-09-09T02:37:43.477066", "message": "OpenTelemetry tracing initialized", "context": {}}
+2026-09-09 02:37:43,478 - atena.launcher - INFO - {"timestamp": "2026-09-09T02:37:43.478453", "message": "Session created", "context": {"session_id": "15a92d59-44b0-42ce-be22-0e7638dd0157", "user": "cli"}}
+2026-09-09 02:37:44,574 - atena.launcher - INFO - {"timestamp": "2026-09-09T02:37:44.574430", "message": "Command executed", "context": {"command": "start", "status": "success", "duration_ms": 591, "user": "unknown", "session_id": "15a92d59-44b0-42ce-be22-0e7638dd0157"}}
+2026-09-09 02:38:33,613 - atena.rate_limiter - INFO - 🚦 AdvancedRateLimiter v3.0 inicializado
+2026-09-09 02:38:33,616 - atena.rate_limiter - INFO - 🔗 SmartURLDeduplicator v3.0 inicializado (TTL=120.0s)
+2026-09-09 02:38:33,645 - atena.rate_limiter - INFO - 🚦 AdvancedRateLimiter v3.0 inicializado
+2026-09-09 02:38:33,646 - atena.rate_limiter - INFO - 🔗 SmartURLDeduplicator v3.0 inicializado (TTL=60s)
+2026-09-09 02:38:33,648 - atena.rate_limiter - INFO - 🔗 SmartURLDeduplicator v3.0 inicializado (TTL=0.05s)
+2026-09-09 02:38:33,751 - atena.rate_limiter - INFO - 🔗 SmartURLDeduplicator v3.0 inicializado (TTL=60s)
+2026-09-09 02:38:33,753 - atena.rate_limiter - INFO - URL deduplicator cache cleared
+2026-09-09 02:39:12,757 - atena.rate_limiter - INFO - 🚦 AdvancedRateLimiter v3.0 inicializado
+2026-09-09 02:39:12,760 - atena.rate_limiter - INFO - 🔗 SmartURLDeduplicator v3.0 inicializado (TTL=120.0s)
+2026-09-09 02:39:12,791 - atena.rate_limiter - INFO - 🚦 AdvancedRateLimiter v3.0 inicializado
+2026-09-09 02:39:12,793 - atena.rate_limiter - INFO - 🔗 SmartURLDeduplicator v3.0 inicializado (TTL=60s)
+2026-09-09 02:39:12,795 - atena.rate_limiter - INFO - 🔗 SmartURLDeduplicator v3.0 inicializado (TTL=0.05s)
+2026-09-09 02:39:12,898 - atena.rate_limiter - INFO - 🔗 SmartURLDeduplicator v3.0 inicializado (TTL=60s)
+2026-09-09 02:39:12,900 - atena.rate_limiter - INFO - URL deduplicator cache cleared
+2026-09-09 02:39:24,230 - atena.rate_limiter - INFO - 🚦 AdvancedRateLimiter v3.0 inicializado
+2026-09-09 02:39:24,233 - atena.rate_limiter - INFO - 🔗 SmartURLDeduplicator v3.0 inicializado (TTL=120.0s)
+2026-09-09 02:39:24,262 - atena.rate_limiter - INFO - 🚦 AdvancedRateLimiter v3.0 inicializado
+2026-09-09 02:39:24,264 - atena.rate_limiter - INFO - 🔗 SmartURLDeduplicator v3.0 inicializado (TTL=60s)
+2026-09-09 02:39:24,266 - atena.rate_limiter - INFO - 🔗 SmartURLDeduplicator v3.0 inicializado (TTL=0.05s)
+2026-09-09 02:39:24,368 - atena.rate_limiter - INFO - 🔗 SmartURLDeduplicator v3.0 inicializado (TTL=60s)
+2026-09-09 02:39:24,370 - atena.rate_limiter - INFO - URL deduplicator cache cleared
+2026-09-09 02:39:28,507 - atena.rate_limiter - INFO - 🚦 AdvancedRateLimiter v3.0 inicializado
+2026-09-09 02:39:28,511 - atena.rate_limiter - INFO - 🔗 SmartURLDeduplicator v3.0 inicializado (TTL=120.0s)
+2026-09-09 02:39:28,540 - atena.rate_limiter - INFO - 🚦 AdvancedRateLimiter v3.0 inicializado
+2026-09-09 02:39:28,542 - atena.rate_limiter - INFO - 🔗 SmartURLDeduplicator v3.0 inicializado (TTL=60s)
+2026-09-09 02:39:28,543 - atena.rate_limiter - INFO - 🔗 SmartURLDeduplicator v3.0 inicializado (TTL=0.05s)
+2026-09-09 02:39:28,646 - atena.rate_limiter - INFO - 🔗 SmartURLDeduplicator v3.0 inicializado (TTL=60s)
+2026-09-09 02:39:28,647 - atena.rate_limiter - INFO - URL deduplicator cache cleared
+2026-09-09 02:41:58,111 - atena.rate_limiter - INFO - 🚦 AdvancedRateLimiter v3.0 inicializado
+2026-09-09 02:41:58,114 - atena.rate_limiter - INFO - 🔗 SmartURLDeduplicator v3.0 inicializado (TTL=120.0s)
+2026-09-09 02:41:58,143 - atena.rate_limiter - INFO - 🚦 AdvancedRateLimiter v3.0 inicializado
+2026-09-09 02:41:58,145 - atena.rate_limiter - INFO - 🔗 SmartURLDeduplicator v3.0 inicializado (TTL=60s)
+2026-09-09 02:41:58,146 - atena.rate_limiter - INFO - 🔗 SmartURLDeduplicator v3.0 inicializado (TTL=0.05s)
+2026-09-09 02:41:58,249 - atena.rate_limiter - INFO - 🔗 SmartURLDeduplicator v3.0 inicializado (TTL=60s)
+2026-09-09 02:41:58,251 - atena.rate_limiter - INFO - URL deduplicator cache cleared
+2026-09-09 02:42:24,902 - atena.rate_limiter - INFO - 🚦 AdvancedRateLimiter v3.0 inicializado
+2026-09-09 02:42:24,905 - atena.rate_limiter - INFO - 🔗 SmartURLDeduplicator v3.0 inicializado (TTL=120.0s)
+2026-09-09 02:42:24,938 - atena.rate_limiter - INFO - 🚦 AdvancedRateLimiter v3.0 inicializado
+2026-09-09 02:42:24,940 - atena.rate_limiter - INFO - 🔗 SmartURLDeduplicator v3.0 inicializado (TTL=60s)
+2026-09-09 02:42:24,942 - atena.rate_limiter - INFO - 🔗 SmartURLDeduplicator v3.0 inicializado (TTL=0.05s)
+2026-09-09 02:42:25,044 - atena.rate_limiter - INFO - 🔗 SmartURLDeduplicator v3.0 inicializado (TTL=60s)
+2026-09-09 02:42:25,046 - atena.rate_limiter - INFO - URL deduplicator cache cleared
+2026-09-09 02:43:02,154 - atena.rate_limiter - INFO - 🚦 AdvancedRateLimiter v3.0 inicializado
+2026-09-09 02:43:02,158 - atena.rate_limiter - INFO - 🔗 SmartURLDeduplicator v3.0 inicializado (TTL=120.0s)
+2026-09-09 02:43:02,186 - atena.rate_limiter - INFO - 🚦 AdvancedRateLimiter v3.0 inicializado
+2026-09-09 02:43:02,188 - atena.rate_limiter - INFO - 🔗 SmartURLDeduplicator v3.0 inicializado (TTL=60s)
+2026-09-09 02:43:02,190 - atena.rate_limiter - INFO - 🔗 SmartURLDeduplicator v3.0 inicializado (TTL=0.05s)
+2026-09-09 02:43:02,293 - atena.rate_limiter - INFO - 🔗 SmartURLDeduplicator v3.0 inicializado (TTL=60s)
+2026-09-09 02:43:02,294 - atena.rate_limiter - INFO - URL deduplicator cache cleared

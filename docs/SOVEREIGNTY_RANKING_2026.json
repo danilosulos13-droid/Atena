@@ -1,0 +1,26 @@
+[
+    {
+        "model": "ATENA Ω",
+        "score": 9.88,
+        "rank": 1,
+        "status": "SOVEREIGN"
+    },
+    {
+        "model": "Claude Fable 5",
+        "score": 3.9,
+        "rank": 2,
+        "status": "COMMERCIAL_LLM"
+    },
+    {
+        "model": "GPT-5.2",
+        "score": 3.76,
+        "rank": 3,
+        "status": "COMMERCIAL_LLM"
+    },
+    {
+        "model": "Gemini 2.0 Ultra",
+        "score": 3.44,
+        "rank": 4,
+        "status": "COMMERCIAL_LLM"
+    }
+]

@@ -1,0 +1,59 @@
+name: Atena daily news digest
+
+on:
+  schedule:
+    # GitHub Actions usa UTC: 15:00 UTC = 12:00 em Brasília (UTC-3).
+    - cron: "0 15 * * *"
+    # 00:00 UTC = 21:00 em Brasília (UTC-3).
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+    inputs:
+      include_x:
+        description: "Consultar também a API oficial do X"
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+concurrency:
+  group: atena-daily-news-digest
+  cancel-in-progress: false
+
+jobs:
+  daily-news:
+    name: Resumo diário de notícias
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Instalar dependências leves
+        run: python -m pip install --upgrade requests
+
+      - name: Coletar e enviar resumo
+        env:
+          ATENA_TELEGRAM_BOT_TOKEN: ${{ secrets.ATENA_TELEGRAM_BOT_TOKEN }}
+          ATENA_TELEGRAM_CHAT_ID: ${{ secrets.ATENA_TELEGRAM_CHAT_ID }}
+          ATENA_X_BEARER_TOKEN: ${{ secrets.ATENA_X_BEARER_TOKEN }}
+        run: |
+          # O X fica opt-in para evitar chamadas à API com cobrança ou limites de plano.
+          # Os ciclos agendados são sempre RSS-only; a pesquisa do X só ocorre em dispatch manual explícito.
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.include_x }}" = "true" ]; then
+            INCLUDE_X="1"
+          else
+            INCLUDE_X="0"
+          fi
+          if [ "$INCLUDE_X" = "1" ]; then
+            PYTHONPATH="$GITHUB_WORKSPACE" python scripts/daily_news_digest.py --include-x
+          else
+            PYTHONPATH="$GITHUB_WORKSPACE" python scripts/daily_news_digest.py
+          fi

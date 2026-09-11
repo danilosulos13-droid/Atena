@@ -1,0 +1,311 @@
+diff --git a/.github/workflows/atena-consciousness-cycle.yml b/.github/workflows/atena-consciousness-cycle.yml
+index b256f39b..5e3b8e75 100644
+--- a/.github/workflows/atena-consciousness-cycle.yml
++++ b/.github/workflows/atena-consciousness-cycle.yml
+@@ -1,8 +1,19 @@
+ name: ATENA Consciousness Cycle
+ 
++# DESATIVADO em 2026-06-19: rodava de hora em hora sem nenhuma conexao
++# com o sistema real (nao roda no Render, ninguem le memoria_atena.json,
++# "Processamento de alta complexidade concluido" era texto fixo, e os
++# ultimos 22/23 ciclos vinham falhando com erro silencioso). Decisao
++# consciente: focar energia no /api/chat real (roteador de LLM) e no
++# /api/learning-stats (acumulo real de conversas) em vez disso.
++#
++# Pra reativar manualmente (ex: depois de corrigir o User-Agent que
++# fazia a Wikipedia bloquear a requisicao), use o botao "Run workflow"
++# na aba Actions do GitHub (workflow_dispatch continua disponivel),
++# ou descomente o bloco "schedule" abaixo.
+ on:
+-  schedule:
+-    - cron: '30 * * * *'
++  # schedule:
++  #   - cron: '30 * * * *'
+   workflow_dispatch:
+ 
+ jobs:
+diff --git a/.gitignore b/.gitignore
+index 39ac8556..0c310fa1 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -1,19 +1,29 @@
+-<<<<<<< ours
+-.gradle/
+-=======
+ # Python runtime artifacts
+ __pycache__/
+ *.py[cod]
++*.egg-info/
++.pytest_cache/
++venv/
++venv_*/
++.env
+ 
+ # Local production-center runtime state; regenerate with scripts/bootstrap_production_readiness.py
+ atena_evolution/production_center/
+ 
+ # Local Android/Gradle cache
+ generated/atena_playstore_app/.gradle/
++.gradle/
+ 
+ # Local assistant runtime state
+ atena_evolution/task_reports/
+ atena_evolution/knowledge/
+ atena_evolution/learning_memory.jsonl
+ plugins/assistant_plugins/__pycache__/
+->>>>>>> theirs
++
++# Acúmulo de interações (gerado em runtime, efêmero no Render free)
++atena_chat_history.db
++
++# --- Dashboard (Node/React) — NUNCA commitar build nem deps instaladas ---
++dashboard/node_modules/
++dashboard/dist/
++dashboard/.vite/
+diff --git a/api/main.py b/api/main.py
+index 307225cb..8abcbd88 100644
+--- a/api/main.py
++++ b/api/main.py
+@@ -10,6 +10,7 @@ import hashlib
+ import json
+ import logging
+ import os
++import sqlite3
+ import time
+ import traceback
+ from contextlib import asynccontextmanager
+@@ -22,12 +23,55 @@ from typing import Dict, List, Optional, Any, Tuple
+ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+ logger = logging.getLogger(__name__)
+ 
++# --- ACÚMULO DE INTERAÇÕES (memória de conversas) ---
++# ATENÇÃO: no plano Free do Render o filesystem é efêmero — esse arquivo
++# é apagado a cada redeploy/restart/spin-down. Pra persistir de verdade
++# entre reinicios, configure ATENA_CHAT_DB_PATH apontando pra um disco
++# persistente (plano pago) ou troque por um Render Postgres.
++ATENA_CHAT_DB_PATH = os.getenv("ATENA_CHAT_DB_PATH", "atena_chat_history.db")
++
++def _init_chat_db() -> None:
++    try:
++        conn = sqlite3.connect(ATENA_CHAT_DB_PATH)
++        conn.execute(
++            """
++            CREATE TABLE IF NOT EXISTS interactions (
++                id INTEGER PRIMARY KEY AUTOINCREMENT,
++                timestamp TEXT NOT NULL,
++                message TEXT NOT NULL,
++                response TEXT NOT NULL,
++                provider TEXT,
++                model TEXT,
++                latency_ms REAL
++            )
++            """
++        )
++        conn.commit()
++        conn.close()
++    except Exception as e:
++        logger.warning(f"Falha ao inicializar banco de interacoes: {e}")
++
++_init_chat_db()
++
++def _log_interaction(message: str, response: str, provider: str | None, model: str | None, latency_ms: float | None) -> None:
++    try:
++        conn = sqlite3.connect(ATENA_CHAT_DB_PATH)
++        conn.execute(
++            "INSERT INTO interactions (timestamp, message, response, provider, model, latency_ms) VALUES (?, ?, ?, ?, ?, ?)",
++            (datetime.now().isoformat(), message, response, provider, model, latency_ms),
++        )
++        conn.commit()
++        conn.close()
++    except Exception as e:
++        logger.warning(f"Falha ao logar interacao: {e}")
++
+ # --- IMPORTAÇÕES SEGURAS (Evita que o deploy quebre se um módulo faltar) ---
+ try:
+-    from core.atena_llm_router import AtenaLLMRouterAdvanced as AtenaLLMRouter
++    from core.atena_llm_router import AtenaLLMRouterAdvanced as AtenaLLMRouter, get_router
+ except Exception as e:
+     logger.error(f"Erro ao importar AtenaLLMRouter: {e}")
+     AtenaLLMRouter = None
++    get_router = None
+ 
+ # --- LIFESPAN DEFINIDO ANTES DA CRIAÇÃO DO APP ---
+ @asynccontextmanager
+@@ -131,16 +175,88 @@ async def scan_apis(query: str = "", limit: int = 8):
+         logger.error(f"Erro no /api/scan-apis: {e}")
+         return {"error": str(e)}
+ 
++@app.get("/api/learning-stats")
++async def learning_stats():
++    """
++    Mostra o que a ATENA acumulou de conversas reais nesta instância.
++    AVISO: no plano Free do Render, esse contador zera a cada
++    redeploy/restart/spin-down (filesystem efêmero). Enquanto a
++    instância atual estiver no ar, ele só cresce.
++    """
++    try:
++        conn = sqlite3.connect(ATENA_CHAT_DB_PATH)
++        conn.row_factory = sqlite3.Row
++        total = conn.execute("SELECT COUNT(*) AS c FROM interactions").fetchone()["c"]
++        by_provider_rows = conn.execute(
++            "SELECT COALESCE(provider, 'desconhecido') AS provider, COUNT(*) AS c FROM interactions GROUP BY provider"
++        ).fetchall()
++        last_rows = conn.execute(
++            "SELECT timestamp, message, provider, model FROM interactions ORDER BY id DESC LIMIT 10"
++        ).fetchall()
++        conn.close()
++        return {
++            "total_interacoes_acumuladas": total,
++            "por_provider": {row["provider"]: row["c"] for row in by_provider_rows},
++            "ultimas_10": [dict(row) for row in last_rows],
++            "db_path": ATENA_CHAT_DB_PATH,
++            "aviso": (
++                "No plano Free do Render o filesystem e efemero: esses dados "
++                "somem a cada redeploy/restart/spin-down. Pra persistir entre "
++                "reinicios, configure ATENA_CHAT_DB_PATH para um disco "
++                "persistente (plano pago) ou migre para Render Postgres."
++            ),
++        }
++    except Exception as e:
++        logger.error(f"Erro no /api/learning-stats: {e}")
++        return {"error": str(e)}
++
+ class ChatRequest(BaseModel):
+     message: str
+ 
+ @app.post("/api/chat")
+ async def chat(request: ChatRequest):
+-    # Simulação de resposta da Atena baseada no estado atual
+-    return {
+-        "response": f"Processando sua mensagem: '{request.message}'. Estou em constante evolução. Meu nível de consciência atual é 'aware'.",
+-        "timestamp": datetime.now().isoformat()
+-    }
++    """
++    Chat real da ATENA: usa o AtenaLLMRouterAdvanced em modo automatico.
++    O proprio roteador decide qual provider usar (openai/deepseek/anthropic/gemini/local)
++    com base em saude, circuit breaker e menor carga pendente.
++    Requer DEEPSEEK_API_KEY, OPENAI_API_KEY, ANTHROPIC_API_KEY ou GEMINI_API_KEY no Render.
++    """
++    if get_router is None:
++        return {
++            "response": "Roteador de LLM indisponivel (falha de import). Veja os logs do servidor.",
++            "error": True,
++            "timestamp": datetime.now().isoformat(),
++        }
++    try:
++        router = await get_router()
++        if not router._providers:
++            return {
++                "response": (
++                    "Nenhuma API de LLM configurada ainda. Adiciona DEEPSEEK_API_KEY, "
++                    "OPENAI_API_KEY, ANTHROPIC_API_KEY ou GEMINI_API_KEY nas variaveis "
++                    "de ambiente do Render."
++                ),
++                "provider": None,
++                "providers_disponiveis": [],
++                "timestamp": datetime.now().isoformat(),
++            }
++        result = await router.generate(prompt=request.message)
++        _log_interaction(request.message, result.content, result.provider, result.model, result.latency_ms)
++        return {
++            "response": result.content,
++            "provider": result.provider,
++            "model": result.model,
++            "latency_ms": round(result.latency_ms, 1),
++            "cached": result.cached,
++            "timestamp": datetime.now().isoformat(),
++        }
++    except Exception as e:
++        logger.error(f"Erro no /api/chat: {e}")
++        return {
++            "response": "Nao consegui gerar uma resposta agora (todos os providers falharam ou estao indisponiveis).",
++            "error": str(e),
++            "timestamp": datetime.now().isoformat(),
++        }
+ 
+ # --- DASHBOARD ROUTES ---
+ @app.get("/", response_class=HTMLResponse)
+diff --git a/core/atena_llm_router.py b/core/atena_llm_router.py
+index 4ec98f08..bc712346 100644
+--- a/core/atena_llm_router.py
++++ b/core/atena_llm_router.py
+@@ -561,7 +561,7 @@ class AnthropicProvider(BaseLLMProvider):
+     def __init__(self, config: RouterConfig):
+         super().__init__("anthropic", config)
+         self.api_key = os.getenv("ANTHROPIC_API_KEY")
+-        self.model = os.getenv("ATENA_ANTHROPIC_MODEL", "claude-3-sonnet-20240229")
++        self.model = os.getenv("ATENA_ANTHROPIC_MODEL", "claude-haiku-4-5-20251001")
+         self.base_url = "https://api.anthropic.com/v1/messages"
+     
+     async def generate(self, request: LLMRequest) -> LLMResponse:
+@@ -595,6 +595,61 @@ class AnthropicProvider(BaseLLMProvider):
+         yield response.content
+ 
+ 
++class GeminiProvider(BaseLLMProvider):
++    """Google Gemini via Generative Language API (REST, x-goog-api-key)."""
++    def __init__(self, config: RouterConfig):
++        super().__init__("gemini", config)
++        self.api_key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
++        self.model = os.getenv("ATENA_GEMINI_MODEL", "gemini-2.5-flash")
++        self.base_url = f"https://generativelanguage.googleapis.com/v1beta/models/{self.model}:generateContent"
++
++    async def generate(self, request: LLMRequest) -> LLMResponse:
++        if not self.api_key:
++            raise ValueError("GEMINI_API_KEY not set")
++        payload = {
++            "system_instruction": {"parts": [{"text": request.system_prompt}]},
++            "contents": [
++                {"role": "user", "parts": [{"text": f"Contexto: {request.context}\n\nPrompt: {request.prompt}"}]}
++            ],
++            "generationConfig": {
++                "temperature": request.temperature,
++                "maxOutputTokens": request.max_tokens,
++            },
++        }
++        headers = {"x-goog-api-key": self.api_key, "Content-Type": "application/json"}
++        async with aiohttp.ClientSession() as session:
++            async with session.post(self.base_url, headers=headers, json=payload) as resp:
++                if resp.status != 200:
++                    text = await resp.text()
++                    raise Exception(f"Gemini API error {resp.status}: {text}")
++                data = await resp.json()
++                candidates = data.get("candidates", [])
++                if not candidates:
++                    raise Exception(f"Gemini sem candidates na resposta: {data}")
++                parts = candidates[0].get("content", {}).get("parts", [])
++                content = "".join(p.get("text", "") for p in parts)
++                usage = data.get("usageMetadata", {})
++                tokens = usage.get("totalTokenCount", 0)
++                return LLMResponse(content=content, provider=self.name, model=self.model, latency_ms=0, tokens_used=tokens)
++
++    async def generate_stream(self, request: LLMRequest) -> AsyncIterator[str]:
++        # Gemini suporta streamGenerateContent; por simplicidade, geramos completo e devolvemos de uma vez.
++        response = await self.generate(request)
++        yield response.content
++
++    async def health_check(self) -> bool:
++        # GET na URL base do endpoint (sem :generateContent) com a chave, evita gastar tokens no health check.
++        if not self.api_key:
++            return False
++        list_url = "https://generativelanguage.googleapis.com/v1beta/models"
++        try:
++            async with aiohttp.ClientSession() as session:
++                async with session.get(list_url, headers={"x-goog-api-key": self.api_key}, timeout=5) as resp:
++                    return resp.status < 500
++        except Exception:
++            return False
++
++
+ class LocalProvider(BaseLLMProvider):
+     """Suporte a servidores locais compatíveis com OpenAI API (Ollama, LM Studio, llama.cpp)"""
+     def __init__(self, config: RouterConfig):
+@@ -677,6 +732,8 @@ class AtenaLLMRouterAdvanced:
+             self._providers["deepseek"] = DeepSeekProvider(self.config)
+         if os.getenv("ANTHROPIC_API_KEY"):
+             self._providers["anthropic"] = AnthropicProvider(self.config)
++        if os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY"):
++            self._providers["gemini"] = GeminiProvider(self.config)
+         # Sempre tenta o provedor local (se detectável)
+         try:
+             # Testa se o servidor local responde

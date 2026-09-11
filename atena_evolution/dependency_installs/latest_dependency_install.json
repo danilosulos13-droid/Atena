@@ -1,0 +1,38 @@
+{
+  "status": "planned",
+  "applied": false,
+  "generated_at_utc": "2026-09-08T21:07:48.124227+00:00",
+  "groups": [
+    "core",
+    "dev",
+    "ultimate",
+    "autonomous"
+  ],
+  "requirement_files": [
+    "/mnt/data/atena_work/Atena-IA-main/setup/requirements-pinned.txt",
+    "/mnt/data/atena_work/Atena-IA-main/setup/requirements-dev.txt",
+    "/mnt/data/atena_work/Atena-IA-main/setup/requirements-ultimate.txt",
+    "/mnt/data/atena_work/Atena-IA-main/setup/requirements-autonomous-learning.txt"
+  ],
+  "commands": [
+    [
+      "/opt/pyvenv/bin/python",
+      "-m",
+      "pip",
+      "install",
+      "-r",
+      "/mnt/data/atena_work/Atena-IA-main/setup/requirements-pinned.txt",
+      "-r",
+      "/mnt/data/atena_work/Atena-IA-main/setup/requirements-dev.txt",
+      "-r",
+      "/mnt/data/atena_work/Atena-IA-main/setup/requirements-ultimate.txt",
+      "-r",
+      "/mnt/data/atena_work/Atena-IA-main/setup/requirements-autonomous-learning.txt"
+    ]
+  ],
+  "results": [],
+  "python": "/opt/pyvenv/bin/python",
+  "cwd": "/mnt/data/atena_work/Atena-IA-main",
+  "note": "Dry-run: use --apply para instalar as dependências.",
+  "report_path": "/mnt/data/atena_work/Atena-IA-main/atena_evolution/dependency_installs/dependency_install_20260908_210748.json"
+}

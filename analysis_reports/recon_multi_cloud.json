@@ -1,0 +1,25 @@
+{
+  "summary": {
+    "total": 1,
+    "success": 1,
+    "failed": 0,
+    "timeout": 0,
+    "avg_score": 40.0,
+    "total_duration_s": 6.118650913238525
+  },
+  "results": [
+    {
+      "id": "510ca6d9-9549-4f11-ba9f-6177484f6a01",
+      "topic": "autonomous agent orchestration for multi-cloud deployment",
+      "status": "success",
+      "exit_code": 0,
+      "duration_ms": 6116,
+      "recon_score": 40,
+      "error": "WARNING:atena.langgraph:atena_engine n\u00e3o dispon\u00edvel \u2014 usando stub\nWARNING:atena:\u26a0\ufe0f Falha ao carregar modules.causal_agi_core: invalid syntax (causal_agi_core.py, line 1)\n",
+      "attempts": 1,
+      "cached": false,
+      "timestamp": "2026-07-04T14:56:00.004489",
+      "metadata": {}
+    }
+  ]
+}

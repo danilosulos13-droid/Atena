@@ -1,0 +1,4 @@
+# Inventário completo da ATENA. Recomendado em máquina dedicada/ambiente virtual.
+-r requirements-pinned.txt
+-r requirements-ultimate.txt
+-r requirements-autonomous-learning.txt

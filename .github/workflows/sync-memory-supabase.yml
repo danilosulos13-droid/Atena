@@ -1,0 +1,49 @@
+name: Sync ATENA memory to Supabase
+
+on:
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: 'Maximum rows to sync (0 = all)'
+        required: false
+        default: '0'
+        type: string
+  schedule:
+    - cron: '17 3 * * *'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: atena-supabase-memory-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: Upload approved memory in batches
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      SUPABASE_URL: ${{ secrets.ATENA_SUPABASE_URL }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.ATENA_SUPABASE_SERVICE_ROLE_KEY }}
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+
+      - name: Validate required secrets
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$SUPABASE_URL" || { echo 'Missing ATENA_SUPABASE_URL'; exit 1; }
+          test -n "$SUPABASE_SERVICE_ROLE_KEY" || { echo 'Missing ATENA_SUPABASE_SERVICE_ROLE_KEY'; exit 1; }
+          case "$SUPABASE_URL" in https://*.supabase.co) ;; *) echo 'Invalid Supabase URL'; exit 1;; esac
+
+      - name: Sync SQLite memory to Supabase
+        env:
+          SYNC_LIMIT: ${{ github.event_name == 'workflow_dispatch' && inputs.limit || '0' }}
+        run: |
+          set -euo pipefail
+          python scripts/sync_memory_to_supabase.py \
+            --db atena_evolution/memory.sqlite3 \
+            --batch-size 100 \
+            --limit "$SYNC_LIMIT"

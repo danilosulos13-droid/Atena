@@ -1,0 +1,84 @@
+# =============================================================================
+# ATENA Ω — Dependências Pinadas (v4.0)
+# Instale com: pip install -r setup/requirements-pinned.txt
+# Para ML pesado: pip install -r setup/requirements-pinned.txt -r setup/requirements-ultimate.txt
+# =============================================================================
+
+# ─── Core Python ──────────────────────────────────────────────────────────────
+numpy>=1.26.0,<2.0
+scipy>=1.10.0,<1.14
+pandas>=2.0.0,<3.0
+
+# ─── AST / Code Manipulation ──────────────────────────────────────────────────
+astor>=0.8.1,<1.0          # AST → source (usado em MutationEngine)
+radon>=5.1.0,<7.0          # Métricas de complexidade ciclomática
+
+# ─── System & Monitoring ──────────────────────────────────────────────────────
+psutil>=5.9.0,<6.0
+tqdm>=4.65.0,<5.0
+joblib>=1.3.0,<2.0
+
+# ─── Graph / Network ──────────────────────────────────────────────────────────
+networkx>=3.1,<4.0
+
+# ─── Visualização ─────────────────────────────────────────────────────────────
+matplotlib>=3.7.0,<4.0
+seaborn>=0.12.0,<1.0
+
+# ─── Machine Learning (CPU-only para CI) ──────────────────────────────────────
+scikit-learn>=1.3.0,<2.0
+
+# ─── NLP / Embeddings (leve) ──────────────────────────────────────────────────
+# sentence-transformers e torch são opcionais — ver requirements-ultimate.txt
+
+# ─── API e Web ────────────────────────────────────────────────────────────────
+requests>=2.31.0,<3.0
+aiohttp>=3.9.0,<4.0
+discord.py>=2.7.0,<3.0
+aiosmtplib>=3.0.0,<4.0
+aiofiles>=23.2.1,<25.0
+httpx>=0.25.0,<1.0
+pydantic>=2.5.0,<3.0
+pydantic-settings>=2.1.0,<3.0
+jsonschema>=4.20.0,<5.0
+redis>=5.0.0,<6.0
+openai>=1.6.0,<2.0
+anthropic>=0.7.0,<1.0
+python-dotenv>=1.0.0,<2.0
+pyyaml>=6.0,<7.0
+click>=8.1.0,<9.0
+
+# ─── Parsing & Scraping ───────────────────────────────────────────────────────
+beautifulsoup4>=4.12.0,<5.0
+lxml>=4.9.0,<6.0
+# Integrações Google Calendar/Sheets (usadas sob demanda)
+google-api-python-client>=2.100.0,<3.0
+google-auth-httplib2>=0.2.0,<1.0
+google-auth-oauthlib>=1.1.0,<2.0
+
+# ─── Terminal / UI ────────────────────────────────────────────────────────────
+rich>=13.7.0,<14.0
+colorama>=0.4.6,<1.0
+
+# ─── Testes ───────────────────────────────────────────────────────────────────
+hypothesis>=6.82.0,<7.0    # Property-based testing (FunctionTester)
+
+# ─── Segurança ────────────────────────────────────────────────────────────────
+cryptography>=41.0.0,<43.0
+
+# ─── Typing ───────────────────────────────────────────────────────────────────
+typing-extensions>=4.8.0,<5.0
+
+# ─── API / Web (necessário para api/, core/atena_memory_vault.py, etc.) ──────
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+
+# ─── Faltantes detectados em runtime (imports diretos, sem try/except) ───────
+structlog>=24.1.0
+prometheus-client>=0.20.0
+tenacity>=8.2.0
+fake-useragent>=1.5.0
+msgpack>=1.0.0
+orjson>=3.9.0
+xxhash>=3.4.0
+zstandard>=0.22.0

@@ -1,0 +1,99 @@
+diff --git a/api/main.py b/api/main.py
+index 79bd0687..307225cb 100644
+--- a/api/main.py
++++ b/api/main.py
+@@ -53,6 +53,19 @@ from api.dashboard_html import get_dashboard_html
+ from core.atena_evolution_v5_singularity import SingularityProtocol
+ from api.connectors_api import router as connectors_router
+ 
++# --- SCANNER DE APIs (importação segura, igual ao padrão do AtenaLLMRouter) ---
++try:
++    from core.internet_challenge import (
++        recommend_public_apis,
++        discover_any_apis,
++        rank_api_candidates,
++    )
++except Exception as e:
++    logger.error(f"Erro ao importar internet_challenge (scanner de APIs): {e}")
++    recommend_public_apis = None
++    discover_any_apis = None
++    rank_api_candidates = None
++
+ # Configuração CORS (Mantida)
+ app.add_middleware(
+     CORSMiddleware,
+@@ -92,6 +105,32 @@ async def get_status():
+         "last_evolution": datetime.now().isoformat()
+     }
+ 
++@app.get("/api/scan-apis")
++async def scan_apis(query: str = "", limit: int = 8):
++    """
++    Scanner de APIs da ATENA, exposto no servidor de verdade.
++    - Combina o catálogo interno (sem rede) com descoberta externa
++      (GitHub public-apis, apis.guru), quando GITHUB_TOKEN está configurado.
++    - Sem GITHUB_TOKEN nas env vars do Render, a parte de descoberta no
++      GitHub fica sujeita ao limite de 60 req/h e pode vir vazia.
++    """
++    if rank_api_candidates is None:
++        return {"error": "Scanner de APIs indisponível (falha de import). Veja os logs do servidor."}
++    try:
++        ranked = rank_api_candidates(query, limit=limit)
++        discovered = discover_any_apis(query, limit=limit) if query else []
++        return {
++            "query": query,
++            "ranked_internal": ranked,
++            "discovered_external": discovered,
++            "github_token_configured": bool(
++                os.getenv("GITHUB_TOKEN") or os.getenv("GH_TOKEN")
++            ),
++        }
++    except Exception as e:
++        logger.error(f"Erro no /api/scan-apis: {e}")
++        return {"error": str(e)}
++
+ class ChatRequest(BaseModel):
+     message: str
+ 
+diff --git a/core/internet_challenge.py b/core/internet_challenge.py
+index 33fc5866..44a79db9 100644
+--- a/core/internet_challenge.py
++++ b/core/internet_challenge.py
+@@ -499,6 +499,15 @@ def _api_auth_headers_for_url(url: str) -> dict[str, str]:
+     O usuário pode fornecer as chaves por variáveis de ambiente.
+     """
+     host = _normalize_host(urllib.parse.urlparse(url).netloc)
++
++    # GitHub: sem token = 60 req/h por IP. Com token = 5000 req/h.
++    # Aceita GITHUB_TOKEN ou GH_TOKEN (qualquer um já resolve o rate limit).
++    if host == "api.github.com":
++        gh_token = (os.getenv("GITHUB_TOKEN") or os.getenv("GH_TOKEN") or "").strip()
++        if gh_token:
++            return {"Authorization": f"Bearer {gh_token}"}
++        return {}
++
+     env_map = {
+         "api.openweathermap.org": ("OPENWEATHER_API_KEY", "appid"),
+         "api.nasa.gov": ("NASA_API_KEY", "api_key"),
+@@ -747,8 +756,8 @@ def discover_any_apis(query: str, limit: int = 10) -> list[dict[str, str]]:
+                         if isinstance(first_version, dict):
+                             preferred = str(first_version.get("swaggerUrl") or first_version.get("openapiVer") or "")
+                 out.append({"name": label, "endpoint": preferred or "n/a", "category": "external_catalog"})
+-    except Exception:
+-        pass
++    except Exception as exc:
++        logger.warning("discover_any_apis: falha ao consultar apis.guru: %s", exc)
+ 
+     # 2) Public APIs repo index (como fallback de descoberta ampla)
+     if len(out) < limit:
+@@ -762,8 +771,8 @@ def discover_any_apis(query: str, limit: int = 10) -> list[dict[str, str]]:
+                     if q and q not in n.lower():
+                         continue
+                     out.append({"name": f"public-apis:{n}", "endpoint": str(item.get("download_url", "")), "category": "external_catalog"})
+-        except Exception:
+-            pass
++        except Exception as exc:
++            logger.warning("discover_any_apis: falha ao consultar GitHub public-apis (possível rate limit sem GITHUB_TOKEN): %s", exc)
+ 
+     # 3) Catálogos adicionais para ampliar cobertura (GitHub/raw/open datasets)
+     if len(out) < limit:

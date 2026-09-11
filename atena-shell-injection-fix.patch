@@ -1,0 +1,18 @@
+[1mdiff --git a/.github/workflows/web-research-telegram-smoke.yml b/.github/workflows/web-research-telegram-smoke.yml[m
+[1mindex da01b7ce..568e23ec 100644[m
+[1m--- a/.github/workflows/web-research-telegram-smoke.yml[m
+[1m+++ b/.github/workflows/web-research-telegram-smoke.yml[m
+[36m@@ -31,6 +31,7 @@[m [mjobs:[m
+ [m
+       - name: Executar pesquisa web e enviar simulação[m
+         env:[m
+[32m+[m[32m          QUESTION: ${{ inputs.question }}[m
+           ATENA_TELEGRAM_BOT_TOKEN: ${{ secrets.ATENA_TELEGRAM_BOT_TOKEN }}[m
+           ATENA_TELEGRAM_CHAT_ID: ${{ secrets.ATENA_TELEGRAM_CHAT_ID }}[m
+           ATENA_WEB_SEARCH_PROVIDER: ${{ vars.ATENA_WEB_SEARCH_PROVIDER || 'tavily' }}[m
+[36m@@ -39,4 +40,4 @@[m [mjobs:[m
+           ATENA_GOOGLE_CSE_ID: ${{ secrets.ATENA_GOOGLE_CSE_ID }}[m
+         run: |[m
+           PYTHONPATH="$GITHUB_WORKSPACE" python scripts/web_research_telegram_smoke.py \[m
+[31m-            --question "${{ inputs.question }}"[m
+[32m+[m[32m            --question "$QUESTION"[m

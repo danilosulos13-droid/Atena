@@ -1,0 +1,5 @@
+# Dependências opcionais para matemática da Atena
+sympy>=1.12,<2.0
+Pillow>=10.0,<13.0
+pytesseract>=0.3.10,<0.4
+# OCR também requer o executável tesseract-ocr no host.

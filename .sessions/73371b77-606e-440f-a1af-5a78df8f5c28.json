@@ -1,0 +1,19 @@
+{
+  "id": "73371b77-606e-440f-a1af-5a78df8f5c28",
+  "user": "cli",
+  "created_at": "2026-09-04T18:11:43.180643",
+  "last_activity": "2026-09-04T18:11:55.048520",
+  "metadata": {},
+  "command_history": [
+    {
+      "command": "start",
+      "timestamp": "2026-09-04T18:11:55.048532",
+      "status": "success",
+      "duration_ms": 11355,
+      "exit_code": 0
+    }
+  ],
+  "variables": {},
+  "context": {},
+  "state": "active"
+}

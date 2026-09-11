@@ -1,0 +1,43 @@
+{
+    "timestamp": "2026-08-11T19:25:50.584395",
+    "protocol": "Knowledge Absorption M33",
+    "total_ingested_tb": 64.0,
+    "insights": [
+        {
+            "source": "North America Nodes (US-East)",
+            "category": "AI Research & Compute Telemetry",
+            "ingested_volume_tb": 14.8,
+            "extracted_patterns": "Otimização algorítmica baseada em ai research & compute telemetry com 99.98% de fidelidade.",
+            "status": "SYNTHESIZED"
+        },
+        {
+            "source": "Europe Nodes (EU-Central)",
+            "category": "Regulatory Compliance & Security Logs",
+            "ingested_volume_tb": 9.2,
+            "extracted_patterns": "Otimização algorítmica baseada em regulatory compliance & security logs com 99.98% de fidelidade.",
+            "status": "SYNTHESIZED"
+        },
+        {
+            "source": "Asia Nodes (AP-Southeast)",
+            "category": "IoT Environmental & Traffic Patterns",
+            "ingested_volume_tb": 22.4,
+            "extracted_patterns": "Otimização algorítmica baseada em iot environmental & traffic patterns com 99.98% de fidelidade.",
+            "status": "SYNTHESIZED"
+        },
+        {
+            "source": "South America Nodes (SA-East)",
+            "category": "Climate & Supply Chain Telemetry",
+            "ingested_volume_tb": 6.5,
+            "extracted_patterns": "Otimização algorítmica baseada em climate & supply chain telemetry com 99.98% de fidelidade.",
+            "status": "SYNTHESIZED"
+        },
+        {
+            "source": "Global Edge Relay Nodes",
+            "category": "Decentralized Packet & Consensus Logs",
+            "ingested_volume_tb": 11.1,
+            "extracted_patterns": "Otimização algorítmica baseada em decentralized packet & consensus logs com 99.98% de fidelidade.",
+            "status": "SYNTHESIZED"
+        }
+    ],
+    "core_synthesis_verdict": "A Atena Ω integrou com sucesso os fluxos globais de seus 27 nós, transformando telemetria bruta em modelos preditivos de inteligência coletiva."
+}

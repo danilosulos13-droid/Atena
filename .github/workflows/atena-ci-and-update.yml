@@ -1,0 +1,584 @@
+name: ATENA CI and controlled updates
+
+on:
+  schedule:
+    # GitHub Actions usa UTC: executa no minuto 0, a cada 2 horas.
+    - cron: "0 */2 * * *"
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      publish_generated_state:
+        description: "Executar a Atena e publicar somente o estado gerado permitido"
+        required: true
+        default: true
+        type: boolean
+      telegram_smoke_test:
+        description: "Enviar uma mensagem de exemplo formatada no Telegram"
+        required: true
+        default: true
+        type: boolean
+
+permissions:
+  contents: read
+
+concurrency:
+  # Pushes de código não podem cancelar o ciclo agendado que envia a evolução ao Telegram.
+  group: atena-ci-${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Testes e smoke test
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            setup/requirements-pinned.txt
+            pyproject.toml
+
+      - name: Instalar dependências
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r setup/requirements-pinned.txt
+          python -m pip install -r setup/requirements-math.txt
+          python -c "import sympy; print('SymPy', sympy.__version__)"
+          python -m pip install -e '.[testing]'
+
+      - name: Compilar módulos principais
+        run: |
+          python -m py_compile core/atena_launcher.py
+          python -m py_compile main.py app.py
+          python -m py_compile scripts/rotating_benchmark.py scripts/evaluate_rotating_benchmark.py scripts/run_rotating_benchmark_ollama.py scripts/consolidate_sqlite_memory.py
+
+      - name: Diagnóstico da Atena
+        env:
+          ATENA_ROOT: ${{ github.workspace }}
+          PYTHONPATH: ${{ github.workspace }}
+          ATENA_AUTO_ENDPOINT_SETUP: "false"
+          ATENA_TRACING: "0"
+          ATENA_PROFILING: "0"
+        run: bash atena doctor
+
+      - name: Healthcheck de integração por camadas
+        env:
+          PYTHONPATH: ${{ github.workspace }}
+          ALLOW_DEEP_SELF_MOD: "false"
+          ALLOW_CHECKER_EVOLVE: "false"
+          ALLOW_WORKFLOW_MUTATION: "false"
+          DEPLOY_COMMAND: ""
+        run: python scripts/integration_healthcheck.py --output /tmp/atena-integration-healthcheck.json
+
+      - name: Publicar relatório do healthcheck
+        uses: actions/upload-artifact@v4
+        with:
+          name: atena-integration-healthcheck-${{ github.run_id }}
+          path: /tmp/atena-integration-healthcheck.json
+          if-no-files-found: error
+
+      - name: Suíte de testes
+        env:
+          ATENA_ROOT: ${{ github.workspace }}
+          PYTHONPATH: ${{ github.workspace }}
+          ATENA_AUTO_ENDPOINT_SETUP: "false"
+          ATENA_TRACING: "0"
+          ATENA_PROFILING: "0"
+          ATENA_CI_MODE: "true"
+        run: python -m pytest -q
+
+      - name: Smoke test autônomo
+        env:
+          ATENA_ROOT: ${{ github.workspace }}
+          PYTHONPATH: ${{ github.workspace }}
+          ATENA_AUTO_ENDPOINT_SETUP: "false"
+          ATENA_TRACING: "0"
+          ATENA_PROFILING: "0"
+          ATENA_CI_MODE: "true"
+        run: bash atena --venv --auto
+
+  atena-self-evolution:
+    name: Ciclo local de aprendizagem da Atena
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout da branch de autoevolução
+        uses: actions/checkout@v4
+        with:
+          ref: atena/autoevolution
+          fetch-depth: 0
+
+      - name: Sincronizar runtime de memória publicado
+        run: |
+          git fetch origin main --depth=1
+          git show origin/main:core/episodic_memory.py > core/episodic_memory.py
+          git show origin/main:core/memory_store.py > core/memory_store.py
+          git show origin/main:core/research_sources.py > core/research_sources.py
+          git show origin/main:core/knowledge_base.py > core/knowledge_base.py
+          git show origin/main:core/memory_consolidation.py > core/memory_consolidation.py
+          git show origin/main:core/memory_retrieval.py > core/memory_retrieval.py
+          git show origin/main:config/research_sources.json > config/research_sources.json
+          git show origin/main:scripts/atena_scheduled_cycle.py > scripts/atena_scheduled_cycle.py
+          git show origin/main:scripts/rotating_benchmark.py > scripts/rotating_benchmark.py
+          git show origin/main:scripts/evaluate_rotating_benchmark.py > scripts/evaluate_rotating_benchmark.py
+          git show origin/main:scripts/run_rotating_benchmark_ollama.py > scripts/run_rotating_benchmark_ollama.py
+          git show origin/main:core/atena_llm_router.py > core/atena_llm_router.py
+          git show origin/main:core/provider_quota.py > core/provider_quota.py
+          git show origin/main:core/agent_plan_loop.py > core/agent_plan_loop.py
+          git show origin/main:core/evolution_quality_gate.py > core/evolution_quality_gate.py
+          git show origin/main:core/identity_state.py > core/identity_state.py
+          git show origin/main:core/sensemaking.py > core/sensemaking.py
+          git show origin/main:core/learning_progress.py > core/learning_progress.py
+          git show origin/main:core/consequence_memory.py > core/consequence_memory.py
+          git show origin/main:core/tool_broker.py > core/tool_broker.py
+          git show origin/main:core/specialized_agents.py > core/specialized_agents.py
+          mkdir -p core/executors
+          git show origin/main:core/executors/__init__.py > core/executors/__init__.py
+          git show origin/main:core/executors/factory.py > core/executors/factory.py
+          git show origin/main:core/executors/memory.py > core/executors/memory.py
+          git show origin/main:core/executors/web.py > core/executors/web.py
+          git show origin/main:core/executors/sandbox.py > core/executors/sandbox.py
+          while IFS= read -r file; do
+            mkdir -p "$(dirname "$file")"
+            git show "origin/main:$file" > "$file"
+          done < <(git ls-tree -r --name-only origin/main core | grep -E '\.py$')
+          git show origin/main:scripts/consolidate_sqlite_memory.py > scripts/consolidate_sqlite_memory.py
+          git show origin/main:scripts/migrate_memory_store.py > scripts/migrate_memory_store.py
+          mkdir -p setup
+          git show origin/main:setup/requirements-math.txt > setup/requirements-math.txt
+          test -f scripts/migrate_memory_store.py
+          find core -type f -name '*.py' -print0 | xargs -0 python -m py_compile
+          python -m py_compile scripts/atena_scheduled_cycle.py scripts/rotating_benchmark.py scripts/evaluate_rotating_benchmark.py scripts/run_rotating_benchmark_ollama.py scripts/consolidate_sqlite_memory.py scripts/migrate_memory_store.py
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            setup/requirements-pinned.txt
+            pyproject.toml
+
+      - name: Restaurar cache do modelo local
+        uses: actions/cache@v4
+        with:
+          path: ~/.ollama
+          key: ollama-qwen25-3b-${{ runner.os }}-${{ hashFiles('pyproject.toml', 'requirements.txt') }}
+          restore-keys: |
+            ollama-qwen25-3b-${{ runner.os }}-
+
+      - name: Instalar dependências de runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r setup/requirements-pinned.txt
+          python -m pip install -r setup/requirements-math.txt
+          python -c "import sympy; print('SymPy', sympy.__version__)"
+          python -m pip install -e . --no-deps
+          python -m pip install piper-tts
+          curl -fsSL https://ollama.com/install.sh | sh
+
+      - name: Preparar voz pt-BR do Piper
+        run: |
+          set -euo pipefail
+          piper_dir="$RUNNER_TEMP/piper"
+          mkdir -p "$piper_dir"
+          curl --fail --location --retry 3 --retry-delay 2 \
+            "https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/pt/pt_BR/faber/medium/pt_BR-faber-medium.onnx?download=true" \
+            --output "$piper_dir/pt_BR-faber-medium.onnx"
+          curl --fail --location --retry 3 --retry-delay 2 \
+            "https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/pt/pt_BR/faber/medium/pt_BR-faber-medium.onnx.json?download=true" \
+            --output "$piper_dir/pt_BR-faber-medium.onnx.json"
+          test -s "$piper_dir/pt_BR-faber-medium.onnx"
+          test -s "$piper_dir/pt_BR-faber-medium.onnx.json"
+          echo "ATENA_PIPER_BIN=piper" >> "$GITHUB_ENV"
+          echo "ATENA_PIPER_MODEL=$piper_dir/pt_BR-faber-medium.onnx" >> "$GITHUB_ENV"
+          echo "ATENA_PIPER_CONFIG=$piper_dir/pt_BR-faber-medium.onnx.json" >> "$GITHUB_ENV"
+
+      - name: Inicializar e verificar SQLite episódico
+        env:
+          PYTHONPATH: ${{ github.workspace }}
+        run: |
+          python scripts/migrate_memory_store.py \
+            --db atena_evolution/memory.sqlite3 \
+            --report /tmp/atena-memory-migration.json
+
+      - name: Iniciar servidor local e garantir modelo
+        run: |
+          set -euo pipefail
+          ollama serve >/tmp/ollama.log 2>&1 &
+          OLLAMA_PID=$!
+          trap 'kill "$OLLAMA_PID" 2>/dev/null || true' EXIT
+          for i in $(seq 1 60); do
+            curl --fail --silent http://127.0.0.1:11434/api/tags >/dev/null && break
+            sleep 1
+          done
+          curl --fail --silent http://127.0.0.1:11434/api/tags >/dev/null
+          ollama pull qwen2.5:3b-instruct
+
+      - name: Validar configuração mínima do Telegram
+        env:
+          ATENA_TELEGRAM_BOT_TOKEN: ${{ secrets.ATENA_TELEGRAM_BOT_TOKEN }}
+          ATENA_TELEGRAM_CHAT_ID: ${{ secrets.ATENA_TELEGRAM_CHAT_ID }}
+        run: |
+          set -euo pipefail
+          test -n "$ATENA_TELEGRAM_BOT_TOKEN" || { echo 'ATENA_TELEGRAM_BOT_TOKEN não configurado'; exit 1; }
+          test -n "$ATENA_TELEGRAM_CHAT_ID" || { echo 'ATENA_TELEGRAM_CHAT_ID não configurado'; exit 1; }
+
+      - name: Instalar runtime rootless do sandbox
+        if: vars.ATENA_SANDBOX_MODE == 'container'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y podman uidmap slirp4netns fuse-overlayfs
+
+      - name: Construir imagem rootless do sandbox
+        if: vars.ATENA_SANDBOX_MODE == 'container'
+        env:
+          CONTAINER_RUNTIME: podman
+          SANDBOX_IMAGE: ${{ vars.ATENA_SANDBOX_IMAGE || 'atena-sandbox-test:latest' }}
+        run: ./deploy/sandbox-test/build-rootless.sh
+
+      - name: Healthcheck do container rootless
+        id: rootless_healthcheck
+        if: vars.ATENA_SANDBOX_MODE == 'container'
+        env:
+          ATENA_SANDBOX_IMAGE: ${{ vars.ATENA_SANDBOX_IMAGE || 'atena-sandbox-test:latest' }}
+        run: |
+          set +e
+          python scripts/rootless_sandbox_healthcheck.py \
+            --workspace "$GITHUB_WORKSPACE" \
+            --image "$ATENA_SANDBOX_IMAGE" \
+            > /tmp/atena-rootless-healthcheck.log 2>&1
+          status=$?
+          cat /tmp/atena-rootless-healthcheck.log
+          exit "$status"
+
+      - name: Alertar falha do sandbox no Telegram
+        if: failure() && vars.ATENA_SANDBOX_MODE == 'container'
+        continue-on-error: true
+        env:
+          ATENA_TELEGRAM_BOT_TOKEN: ${{ secrets.ATENA_TELEGRAM_BOT_TOKEN }}
+          ATENA_TELEGRAM_CHAT_ID: ${{ secrets.ATENA_TELEGRAM_CHAT_ID }}
+        run: |
+          python scripts/notify_telegram_health.py \
+            --report /tmp/atena-rootless-healthcheck.log \
+            --allow-missing
+
+      - name: Executar ciclo e atender Telegram por cinco minutos
+        env:
+          ATENA_LOCAL_MODEL: qwen2.5:3b-instruct
+          ATENA_ROOT: ${{ github.workspace }}
+          PYTHONPATH: ${{ github.workspace }}
+          ATENA_TELEGRAM_BOT_TOKEN: ${{ secrets.ATENA_TELEGRAM_BOT_TOKEN }}
+          ATENA_TELEGRAM_CHAT_ID: ${{ secrets.ATENA_TELEGRAM_CHAT_ID }}
+          ATENA_WEB_SEARCH_PROVIDER: ${{ vars.ATENA_WEB_SEARCH_PROVIDER || 'tavily' }}
+          ATENA_TAVILY_API_KEY: ${{ secrets.ATENA_TAVILY_API_KEY }}
+          ATENA_GOOGLE_API_KEY: ${{ secrets.ATENA_GOOGLE_API_KEY }}
+          ATENA_GOOGLE_CSE_ID: ${{ secrets.ATENA_GOOGLE_CSE_ID }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ATENA_GEMINI_MODEL: ${{ vars.ATENA_GEMINI_MODEL || 'gemini-3.7-flash' }}
+          ATENA_ANTHROPIC_MODEL: ${{ vars.ATENA_ANTHROPIC_MODEL || 'claude-fable-5' }}
+          ATENA_OPENAI_MODEL: ${{ vars.ATENA_OPENAI_MODEL || 'gpt-4.1-mini' }}
+          ATENA_EVOLUTION_TASK_TYPE: github_evolution
+          ATENA_PROVIDER_QUOTA_DB: ${{ github.workspace }}/atena_evolution/provider_quota.sqlite3
+          ATENA_GEMINI_DAILY_REQUESTS: ${{ vars.ATENA_GEMINI_DAILY_REQUESTS || '0' }}
+          ATENA_GEMINI_DAILY_TOKENS: ${{ vars.ATENA_GEMINI_DAILY_TOKENS || '0' }}
+          ATENA_ANTHROPIC_DAILY_REQUESTS: ${{ vars.ATENA_ANTHROPIC_DAILY_REQUESTS || '0' }}
+          ATENA_ANTHROPIC_DAILY_TOKENS: ${{ vars.ATENA_ANTHROPIC_DAILY_TOKENS || '0' }}
+          ATENA_OPENAI_DAILY_REQUESTS: ${{ vars.ATENA_OPENAI_DAILY_REQUESTS || '0' }}
+          ATENA_OPENAI_DAILY_TOKENS: ${{ vars.ATENA_OPENAI_DAILY_TOKENS || '0' }}
+          ATENA_SQLITE_REQUIRED: "1"
+          ATENA_SANDBOX_MODE: ${{ vars.ATENA_SANDBOX_MODE || 'process' }}
+          ATENA_SANDBOX_WORKSPACE: ${{ github.workspace }}
+          ATENA_SANDBOX_IMAGE: ${{ vars.ATENA_SANDBOX_IMAGE || 'atena-sandbox-test:latest' }}
+          ATENA_CYCLE_ROLE: autonomous-evolution-with-demand-intents
+          ATENA_AUTONOMOUS_SOURCES_ONLY: "1"
+          ATENA_PIPER_BIN: piper
+          ATENA_PIPER_MODEL: ${{ runner.temp }}/piper/pt_BR-faber-medium.onnx
+          ATENA_PIPER_CONFIG: ${{ runner.temp }}/piper/pt_BR-faber-medium.onnx.json
+        run: |
+          set -euo pipefail
+          git fetch origin main --depth=1
+          # O checkout do ciclo usa atena/autoevolution, que pode não conter
+          # módulos de runtime recém-publicados na main. Sincronizar todos os
+          # módulos importados pelo ciclo, além do bot e do gateway de áudio.
+          runtime_files=(
+            scripts/atena_telegram_chat.py
+            scripts/atena_scheduled_cycle.py
+            core/atena_llm_router.py
+            core/task_routing.py
+            core/audio_gateway.py
+            core/evolution_quality_gate.py
+            core/episodic_memory.py
+            core/memory_store.py
+            core/memory_consolidation.py
+            core/memory_retrieval.py
+            core/research_sources.py
+            core/provider_quota.py
+            core/sensemaking.py
+            core/identity_state.py
+            core/learning_progress.py
+            core/consequence_memory.py
+            core/agent_plan_loop.py
+            core/universal_task_router.py
+            core/tasker_client.py
+            core/workspace_actions.py
+            core/google_calendar_client.py
+            core/x_news_research.py
+            core/executors/__init__.py
+            core/executors/factory.py
+            core/executors/sandbox.py
+            scripts/migrate_memory_store.py
+            scripts/rootless_sandbox_healthcheck.py
+            scripts/notify_telegram_health.py
+          )
+          for path in "${runtime_files[@]}"; do
+            mkdir -p "$(dirname "$path")"
+            git show "origin/main:$path" > "$path"
+          done
+          python -m py_compile "${runtime_files[@]}"
+
+          echo "Modo do job: $ATENA_CYCLE_ROLE"
+          echo "Fontes autônomas por padrão; fontes interativas somente via intenção Telegram."
+          timeout --signal=TERM --kill-after=15s 300s python scripts/atena_scheduled_cycle.py
+
+      - name: Validar memória e proposta do ciclo atual
+        id: validate_learning
+        run: |
+          python -m json.tool atena_evolution/llm_learning_memory.json >/dev/null
+          latest_proposal="$(find atena_evolution/proposals -type f -name '*.json' -mmin -15 -printf '%T@ %p\n' | sort -nr | head -1 | cut -d' ' -f2-)"
+          test -n "$latest_proposal"
+          echo "latest_proposal=$latest_proposal" >> "$GITHUB_OUTPUT"
+          python - "$latest_proposal" <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+
+          proposal_path = Path(sys.argv[1])
+          proposal = json.loads(proposal_path.read_text(encoding="utf-8"))
+          observations = proposal.get("observations")
+          required = {"insights", "risks", "proposed_changes", "next_cycle"}
+          if not isinstance(observations, dict) or not required.issubset(observations):
+              raise SystemExit("Proposta atual não atende ao esquema esperado.")
+          if "parse_error" in json.dumps(proposal, ensure_ascii=False):
+              raise SystemExit("Resposta inválida no ciclo atual; bloqueando publicação.")
+          print(f"Proposta atual validada: {proposal_path}")
+          PY
+          git diff --check
+
+      - name: Consolidar claims repetidos sem apagar episódios
+        run: |
+          if test -f atena_evolution/memory.sqlite3; then
+            python scripts/consolidate_sqlite_memory.py \
+              --db atena_evolution/memory.sqlite3 \
+              --report atena_evolution/consolidation-latest.json
+          else
+            echo "Banco SQLite ainda não existe; consolidação será executada no próximo ciclo."
+          fi
+
+      - name: Publicar memória e propostas na branch própria
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add atena_evolution/llm_learning_memory.json atena_evolution/proposals atena_evolution/memory.sqlite3 atena_evolution/consolidation-latest.json
+          if git diff --cached --quiet; then
+            echo "Nenhuma atualização de memória ou proposta."
+            exit 0
+          fi
+          git commit -m "chore(atena): record scheduled learning cycle"
+          git push origin HEAD:atena/autoevolution
+
+      - name: Abrir Pull Request da autoevolução
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          git fetch origin main --depth=1
+          if git diff --quiet origin/main...HEAD; then
+            echo "Nenhuma diferença entre atena/autoevolution e main; PR não necessário."
+            exit 0
+          fi
+          existing_pr="$(gh pr list --repo "$GITHUB_REPOSITORY" --base main --head atena/autoevolution --state open --json url --jq '.[0].url // empty')"
+          if [ -n "$existing_pr" ]; then
+            echo "Pull Request já aberto: $existing_pr"
+            exit 0
+          fi
+          gh pr create \
+            --repo "$GITHUB_REPOSITORY" \
+            --base main \
+            --head atena/autoevolution \
+            --title "chore(atena): proposta de autoevolução" \
+            --body "## Proposta automática da Atena\n\nEsta PR contém alterações geradas no ciclo de autoevolução.\n\n- Branch de origem: \\`atena/autoevolution\\`\n- Execução: $GITHUB_RUN_URL\n- Validações: testes, compilação, memória e consolidação SQLite\n- Merge automático: desabilitado; revisar o diff e os resultados antes de aprovar."
+
+      - name: Disponibilizar notificador aprovado
+        if: always() && steps.validate_learning.outputs.latest_proposal != ''
+        run: |
+          git fetch origin main --depth=1
+          git show origin/main:scripts/notify_telegram_learning.py > /tmp/notify_telegram_learning.py
+          python -m py_compile /tmp/notify_telegram_learning.py
+
+      - name: Notificar nova aprendizagem no Telegram
+        if: always() && steps.validate_learning.outputs.latest_proposal != ''
+        continue-on-error: false
+        env:
+          ATENA_TELEGRAM_BOT_TOKEN: ${{ secrets.ATENA_TELEGRAM_BOT_TOKEN }}
+          ATENA_TELEGRAM_CHAT_ID: ${{ secrets.ATENA_TELEGRAM_CHAT_ID }}
+          PYTHONPATH: ${{ github.workspace }}
+          GITHUB_SERVER_URL: ${{ github.server_url }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
+          ATENA_PIPER_BIN: piper
+          ATENA_PIPER_MODEL: ${{ runner.temp }}/piper/pt_BR-faber-medium.onnx
+          ATENA_PIPER_CONFIG: ${{ runner.temp }}/piper/pt_BR-faber-medium.onnx.json
+          PROPOSAL_PATH: ${{ steps.validate_learning.outputs.latest_proposal }}
+        run: |
+          set -euo pipefail
+          command -v "$ATENA_PIPER_BIN" >/dev/null
+          test -s "$ATENA_PIPER_MODEL"
+          test -s "$ATENA_PIPER_CONFIG"
+          python /tmp/notify_telegram_learning.py \
+            --proposal "$PROPOSAL_PATH"
+          python /tmp/notify_telegram_learning.py \
+            --proposal "$PROPOSAL_PATH" \
+            --voice
+
+      - name: Arquivar logs e estado persistente do ciclo
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: atena-learning-cycle-${{ github.run_id }}
+          retention-days: 30
+          if-no-files-found: warn
+          path: |
+            /tmp/atena-memory-migration.json
+            /tmp/atena-rootless-healthcheck.log
+            /tmp/ollama.log
+            atena_evolution/logs/**
+            atena_evolution/automation.log
+            atena_evolution/tool_audit.jsonl
+            atena_evolution/daily_cycle_latest.json
+            atena_evolution/llm_learning_memory.json
+            atena_evolution/proposals/**
+            atena_evolution/memory.sqlite3
+            atena_evolution/memory.sqlite3-wal
+            atena_evolution/memory.sqlite3-shm
+            atena_evolution/consolidation-latest.json
+
+  telegram-smoke-test:
+    name: Smoke test do Telegram
+    if: github.event_name == 'workflow_dispatch' && inputs.telegram_smoke_test == true
+    needs: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Criar proposta de teste
+        run: |
+          cat > /tmp/telegram-smoke-proposal.json <<'JSON'
+          {
+            "model": "smoke-test",
+            "timestamp": "${{ github.run_started_at }}",
+            "observations": {
+              "insights": [{
+                "text": "Mensagem de teste: a ponte Telegram e o formatador HTML estão funcionando.",
+                "type": "system_check",
+                "confidence": 1.0,
+                "evidence_refs": ["https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"]
+              }],
+              "risks": [],
+              "proposed_changes": [],
+              "next_cycle": ["Continuar o próximo ciclo agendado normalmente."]
+            },
+            "research": {
+              "requested_by": "telegram_smoke_test",
+              "sources": []
+            }
+          }
+          JSON
+
+      - name: Enviar mensagem de teste
+        env:
+          ATENA_TELEGRAM_BOT_TOKEN: ${{ secrets.ATENA_TELEGRAM_BOT_TOKEN }}
+          ATENA_TELEGRAM_CHAT_ID: ${{ secrets.ATENA_TELEGRAM_CHAT_ID }}
+          PYTHONPATH: ${{ github.workspace }}
+          GITHUB_SERVER_URL: ${{ github.server_url }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
+        run: python scripts/notify_telegram_learning.py --proposal /tmp/telegram-smoke-proposal.json
+
+  publish-generated-state:
+    name: Publicar estado gerado pela Atena
+    if: github.event_name == 'workflow_dispatch' && inputs.publish_generated_state == true
+    needs: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout da branch solicitada
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            setup/requirements-pinned.txt
+            pyproject.toml
+
+      - name: Instalar dependências
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r setup/requirements-pinned.txt
+          python -m pip install -e . --no-deps
+
+      - name: Executar ciclo autônomo da Atena
+        env:
+          ATENA_ROOT: ${{ github.workspace }}
+          PYTHONPATH: ${{ github.workspace }}
+          ATENA_AUTO_ENDPOINT_SETUP: "false"
+          ATENA_TRACING: "0"
+          ATENA_PROFILING: "0"
+          ATENA_CI_MODE: "true"
+        run: bash atena --venv --auto
+
+      - name: Publicar somente estado permitido
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add memoria_atena.json
+          if git diff --cached --quiet; then
+            echo "Nenhuma alteração de estado para publicar."
+            exit 0
+          fi
+          git commit -m "chore(atena): update generated state"
+          git push origin HEAD:${{ github.ref_name }}

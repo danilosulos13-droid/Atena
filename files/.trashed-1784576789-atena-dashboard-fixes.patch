@@ -1,0 +1,26 @@
+--- a/render.yaml
++++ b/render.yaml
+@@ -8,7 +8,7 @@ services:
+     name: atena-dashboard
+     env: node
+     rootDir: dashboard
+     buildCommand: pnpm install && pnpm build
+-    startCommand: node server.js
++    startCommand: node dist/index.js
+     envVars:
+       - key: NODE_ENV
+         value: production
+
+--- a/dashboard/server.js
++++ b/dashboard/server.js
+@@ -4,6 +4,10 @@ import { fileURLToPath } from 'url';
+ 
+ const __filename = fileURLToPath(import.meta.url);
+ const __dirname = path.dirname(__filename);
+ 
+ const app = express();
+ const PORT = process.env.PORT || 3000;
++console.log(`[DEBUG] PORT from env: ${process.env.PORT}`);
++console.log(`[DEBUG] Using PORT: ${PORT}`);
++console.log(`[DEBUG] __dirname: ${__dirname}`);
++console.log(`[DEBUG] Static path: ${path.join(__dirname, 'dist/public')}`);

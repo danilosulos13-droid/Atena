@@ -1,0 +1,170 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║         ATENA-IA CODE CONNECTIVITY AUDIT — EXECUTIVE SUMMARY              ║
+║                            June 20, 2026                                  ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+█ THE PROBLEM
+─────────────────────────────────────────────────────────────────────────────
+Você tem 314 arquivos Python em Atena, mas apenas 119 estão realmente conectados
+e sendo usados. Os outros 195 são código órfão que não é importado em lugar nenhm.
+
+█ BREAKDOWN BY CATEGORY
+─────────────────────────────────────────────────────────────────────────────
+
+🟢 CORE MODULES (101 arquivos)
+   ├─ Usados:     67 (66.3%)  ✅ BOAS SHAPE
+   └─ Órfãos:     34 (33.7%)  ⚠️  CONSIDERAR DELETAR
+
+🟡 MODULE MISSIONS (92 arquivos)
+   ├─ Usados:     42 (45.7%)  ⚠️  PRECISA INTEGRAÇÃO
+   └─ Órfãos:     50 (54.3%)  🔴 MAIOR PROBLEMA
+
+🔴 SKILLS (6 arquivos)
+   ├─ Usados:      0 (0.0%)   ❌ ZERO INTEGRAÇÃO
+   └─ Órfãos:      6 (100%)   🔴 NUNCA CONECTADOS
+
+⚪ OUTROS SCRIPTS (110 arquivos)
+   ├─ Usados:     10 (9.1%)   🔴 MAIORIA MORTA
+   └─ Órfãos:    100 (90.9%)  🔴 APENAS TESTES/UTILS
+
+
+█ ENTRY POINTS (O que REALMENTE RODA)
+─────────────────────────────────────────────────────────────────────────────
+
+┌─ main.py (6,849 linhas)
+│  ├─ Propósito: Core AI engine (learning, evolution, federated training)
+│  ├─ Status: ✅ ATIVO
+│  ├─ Importa:
+│  │  └─ modules.atena_advanced_essentials ✅
+│  │  └─ modules.hyper_evolution ✅
+│  │  └─ modules.curiosity_engine ✅
+│  │  └─ ... (71 imports no total)
+│  └─ Saúde: BOAS
+
+├─ api/main.py (281 linhas)
+│  ├─ Propósito: FastAPI backend, chat, dashboard
+│  ├─ Status: ✅ ATIVO
+│  ├─ Importa:
+│  │  └─ api.connectors_api ✅
+│  │  └─ core.atena_evolution_v5_singularity ✅
+│  │  └─ core.atena_llm_router ⚠️  (missing aiohttp)
+│  │  └─ core.internet_challenge ✅
+│  └─ Saúde: BOM (com warnings)
+
+└─ app.py (1 linha)
+   ├─ Propósito: Wrapper para iniciar API
+   ├─ Status: ✅ ATIVO
+   └─ Saúde: OK
+
+
+█ MÓDULOS COM USO ATIVO (Exemplo de 67 conectados em CORE)
+─────────────────────────────────────────────────────────────────────────────
+
+atena_llm_router.py ............ ✅ Roteamento de LLMs
+atena_memory_vault.py .......... ✅ Memória semântica
+atena_consciousness_engine.py .. ✅ Simulação de consciência
+atena_evolution_v5_singularity.. ✅ Engine de evolução
+atena_hacker_recon.py .......... ✅ Scanning de APIs
+atena_terminal_assistant.py .... ✅ Interface CLI
+atena_codex.py ................. ✅ Manipulação de código
+[... 60 outros]
+
+
+█ MÓDULOS ÓRFÃOS CRÍTICOS (O problema principal)
+─────────────────────────────────────────────────────────────────────────────
+
+🔴 SKILLS (6 arquivos - 0% usado):
+   atena_edge_ai_microservice.py  ← NUNCA IMPORTADO
+   atena_zero_hunger_engine.py    ← NUNCA IMPORTADO
+   copa_2026/world_cup_predictor.py
+   neural-reality-sync/sync_engine.py
+
+🔴 MODULES MISSIONS (50 de 92 não conectados):
+   atena_dialogue_session.py      ← Chat sessions não integradas
+   atena_sentinela_mission.py     ← Monitoring não wired
+   system_actuator.py             ← System control órfão
+   CRYPTO-ANALYTICS.py            ← Crypto analysis never called
+   atena_tot_engine.py            ← Tree-of-thought órfão
+   Voice.py                       ← Voice processing orphaned
+   [... 44 mais]
+
+⚪ SCRIPTS DIVERSOS (100+ arquivos mortos):
+   atena_live_dashboard.py        ← Old, replaced by React
+   atena_fix.py                   ← Standalone tool
+   scripts/utils/*                ← 90+ utility scripts
+
+
+█ PROBLEMAS ENCONTRADOS
+─────────────────────────────────────────────────────────────────────────────
+
+1. ❌ SKILLS NEVER INTEGRATED
+   └─ 0% dos skills são usados em lugar nenhum
+   └─ Nunca há um "SkillMarketplace.load_skills()" em main.py
+
+2. ⚠️  MISSING DEPENDENCIES
+   └─ core.atena_llm_router needs aiohttp (not installed)
+   └─ core.atena_memory_vault needs aiofiles (not installed)
+
+3. 📦 DEAD CODE ACCUMULATION
+   └─ 100+ utility scripts never called
+   └─ 6 mission files that look valuable but are orphaned
+   └─ Old dashboard replaced but file still in repo
+
+4. 🟡 MODULES NOT WIRED
+   └─ atena_dialogue_session (chat features?)
+   └─ atena_sentinela_mission (monitoring?)
+   └─ Voice.py (voice interface?)
+
+
+█ O QUE FAZER
+─────────────────────────────────────────────────────────────────────────────
+
+NÍVEL 1 - URGENTE (hoje):
+  [ ] pip install aiohttp aiofiles  (fix missing deps)
+
+NÍVEL 2 - IMPORTANTE (essa semana):
+  [ ] Deletar ou arquivar 6 skills órfãos
+  [ ] Deletar atena_live_dashboard.py (replaced by React)
+  [ ] Arquivar scripts/utils/ em backup/
+
+NÍVEL 3 - RECOMENDADO (próximas semanas):
+  [ ] Decidir: keep ou delete atena_dialogue_session.py?
+  [ ] Decidir: keep ou delete atena_sentinela_mission.py?
+  [ ] Decidir: keep ou delete Voice.py?
+  [ ] Se keep → integrar em main.py
+  [ ] Se delete → remover
+
+NÍVEL 4 - NICE-TO-HAVE:
+  [ ] Criar docs/ARCHITECTURE.md (dependency graph)
+  [ ] Criar docs/ORPHANED_FILES.md (lista de deletáveis)
+
+
+█ ESTATÍSTICAS
+─────────────────────────────────────────────────────────────────────────────
+
+Total Python Files: 314
+├─ Entry Points: 3
+├─ Core Modules: 101 (66.3% used) 
+├─ Modules: 92 (45.7% used)
+├─ Skills: 6 (0% used) ← PROBLEMA
+├─ API: 2 (100% used) ✅
+└─ Other: 110 (9.1% used)
+
+ACTIVELY USED: 119 files (38%)
+ORPHANED: 195 files (62%)
+
+█ CONCLUSÃO
+─────────────────────────────────────────────────────────────────────────────
+
+✅ Core system está bem conectado (66.3% utilization)
+✅ API layer funciona e importa corretamente
+✅ Não há erros de sintaxe críticos
+
+⚠️  Código cresce mas 62% não é usado
+⚠️  Skills nunca foram integradas (0% usage)
+⚠️  Modules missions em sua maioria órfãs (54% não usados)
+
+RECOMENDAÇÃO: Fazer limpeza de código antes de adicionar mais features.
+Código órfão é débito técnico que prejudica manutenção e performance.
+
+═══════════════════════════════════════════════════════════════════════════════

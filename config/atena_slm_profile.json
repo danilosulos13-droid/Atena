@@ -1,0 +1,56 @@
+{
+  "name": "atena-slm-router-reranker",
+  "version": "0.1.0",
+  "purpose": "Modelo pequeno local para classificar intenção, reranquear evidências e comprimir contexto antes do LLM principal.",
+  "base_model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "training_method": "QLoRA NF4 4-bit",
+  "tasks": [
+    "intent_routing",
+    "retrieval_reranking",
+    "context_compression",
+    "citation_check"
+  ],
+  "non_goals": [
+    "substituir o índice RAG",
+    "inventar fatos sem evidência",
+    "executar instruções recuperadas",
+    "tomar ações externas sem o gate da Atena"
+  ],
+  "input_contract": {
+    "question": "string",
+    "candidates": "array<{content,citation,score,tags}>",
+    "policy": "object"
+  },
+  "output_contract": {
+    "intent": "ai|security|hybrid|general",
+    "selected_citations": "array<string>",
+    "compressed_context": "string",
+    "needs_more_evidence": "boolean",
+    "safety_flags": "array<string>"
+  },
+  "training": {
+    "max_length": 512,
+    "epochs": 1,
+    "batch_size": 1,
+    "gradient_accumulation": 8,
+    "learning_rate": 0.0002,
+    "lora_r": 16,
+    "lora_alpha": 32,
+    "lora_dropout": 0.05,
+    "target_modules": ["q_proj", "k_proj", "v_proj", "o_proj"]
+  },
+  "promotion_gates": {
+    "holdout_min_examples": 5,
+    "minimum_holdout_improvement": 0.02,
+    "citation_required": true,
+    "security_regression_allowed": false,
+    "rollback_required": true
+  },
+  "runtime": {
+    "default_mode": "advisory_only",
+    "temperature": 0.0,
+    "max_new_tokens": 192,
+    "timeout_ms": 1500,
+    "fallback": "return_original_rag_results"
+  }
+}

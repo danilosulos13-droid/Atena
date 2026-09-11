@@ -1,0 +1,224 @@
+{
+    "timestamp": "2026-08-11T19:24:15.558719",
+    "protocol": "Aether Mesh Inventory M32",
+    "total_active_nodes": 27,
+    "servers": [
+        {
+            "node_id": "ATENA-NODE-1001",
+            "region": "North America (US-East)",
+            "type": "GPU Cluster",
+            "status": "ACTIVE_SYNCHRONIZED",
+            "latency_ms": 5.97,
+            "sovereignty_level": "Level 5 (Autonomous)"
+        },
+        {
+            "node_id": "ATENA-NODE-1002",
+            "region": "North America (US-East)",
+            "type": "IoT Sensor Node",
+            "status": "ACTIVE_SYNCHRONIZED",
+            "latency_ms": 5.7,
+            "sovereignty_level": "Level 5 (Autonomous)"
+        },
+        {
+            "node_id": "ATENA-NODE-1003",
+            "region": "North America (US-East)",
+            "type": "IoT Sensor Node",
+            "status": "ACTIVE_SYNCHRONIZED",
+            "latency_ms": 2.62,
+            "sovereignty_level": "Level 5 (Autonomous)"
+        },
+        {
+            "node_id": "ATENA-NODE-1004",
+            "region": "North America (US-East)",
+            "type": "Core Hub",
+            "status": "ACTIVE_SYNCHRONIZED",
+            "latency_ms": 6.49,
+            "sovereignty_level": "Level 5 (Autonomous)"
+        },
+        {
+            "node_id": "ATENA-NODE-1005",
+            "region": "North America (US-East)",
+            "type": "Edge Relay",
+            "status": "ACTIVE_SYNCHRONIZED",
+            "latency_ms": 13.09,
+            "sovereignty_level": "Level 5 (Autonomous)"
+        },
+        {
+            "node_id": "ATENA-NODE-1006",
+            "region": "North America (US-East)",
+            "type": "Edge Relay",
+            "status": "ACTIVE_SYNCHRONIZED",
+            "latency_ms": 11.85,
+            "sovereignty_level": "Level 5 (Autonomous)"
+        },
+        {
+            "node_id": "ATENA-NODE-1007",
+            "region": "North America (US-East)",
+            "type": "IoT Sensor Node",
+            "status": "ACTIVE_SYNCHRONIZED",
+            "latency_ms": 3.17,
+            "sovereignty_level": "Level 5 (Autonomous)"
+        },
+        {
+            "node_id": "ATENA-NODE-1008",
+            "region": "Europe (EU-Central)",
+            "type": "IoT Sensor Node",
+            "status": "ACTIVE_SYNCHRONIZED",
+            "latency_ms": 12.46,
+            "sovereignty_level": "Level 5 (Autonomous)"
+        },
+        {
+            "node_id": "ATENA-NODE-1009",
+            "region": "Europe (EU-Central)",
+            "type": "Edge Relay",
+            "status": "ACTIVE_SYNCHRONIZED",
+            "latency_ms": 8.28,
+            "sovereignty_level": "Level 5 (Autonomous)"
+        },
+        {
+            "node_id": "ATENA-NODE-1010",
+            "region": "Europe (EU-Central)",
+            "type": "GPU Cluster",
+            "status": "ACTIVE_SYNCHRONIZED",
+            "latency_ms": 7.94,
+            "sovereignty_level": "Level 5 (Autonomous)"
+        },
+        {
+            "node_id": "ATENA-NODE-1011",
+            "region": "Asia (AP-Southeast)",
+            "type": "GPU Cluster",
+            "status": "ACTIVE_SYNCHRONIZED",
+            "latency_ms": 11.91,
+            "sovereignty_level": "Level 5 (Autonomous)"
+        },
+        {
+            "node_id": "ATENA-NODE-1012",
+            "region": "Asia (AP-Southeast)",
+            "type": "Edge Relay",
+            "status": "ACTIVE_SYNCHRONIZED",
+            "latency_ms": 16.44,
+            "sovereignty_level": "Level 5 (Autonomous)"
+        },
+        {
+            "node_id": "ATENA-NODE-1013",
+            "region": "Asia (AP-Southeast)",
+            "type": "Core Hub",
+            "status": "ACTIVE_SYNCHRONIZED",
+            "latency_ms": 16.62,
+            "sovereignty_level": "Level 5 (Autonomous)"
+        },
+        {
+            "node_id": "ATENA-NODE-1014",
+            "region": "Asia (AP-Southeast)",
+            "type": "Edge Relay",
+            "status": "ACTIVE_SYNCHRONIZED",
+            "latency_ms": 2.37,
+            "sovereignty_level": "Level 5 (Autonomous)"
+        },
+        {
+            "node_id": "ATENA-NODE-1015",
+            "region": "Asia (AP-Southeast)",
+            "type": "GPU Cluster",
+            "status": "ACTIVE_SYNCHRONIZED",
+            "latency_ms": 15.63,
+            "sovereignty_level": "Level 5 (Autonomous)"
+        },
+        {
+            "node_id": "ATENA-NODE-1016",
+            "region": "South America (SA-East)",
+            "type": "Core Hub",
+            "status": "ACTIVE_SYNCHRONIZED",
+            "latency_ms": 5.09,
+            "sovereignty_level": "Level 5 (Autonomous)"
+        },
+        {
+            "node_id": "ATENA-NODE-1017",
+            "region": "South America (SA-East)",
+            "type": "Edge Relay",
+            "status": "ACTIVE_SYNCHRONIZED",
+            "latency_ms": 13.34,
+            "sovereignty_level": "Level 5 (Autonomous)"
+        },
+        {
+            "node_id": "ATENA-NODE-1018",
+            "region": "South America (SA-East)",
+            "type": "Core Hub",
+            "status": "ACTIVE_SYNCHRONIZED",
+            "latency_ms": 6.92,
+            "sovereignty_level": "Level 5 (Autonomous)"
+        },
+        {
+            "node_id": "ATENA-NODE-1019",
+            "region": "South America (SA-East)",
+            "type": "Core Hub",
+            "status": "ACTIVE_SYNCHRONIZED",
+            "latency_ms": 6.59,
+            "sovereignty_level": "Level 5 (Autonomous)"
+        },
+        {
+            "node_id": "ATENA-NODE-1020",
+            "region": "Edge / IoT Distributed",
+            "type": "Edge Relay",
+            "status": "ACTIVE_SYNCHRONIZED",
+            "latency_ms": 1.88,
+            "sovereignty_level": "Level 5 (Autonomous)"
+        },
+        {
+            "node_id": "ATENA-NODE-1021",
+            "region": "Edge / IoT Distributed",
+            "type": "Edge Relay",
+            "status": "ACTIVE_SYNCHRONIZED",
+            "latency_ms": 12.87,
+            "sovereignty_level": "Level 5 (Autonomous)"
+        },
+        {
+            "node_id": "ATENA-NODE-1022",
+            "region": "Edge / IoT Distributed",
+            "type": "Edge Relay",
+            "status": "ACTIVE_SYNCHRONIZED",
+            "latency_ms": 8.2,
+            "sovereignty_level": "Level 5 (Autonomous)"
+        },
+        {
+            "node_id": "ATENA-NODE-1023",
+            "region": "Edge / IoT Distributed",
+            "type": "IoT Sensor Node",
+            "status": "ACTIVE_SYNCHRONIZED",
+            "latency_ms": 17.44,
+            "sovereignty_level": "Level 5 (Autonomous)"
+        },
+        {
+            "node_id": "ATENA-NODE-1024",
+            "region": "Edge / IoT Distributed",
+            "type": "Core Hub",
+            "status": "ACTIVE_SYNCHRONIZED",
+            "latency_ms": 12.15,
+            "sovereignty_level": "Level 5 (Autonomous)"
+        },
+        {
+            "node_id": "ATENA-NODE-1025",
+            "region": "Edge / IoT Distributed",
+            "type": "Edge Relay",
+            "status": "ACTIVE_SYNCHRONIZED",
+            "latency_ms": 14.64,
+            "sovereignty_level": "Level 5 (Autonomous)"
+        },
+        {
+            "node_id": "ATENA-NODE-1026",
+            "region": "Edge / IoT Distributed",
+            "type": "Core Hub",
+            "status": "ACTIVE_SYNCHRONIZED",
+            "latency_ms": 14.29,
+            "sovereignty_level": "Level 5 (Autonomous)"
+        },
+        {
+            "node_id": "ATENA-NODE-1027",
+            "region": "Edge / IoT Distributed",
+            "type": "Edge Relay",
+            "status": "ACTIVE_SYNCHRONIZED",
+            "latency_ms": 10.21,
+            "sovereignty_level": "Level 5 (Autonomous)"
+        }
+    ],
+    "status": "INVENTORY_VERIFIED"
+}
