@@ -1,0 +1,40 @@
+{
+  "status": "active",
+  "release_id": "34624688637-318730fcf80b",
+  "created_at": "2026-09-11T19:03:01.635266+00:00",
+  "base_model": "Qwen/Qwen2.5-0.5B-Instruct",
+  "active_path": "atena_evolution/models/active",
+  "release_path": "atena_evolution/models/releases/34624688637-318730fcf80b",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 5206,
+      "sha256": "706469298b27b8ef32e770a9e895a67113f00666bb0b7fd19198751041b0758b"
+    },
+    {
+      "path": "adapter_config.json",
+      "bytes": 1110,
+      "sha256": "d70b8879e9b6eacc4ff6c2b172b4868bb3c50af00213fab09f2f769921d08614"
+    },
+    {
+      "path": "adapter_model.safetensors",
+      "bytes": 8676008,
+      "sha256": "08ef772863a3bf0e27b004439314331d68571a9beb146bf0c676885e63a806e5"
+    },
+    {
+      "path": "chat_template.jinja",
+      "bytes": 2507,
+      "sha256": "cd8e9439f0570856fd70470bf8889ebd8b5d1107207f67a5efb46e342330527f"
+    },
+    {
+      "path": "tokenizer.json",
+      "bytes": 11421990,
+      "sha256": "94e1c7e1e00a416c9b1b6b453b1cfb7bf5f6e7d3e018cb3f2b7eb09b09415b3c"
+    },
+    {
+      "path": "tokenizer_config.json",
+      "bytes": 694,
+      "sha256": "04b1682c59acbd057f4c9072297faa73d56fc9de053094c659cdb4c464f58f86"
+    }
+  ]
+}

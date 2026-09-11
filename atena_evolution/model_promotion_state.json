@@ -1,0 +1,24 @@
+{
+  "status": "active",
+  "base_model": "Qwen/Qwen2.5-0.5B-Instruct",
+  "promoted_at": "2026-09-11T19:03:00.742088+00:00",
+  "evaluation": {
+    "decision": "promote",
+    "reason": "melhoria no holdout: 42.37%",
+    "baseline": {
+      "model": "Qwen/Qwen2.5-0.5B-Instruct",
+      "examples": 52,
+      "loss": 3.9561172861229243,
+      "perplexity": 52.25404405976926
+    },
+    "candidate": {
+      "model": "Qwen/Qwen2.5-0.5B-Instruct+/home/runner/work/Atena/Atena/atena_evolution/models/candidate",
+      "examples": 52,
+      "loss": 2.2798530976181755,
+      "perplexity": 9.775244297377139
+    },
+    "improvement": 0.42371448247620636,
+    "active_path": "atena_evolution/models/active"
+  },
+  "rollback_path": null
+}
