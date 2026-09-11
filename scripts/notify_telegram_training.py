@@ -146,7 +146,13 @@ def main() -> int:
         payload = json.loads(args.report.read_text(encoding="utf-8"))
         _telegram_request(token, chat_id, build_message(payload, args.run_url or None))
     except Exception as exc:
-        print(f"::error::Falha ao enviar resultado LoRA ao Telegram: {type(exc).__name__}: {exc}")
+        message = f"Falha ao enviar resultado LoRA ao Telegram: {type(exc).__name__}: {exc}"
+        if args.allow_missing:
+            # Telegram é uma notificação opcional; 403/400 não pode apagar
+            # artefatos nem marcar o treino como falho.
+            print(f"::warning::{message}")
+            return 0
+        print(f"::error::{message}")
         return 1
     print("Resultado LoRA enviado ao Telegram.")
     return 0
