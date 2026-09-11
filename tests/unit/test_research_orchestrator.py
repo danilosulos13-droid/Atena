@@ -83,3 +83,18 @@ def test_math_problem_uses_local_verified_solver_without_web_sources(monkeypatch
     assert "6.493939402266829" in result["answer"]
     assert "DLMF" in result["answer"]
     assert Path(result["json_path"]).exists()
+
+
+def test_direct_math_sources_fetch_public_references(monkeypatch):
+    class Response:
+        text = "<html><title>DLMF</title><p>Riemann zeta function and gamma integral reference with enough public mathematical context.</p></html>"
+
+        def raise_for_status(self):
+            return None
+
+    monkeypatch.setattr(orchestrator.requests, "get", lambda *args, **kwargs: Response())
+    results = orchestrator._direct_math_sources("integral com zeta de Riemann", 2)
+
+    assert len(results) == 2
+    assert results[0].url == "https://dlmf.nist.gov/25.5"
+    assert "Riemann zeta" in results[0].snippet

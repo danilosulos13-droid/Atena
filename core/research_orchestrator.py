@@ -64,6 +64,33 @@ def _is_usable_evidence(item: WebEvidence) -> bool:
     return bool(item.url and (title not in placeholders or snippet not in placeholders))
 
 
+MATH_REFERENCE_SOURCES = (
+    ("DLMF: Riemann Zeta Function", "https://dlmf.nist.gov/25.5"),
+    ("DLMF: Gamma Function Integrals", "https://dlmf.nist.gov/5.9"),
+    ("Wikipedia: Particular Values of the Riemann Zeta Function", "https://en.wikipedia.org/wiki/Particular_values_of_the_Riemann_zeta_function"),
+)
+
+
+def _direct_math_sources(query: str, limit: int) -> list[WebEvidence]:
+    """Lê referências matemáticas públicas diretamente, sem API key."""
+    if not _looks_like_math_question(query):
+        return []
+    results: list[WebEvidence] = []
+    for title, url in MATH_REFERENCE_SOURCES[: max(1, min(limit, len(MATH_REFERENCE_SOURCES)))]:
+        try:
+            response = requests.get(url, headers={"User-Agent": USER_AGENT}, timeout=(5, 15))
+            response.raise_for_status()
+            soup = BeautifulSoup(response.text, "html.parser")
+            for node in soup(["script", "style", "noscript", "svg", "nav", "footer", "header"]):
+                node.decompose()
+            text = re.sub(r"\s+", " ", soup.get_text(" ", strip=True))
+            if len(text) >= 80:
+                results.append(WebEvidence(title=title, url=url, snippet=text[:700]))
+        except (requests.RequestException, UnicodeError, ValueError) as exc:
+            LOG.debug("referência matemática indisponível %s: %s", url, exc)
+    return results
+
+
 def _search_one(query: str, limit: int) -> list[WebEvidence]:
     """Prioriza artigos diretos e usa os provedores configurados como fallback."""
     try:
@@ -87,7 +114,7 @@ def _search_one(query: str, limit: int) -> list[WebEvidence]:
     evidence = [item for item in (_as_evidence(row) for row in found) if item and _is_usable_evidence(item)]
     if evidence:
         return evidence
-    return []
+    return _direct_math_sources(query, limit)
 
 
 def _collect_evidence(plan: ResearchPlan, limit_per_query: int) -> list[WebEvidence]:
