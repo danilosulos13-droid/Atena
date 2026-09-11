@@ -67,6 +67,17 @@ jobs:
             setup/requirements-autonomous-learning.txt
             pyproject.toml
 
+      - name: Restaurar caches de dependências e modelos
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pip
+            .cache/huggingface
+            .cache/piper
+          key: ${{ runner.os }}-atena-lora-${{ hashFiles('setup/requirements-pinned.txt', 'setup/requirements-autonomous-learning.txt', 'pyproject.toml') }}-qwen05b-piper
+          restore-keys: |
+            ${{ runner.os }}-atena-lora-
+
       - name: Instalar dependências de coleta e treinamento
         run: |
           python -m pip install --upgrade pip
@@ -212,16 +223,20 @@ jobs:
       - name: Gerar voz pt-BR e enviar aprendizagem em áudio
         if: always()
         run: |
-          mkdir -p "$RUNNER_TEMP/piper"
+          mkdir -p .cache/piper
           export ATENA_PIPER_BIN=piper
-          export ATENA_PIPER_MODEL="$RUNNER_TEMP/piper/pt_BR-cadu-medium.onnx"
-          export ATENA_PIPER_CONFIG="$RUNNER_TEMP/piper/pt_BR-cadu-medium.onnx.json"
-          curl --fail --location --retry 3 \
-            "https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/pt/pt_BR/faber/medium/pt_BR-faber-medium.onnx?download=true" \
-            --output "$ATENA_PIPER_MODEL"
-          curl --fail --location --retry 3 \
-            "https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/pt/pt_BR/faber/medium/pt_BR-faber-medium.onnx.json?download=true" \
-            --output "$ATENA_PIPER_CONFIG"
+          export ATENA_PIPER_MODEL="$GITHUB_WORKSPACE/.cache/piper/pt_BR-faber-medium.onnx"
+          export ATENA_PIPER_CONFIG="$GITHUB_WORKSPACE/.cache/piper/pt_BR-faber-medium.onnx.json"
+          if [ ! -s "$ATENA_PIPER_MODEL" ]; then
+            curl --fail --location --retry 3 \
+              "https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/pt/pt_BR/faber/medium/pt_BR-faber-medium.onnx?download=true" \
+              --output "$ATENA_PIPER_MODEL"
+          fi
+          if [ ! -s "$ATENA_PIPER_CONFIG" ]; then
+            curl --fail --location --retry 3 \
+              "https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/pt/pt_BR/faber/medium/pt_BR-faber-medium.onnx.json?download=true" \
+              --output "$ATENA_PIPER_CONFIG"
+          fi
           python scripts/notify_telegram_learning_audio.py \
             --report atena_evolution/training/latest_workflow_result.json \
             --allow-missing
