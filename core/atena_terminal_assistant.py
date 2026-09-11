@@ -353,6 +353,16 @@ class AutoLearner:
 
     def suggest_improvement(self, user_input: str) -> Optional[str]:
         """Sugere melhoria baseada em padrões aprendidos."""
+        # Pedidos operacionais devem ser executados/interpretados de novo.
+        # Reutilizar uma resposta antiga nesses casos mascara falhas e pode
+        # fazer a ATENA responder algo que não corresponde aos arquivos atuais.
+        operational_markers = (
+            "leia ", "ler ", "consulte ", "consultar ", "verifique ",
+            "diagnóstico", "diagnostico", "execute ", "executar ",
+            "arquivo", ".json", ".log", "estado atual", "últimas linhas",
+        )
+        if any(marker in (user_input or "").lower() for marker in operational_markers):
+            return None
         words = set(re.findall(r'\b[a-z]{4,}\b', user_input.lower()))
         best_match = None
         best_score = 0.0
@@ -2537,6 +2547,16 @@ def extract_dag_commands(plan_text: str) -> list[dict]:
 
 def build_local_task_exec_fallback(objective: str) -> list[str]:
     text = (objective or "").lower()
+    wants_training_diagnostic = (
+        "training/background/state.json" in text
+        or ("treinamento" in text and "train.log" in text)
+        or ("lora" in text and "log" in text)
+    )
+    if wants_training_diagnostic:
+        return [
+            "cat atena_evolution/training/background/state.json",
+            "tail -40 atena_evolution/training/background/train.log",
+        ]
     wants_test_count = ("tests" in text or "teste" in text) and (".py" in text or "python" in text)
     if wants_test_count:
         return ["python3 -c \"import glob; print(len(glob.glob('tests/**/*.py', recursive=True)))\""]

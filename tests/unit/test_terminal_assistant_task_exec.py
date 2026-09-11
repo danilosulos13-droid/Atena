@@ -92,6 +92,30 @@ def test_build_local_task_exec_fallback_for_generic_health_check() -> None:
     assert commands == ["python3 -m py_compile core/atena_terminal_assistant.py"]
 
 
+def test_build_local_task_exec_fallback_reads_training_state_and_log() -> None:
+    commands = assistant.build_local_task_exec_fallback(
+        "leia atena_evolution/training/background/state.json e as últimas linhas de train.log"
+    )
+    assert commands == [
+        "cat atena_evolution/training/background/state.json",
+        "tail -40 atena_evolution/training/background/train.log",
+    ]
+
+
+def test_auto_learner_does_not_reuse_memory_for_operational_request(tmp_path) -> None:
+    memory = assistant.ConversationMemory()
+    learner = assistant.AutoLearner(memory)
+    learner.patterns = {
+        "diagnostico_estado": {
+            "count": 1,
+            "success_count": 1,
+            "avg_reward": 1.0,
+            "responses": [{"response": "resposta antiga"}],
+        }
+    }
+    assert learner.suggest_improvement("diagnóstico do estado atual no arquivo state.json") is None
+
+
 def test_run_task_exec_uses_objective_fallback_when_plan_has_no_commands(monkeypatch, tmp_path) -> None:
     class FakeRouter:
         def generate(self, prompt: str, context: str = "") -> str:  # noqa: ARG002
