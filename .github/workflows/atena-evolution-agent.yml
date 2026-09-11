@@ -43,6 +43,7 @@ jobs:
       ATENA_TRAIN_MAX_LENGTH: "128"
       ATENA_EVAL_MAX_LENGTH: "128"
       ATENA_MIN_EVAL_IMPROVEMENT: "0.02"
+      ATENA_HOLDOUT_FRACTION: "0.2"
       TOKENIZERS_PARALLELISM: "false"
       HF_HOME: ${{ github.workspace }}/.cache/huggingface
       ATENA_TELEGRAM_BOT_TOKEN: ${{ secrets.ATENA_TELEGRAM_BOT_TOKEN }}

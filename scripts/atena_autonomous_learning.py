@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import contextlib
+import hashlib
 import json
 import os
 import shutil
@@ -48,11 +49,31 @@ def _optional_train() -> dict[str, Any]:
         return {"status": "skipped", "reason": "dataset SFT vazio"}
 
     rows = load_dataset("json", data_files=str(sft_path), split="train")
-    if len(rows) < int(os.getenv("ATENA_MIN_TRAIN_EXAMPLES", "16")):
+    total_examples = len(rows)
+    if total_examples < int(os.getenv("ATENA_MIN_TRAIN_EXAMPLES", "16")):
         return {"status": "skipped", "reason": "poucos exemplos para treino", "examples": len(rows)}
     max_examples = int(os.getenv("ATENA_MAX_TRAIN_EXAMPLES", "0"))
     if max_examples > 0:
         rows = rows.select(range(min(max_examples, len(rows))))
+
+    # O mesmo holdout determinístico usado pelo avaliador não pode entrar no
+    # treino; caso contrário a perplexidade do candidato fica otimista por
+    # vazamento e um adapter ruim pode ser promovido.
+    holdout_fraction = min(max(float(os.getenv("ATENA_HOLDOUT_FRACTION", "0.2")), 0.1), 0.4)
+    holdout_ids = {
+        str(row.get("id", ""))
+        for row in rows
+        if int(hashlib.sha256(str(row.get("id", "")).encode()).hexdigest()[:8], 16) % 10
+        < max(1, round(holdout_fraction * 10))
+    }
+    train_rows = rows.filter(lambda row: str(row.get("id", "")) not in holdout_ids)
+    if len(train_rows) < 4:
+        return {
+            "status": "skipped",
+            "reason": "poucos exemplos restantes após separar holdout",
+            "examples": total_examples,
+            "holdout_examples": len(holdout_ids),
+        }
 
     tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=True)
     if tokenizer.pad_token is None:
@@ -67,7 +88,7 @@ def _optional_train() -> dict[str, Any]:
         # Padding dinâmico: cada lote é preenchido apenas até sua maior sequência.
         return tokenizer(texts, truncation=True, max_length=max_length, padding=False)
 
-    tokenized = rows.map(tokenize, batched=True, remove_columns=rows.column_names)
+    tokenized = train_rows.map(tokenize, batched=True, remove_columns=train_rows.column_names)
     # O collator cria labels e faz padding dinâmico no momento de cada lote.
     collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm=False)
     base = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype="auto")
@@ -123,7 +144,14 @@ def _optional_train() -> dict[str, Any]:
         trainer.train()
     model.save_pretrained(output)
     tokenizer.save_pretrained(output)
-    manifest = {"status": "candidate", "base_model": model_name, "examples": len(rows), "path": str(output)}
+    manifest = {
+        "status": "candidate",
+        "base_model": model_name,
+        "examples": len(train_rows),
+        "total_examples": total_examples,
+        "holdout_examples": len(holdout_ids),
+        "path": str(output),
+    }
     write_state(last_training=manifest)
     return manifest
 

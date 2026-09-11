@@ -38,6 +38,20 @@ def _clean(text: Any, limit: int = 12000) -> str:
     return str(text or "").strip()[:limit]
 
 
+def _quality_key(prompt: str, response: str) -> str:
+    """Chave estável que elimina duplicatas só de formatação."""
+    normalized = " ".join(f"{prompt}\n{response}".lower().split())
+    return hashlib.sha256(normalized.encode("utf-8")).hexdigest()
+
+
+def _usable_training_text(prompt: str, response: str) -> bool:
+    """Rejeita amostras vazias, placeholders e respostas de runtime."""
+    if len(prompt.strip()) < 1 or len(response.strip()) < 3:
+        return False
+    lowered = response.lstrip().lower()
+    return not lowered.startswith(("<coroutine object", "<function", "traceback (most recent call"))
+
+
 @dataclass
 class Experience:
     prompt: str
@@ -196,15 +210,19 @@ def build_datasets(ledger: ExperienceLedger, *, min_score: float = 0.65) -> dict
     seen: set[str] = set()
     sft: list[dict[str, Any]] = []
     for row in rows:
-        key = stable_id(_clean(row["prompt"]), _clean(row["response"]))
+        prompt = _clean(row["prompt"], 8000)
+        response = _clean(row["response"], 12000)
+        if not _usable_training_text(prompt, response):
+            continue
+        key = _quality_key(prompt, response)
         if key in seen:
             continue
         seen.add(key)
         sft.append({
             "id": row.get("id", key),
             "messages": [
-                {"role": "user", "content": _clean(row["prompt"], 8000)},
-                {"role": "assistant", "content": _clean(row["response"], 12000)},
+                {"role": "user", "content": prompt},
+                {"role": "assistant", "content": response},
             ],
             "score": float(row.get("score", 0)),
             "source": row.get("source", "unknown"),
