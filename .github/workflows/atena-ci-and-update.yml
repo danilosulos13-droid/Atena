@@ -481,17 +481,25 @@ jobs:
           ATENA_PIPER_BIN: piper
           ATENA_PIPER_MODEL: ${{ runner.temp }}/piper/pt_BR-faber-medium.onnx
           ATENA_PIPER_CONFIG: ${{ runner.temp }}/piper/pt_BR-faber-medium.onnx.json
+          ATENA_TELEGRAM_SEND_VOICE: "0"
           PROPOSAL_PATH: ${{ steps.validate_learning.outputs.latest_proposal }}
         run: |
-          set -euo pipefail
-          command -v "$ATENA_PIPER_BIN" >/dev/null
-          test -s "$ATENA_PIPER_MODEL"
-          test -s "$ATENA_PIPER_CONFIG"
+          set -uo pipefail
+          text_status=0
           python /tmp/notify_telegram_learning.py \
-            --proposal "$PROPOSAL_PATH"
-          python /tmp/notify_telegram_learning.py \
-            --proposal "$PROPOSAL_PATH" \
-            --voice
+            --proposal "$PROPOSAL_PATH" || text_status=$?
+          if [ "$text_status" -ne 0 ]; then
+            echo "::error title=Telegram não recebeu o resumo::Corrija ATENA_TELEGRAM_CHAT_ID para um chat humano/grupo/canal, não para o próprio bot."
+            exit "$text_status"
+          fi
+          if [ "${ATENA_TELEGRAM_SEND_VOICE:-0}" = "1" ]; then
+            if command -v "$ATENA_PIPER_BIN" >/dev/null && test -s "$ATENA_PIPER_MODEL" && test -s "$ATENA_PIPER_CONFIG"; then
+              python /tmp/notify_telegram_learning.py --proposal "$PROPOSAL_PATH" --voice || \
+                echo "::warning title=Áudio Telegram não enviado::O resumo textual foi enviado, mas a síntese de voz falhou."
+            else
+              echo "::warning title=Áudio Telegram indisponível::O resumo textual foi enviado sem voz."
+            fi
+          fi
 
       - name: Arquivar logs e estado persistente do ciclo
         if: always()

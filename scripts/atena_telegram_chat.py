@@ -92,6 +92,10 @@ def allowed_chat(chat_id: int, configured: str) -> bool:
     return str(chat_id) in {item.strip() for item in configured.split(",") if item.strip()}
 
 
+def allow_chat_id_discovery(text: str) -> bool:
+    return os.getenv("ATENA_TELEGRAM_ALLOW_ID_DISCOVERY", "0").strip().casefold() in {"1", "true", "yes"} and text.strip().casefold() == "/id"
+
+
 def clip(text: str, limit: int = MAX_MESSAGE) -> str:
     text = text.strip()
     return text if len(text) <= limit else text[: limit - 1] + "…"
@@ -708,10 +712,14 @@ class AtenaTelegramChat:
             return
         chat = message.get("chat", {})
         chat_id = int(chat.get("id"))
+        text = str(message.get("text", "")).strip()
         if not allowed_chat(chat_id, self.chat_allowlist):
+            if allow_chat_id_discovery(text):
+                await self.send(chat_id, f"ID deste chat: {chat_id}")
+                log.info("chat ID informado sob demanda: %s", chat_id)
+                return
             log.warning("mensagem ignorada de chat não autorizado: %s", chat_id)
             return
-        text = str(message.get("text", "")).strip()
         voice = message.get("voice") or message.get("audio")
         telegram_video = message.get("video")
         photos = message.get("photo") or []

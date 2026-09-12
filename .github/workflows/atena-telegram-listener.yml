@@ -54,6 +54,7 @@ jobs:
         env:
           ATENA_TELEGRAM_BOT_TOKEN: ${{ secrets.ATENA_TELEGRAM_BOT_TOKEN }}
           ATENA_TELEGRAM_CHAT_ID: ${{ secrets.ATENA_TELEGRAM_CHAT_ID }}
+          ATENA_TELEGRAM_ALLOW_ID_DISCOVERY: "1"
           ATENA_ROBOT_DRY_RUN: "1"
           PYTHONUNBUFFERED: "1"
           PYTHONPATH: ${{ github.workspace }}
