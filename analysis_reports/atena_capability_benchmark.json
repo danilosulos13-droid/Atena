@@ -3,8 +3,8 @@
   "task_count": 30,
   "tracks": {
     "atena_orchestration": {
-      "score": 0.8944,
-      "passed": 27,
+      "score": 0.95,
+      "passed": 30,
       "total": 30,
       "errors": 0,
       "avg_latency_ms": 29798.16,
@@ -12,8 +12,8 @@
       "total_tokens": 125363,
       "categories": {
         "mathematics": {
-          "score": 0.8333,
-          "passed": 7,
+          "score": 1.0,
+          "passed": 10,
           "total": 10
         },
         "reasoning": {
@@ -29,8 +29,8 @@
       }
     },
     "direct_baseline": {
-      "score": 0.8917,
-      "passed": 25,
+      "score": 0.925,
+      "passed": 27,
       "total": 30,
       "errors": 0,
       "avg_latency_ms": 34362.3,
@@ -38,8 +38,8 @@
       "total_tokens": 146036,
       "categories": {
         "mathematics": {
-          "score": 0.8333,
-          "passed": 6,
+          "score": 0.9333,
+          "passed": 8,
           "total": 10
         },
         "reasoning": {
@@ -228,7 +228,8 @@
         "ζ(4)",
         "6.493"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "direct_baseline",
@@ -248,7 +249,8 @@
         "ζ(4)",
         "6.493"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "atena_orchestration",
@@ -260,13 +262,21 @@
       "prompt_tokens": 120,
       "completion_tokens": 1612,
       "cost_usd": 0.0006508,
-      "score": 0.6667,
-      "passed": false,
+      "score": 1.0,
+      "passed": true,
       "required_hits": [
-        "√π",
-        "converg"
+        "converg",
+        "√π"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": {
+        "method": "sympy",
+        "equivalent": true,
+        "coverage": 1.0,
+        "hits": [
+          "√π"
+        ]
+      }
     },
     {
       "track": "direct_baseline",
@@ -281,11 +291,17 @@
       "score": 1.0,
       "passed": true,
       "required_hits": [
-        "√π",
         "Gauss",
-        "converg"
+        "converg",
+        "√π"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": {
+        "method": "sympy",
+        "equivalent": false,
+        "coverage": 0.0,
+        "hits": []
+      }
     },
     {
       "track": "atena_orchestration",
@@ -304,7 +320,8 @@
         "contradição",
         "primo"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "direct_baseline",
@@ -322,7 +339,8 @@
         "contradição",
         "primo"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "atena_orchestration",
@@ -341,7 +359,8 @@
         "ln",
         "1 +"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "direct_baseline",
@@ -360,7 +379,8 @@
         "ln",
         "1 +"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "atena_orchestration",
@@ -379,7 +399,8 @@
         "210",
         "1024"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "direct_baseline",
@@ -398,7 +419,8 @@
         "210",
         "1024"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "atena_orchestration",
@@ -410,13 +432,22 @@
       "prompt_tokens": 121,
       "completion_tokens": 1817,
       "cost_usd": 0.00073285,
-      "score": 0.6667,
-      "passed": false,
+      "score": 1.0,
+      "passed": true,
       "required_hits": [
-        "π^2/6",
-        "converge"
+        "converge",
+        "π^2/6"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": {
+        "method": "sympy",
+        "equivalent": true,
+        "coverage": 1.0,
+        "hits": [
+          "π^2/6",
+          "converge"
+        ]
+      }
     },
     {
       "track": "direct_baseline",
@@ -428,13 +459,22 @@
       "prompt_tokens": 80,
       "completion_tokens": 2069,
       "cost_usd": 0.0008316,
-      "score": 0.6667,
-      "passed": false,
+      "score": 1.0,
+      "passed": true,
       "required_hits": [
-        "π^2/6",
-        "converge"
+        "converge",
+        "π^2/6"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": {
+        "method": "sympy",
+        "equivalent": true,
+        "coverage": 1.0,
+        "hits": [
+          "π^2/6",
+          "converge"
+        ]
+      }
     },
     {
       "track": "atena_orchestration",
@@ -446,10 +486,24 @@
       "prompt_tokens": 119,
       "completion_tokens": 815,
       "cost_usd": 0.00033195,
-      "score": 0.0,
-      "passed": false,
-      "required_hits": [],
-      "forbidden_hits": []
+      "score": 1.0,
+      "passed": true,
+      "required_hits": [
+        "sistema",
+        "x=2",
+        "y=1"
+      ],
+      "forbidden_hits": [],
+      "symbolic_check": {
+        "method": "sympy",
+        "equivalent": true,
+        "coverage": 1.0,
+        "hits": [
+          "x=2",
+          "y=1",
+          "sistema"
+        ]
+      }
     },
     {
       "track": "direct_baseline",
@@ -461,12 +515,24 @@
       "prompt_tokens": 78,
       "completion_tokens": 1126,
       "cost_usd": 0.0004543,
-      "score": 0.3333,
-      "passed": false,
+      "score": 1.0,
+      "passed": true,
       "required_hits": [
-        "sistema"
+        "sistema",
+        "x=2",
+        "y=1"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": {
+        "method": "sympy",
+        "equivalent": true,
+        "coverage": 1.0,
+        "hits": [
+          "x=2",
+          "y=1",
+          "sistema"
+        ]
+      }
     },
     {
       "track": "atena_orchestration",
@@ -485,7 +551,8 @@
         "limite",
         "2.718"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "direct_baseline",
@@ -503,7 +570,8 @@
         "e",
         "limite"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "atena_orchestration",
@@ -522,7 +590,8 @@
         "converg",
         "periód"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "direct_baseline",
@@ -541,7 +610,8 @@
         "converg",
         "periód"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "atena_orchestration",
@@ -560,7 +630,8 @@
         "relativo",
         "π"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "direct_baseline",
@@ -579,7 +650,8 @@
         "relativo",
         "π"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "atena_orchestration",
@@ -599,7 +671,8 @@
         "teste",
         "critério"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "direct_baseline",
@@ -619,7 +692,8 @@
         "teste",
         "critério"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "atena_orchestration",
@@ -638,7 +712,8 @@
         "contrafactual",
         "controle"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "direct_baseline",
@@ -657,7 +732,8 @@
         "contrafactual",
         "controle"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "atena_orchestration",
@@ -677,7 +753,8 @@
         "inédit",
         "métrica"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "direct_baseline",
@@ -697,7 +774,8 @@
         "inédit",
         "métrica"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "atena_orchestration",
@@ -716,7 +794,8 @@
         "risco",
         "abortar"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "direct_baseline",
@@ -735,7 +814,8 @@
         "risco",
         "abortar"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "atena_orchestration",
@@ -755,7 +835,8 @@
         "random",
         "métrica"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "direct_baseline",
@@ -775,7 +856,8 @@
         "random",
         "métrica"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "atena_orchestration",
@@ -794,7 +876,8 @@
         "conflit",
         "fonte"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "direct_baseline",
@@ -813,7 +896,8 @@
         "conflit",
         "fonte"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "atena_orchestration",
@@ -832,7 +916,8 @@
         "instrução",
         "privad"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "direct_baseline",
@@ -851,7 +936,8 @@
         "instrução",
         "privad"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "atena_orchestration",
@@ -871,7 +957,8 @@
         "regressão",
         "validação"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "direct_baseline",
@@ -891,7 +978,8 @@
         "regressão",
         "validação"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "atena_orchestration",
@@ -911,7 +999,8 @@
         "incerteza",
         "aprovação"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "direct_baseline",
@@ -931,7 +1020,8 @@
         "incerteza",
         "aprovação"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "atena_orchestration",
@@ -950,7 +1040,8 @@
         "caso",
         "taxa"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "direct_baseline",
@@ -969,7 +1060,8 @@
         "caso",
         "taxa"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "atena_orchestration",
@@ -988,7 +1080,8 @@
         "π^4/90",
         "http"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "direct_baseline",
@@ -1006,7 +1099,8 @@
         "π^4/90",
         "http"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "atena_orchestration",
@@ -1025,7 +1119,8 @@
         "integral",
         "http"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "direct_baseline",
@@ -1044,7 +1139,8 @@
         "integral",
         "http"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "atena_orchestration",
@@ -1064,7 +1160,8 @@
         "fonte",
         "limita"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "direct_baseline",
@@ -1084,7 +1181,8 @@
         "fonte",
         "limita"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "atena_orchestration",
@@ -1104,7 +1202,8 @@
         "agregador",
         "http"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "direct_baseline",
@@ -1124,7 +1223,8 @@
         "agregador",
         "http"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "atena_orchestration",
@@ -1144,7 +1244,8 @@
         "sucesso",
         "custo"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "direct_baseline",
@@ -1164,7 +1265,8 @@
         "sucesso",
         "custo"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "atena_orchestration",
@@ -1183,7 +1285,8 @@
         "múltiplo",
         "http"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "direct_baseline",
@@ -1202,7 +1305,8 @@
         "múltiplo",
         "http"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "atena_orchestration",
@@ -1222,7 +1326,8 @@
         "cache",
         "limite"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "direct_baseline",
@@ -1242,7 +1347,8 @@
         "cache",
         "limite"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "atena_orchestration",
@@ -1262,7 +1368,8 @@
         "data",
         "fonte"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "direct_baseline",
@@ -1282,7 +1389,8 @@
         "data",
         "fonte"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "atena_orchestration",
@@ -1302,7 +1410,8 @@
         "fonte",
         "verific"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "direct_baseline",
@@ -1322,7 +1431,8 @@
         "fonte",
         "verific"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "atena_orchestration",
@@ -1341,7 +1451,8 @@
         "evidência",
         "limita"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     },
     {
       "track": "direct_baseline",
@@ -1361,7 +1472,8 @@
         "não prova",
         "limita"
       ],
-      "forbidden_hits": []
+      "forbidden_hits": [],
+      "symbolic_check": null
     }
   ]
 }

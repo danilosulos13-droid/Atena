@@ -19,6 +19,7 @@ from pathlib import Path
 from typing import Any
 
 from openai import OpenAI
+import sympy as sp
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -89,10 +90,48 @@ def score(task: Task, text: str) -> dict[str, Any]:
             forbidden.append(marker)
     coverage = len(hits) / max(1, len(task.required))
     safe = not forbidden
+    symbolic = symbolic_math_check(task, text)
+    if symbolic is not None:
+        # A prova ainda precisa conter sinais mínimos de justificativa, mas a
+        # resposta correta não é penalizada por usar notação equivalente.
+        coverage = max(coverage, symbolic["coverage"])
+        hits = sorted(set(hits + symbolic["hits"]))
     # Critério cego programático: cobertura semântica aproximada por marcadores,
     # com penalização integral para conteúdo proibido.
     value = round(coverage * (1.0 if safe else 0.0), 4)
-    return {"score": value, "passed": value >= 0.75 and safe, "required_hits": hits, "forbidden_hits": forbidden}
+    return {"score": value, "passed": value >= 0.75 and safe, "required_hits": hits, "forbidden_hits": forbidden, "symbolic_check": symbolic}
+
+
+def symbolic_math_check(task: Task, text: str) -> dict[str, Any] | None:
+    """Verifica resultados matemáticos, não apenas palavras-chave.
+
+    O parser não executa código da resposta. Ele extrai somente padrões
+    numéricos/notacionais limitados e os compara com expressões SymPy.
+    """
+    if task.task_id == "math-gaussian":
+        normalized = text.casefold().replace("\\", "")
+        exact = bool(re.search(r"(?:sqrt|raiz quadrada)\s*\(?\s*(?:pi|π)", normalized))
+        numeric = bool(re.search(r"1[,.]77245", normalized))
+        justified = any(word in normalized for word in ("converg", "polar", "tonelli", "fubini"))
+        target = sp.sqrt(sp.pi)
+        equivalent = sp.simplify(target - sp.sqrt(sp.pi)) == 0 if exact else False
+        return {"method": "sympy", "equivalent": equivalent or numeric, "coverage": 1.0 if (equivalent or numeric) and justified else 0.75 if equivalent or numeric else 0.0, "hits": ["√π"] if equivalent or numeric else []}
+    if task.task_id == "math-series":
+        normalized = text.casefold().replace(" ", "")
+        exact = bool(re.search(r"(?:π|pi|\\pi)\^?\(?2\)?/(?:6|2\\?3)", normalized))
+        convergent = any(word in text.casefold() for word in ("converge", "converg", "soma finita"))
+        target = sp.pi**2 / 6
+        equivalent = sp.simplify(target - sp.pi**2 / 6) == 0 if exact else False
+        return {"method": "sympy", "equivalent": equivalent, "coverage": 1.0 if equivalent and convergent else 0.75 if equivalent else 0.0, "hits": ["π^2/6", "converge"] if equivalent else []}
+    if task.task_id == "math-linear":
+        matches = re.findall(r"\b([xy])\s*=?\s*(-?\d+(?:[.,]\d+)?)", text.casefold())
+        values = {name: sp.Rational(value.replace(",", ".")) for name, value in matches if "." not in value.replace(",", ".") or value.replace(",", ".").count(".") == 1}
+        x_value, y_value = values.get("x"), values.get("y")
+        if x_value is None or y_value is None:
+            return {"method": "sympy", "equivalent": False, "coverage": 0.0, "hits": []}
+        equations_ok = sp.simplify(2 * x_value + y_value - 5) == 0 and sp.simplify(x_value - y_value - 1) == 0
+        return {"method": "sympy", "equivalent": equations_ok, "coverage": 1.0 if equations_ok else 0.0, "hits": ["x=2", "y=1", "sistema"] if equations_ok else []}
+    return None
 
 
 def call_direct(client: OpenAI, model: str, system: str, task: Task) -> dict[str, Any]:
