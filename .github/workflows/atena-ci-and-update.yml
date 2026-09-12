@@ -412,6 +412,10 @@ jobs:
         run: |
           set -euo pipefail
           git fetch origin main --depth=1
+          if ! git merge-base origin/main HEAD >/dev/null 2>&1; then
+            echo "::warning title=Branch sem ancestral comum::A branch atena/autoevolution não compartilha histórico com main; PR automático não será criado."
+            exit 0
+          fi
           if git diff --quiet origin/main...HEAD; then
             echo "Nenhuma diferença entre atena/autoevolution e main; PR não necessário."
             exit 0
