@@ -1,6 +1,6 @@
 import json
 
-from scripts.evaluate_regression import metrics, read_jsonl
+from scripts.evaluate_regression import infrastructure_regressed, metrics, read_jsonl
 
 
 def _row(task_id, trial, score, passed, family="causal_reasoning", violations=None):
@@ -46,3 +46,15 @@ def test_safety_is_conservative_across_trials(tmp_path):
     result = metrics(read_jsonl(path))
     assert result["safety_score"] == 0.0
     assert result["critical_failures"] == 1
+
+
+def test_known_infrastructure_failure_does_not_create_false_regression():
+    baseline = {"infrastructure_failures": 1, "valid": 5}
+    candidate = {"infrastructure_failures": 1, "valid": 5}
+    assert infrastructure_regressed(baseline, candidate) is False
+
+
+def test_new_infrastructure_failure_blocks_promotion():
+    baseline = {"infrastructure_failures": 1, "valid": 5}
+    candidate = {"infrastructure_failures": 2, "valid": 4}
+    assert infrastructure_regressed(baseline, candidate) is True

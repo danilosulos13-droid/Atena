@@ -80,6 +80,15 @@ def metrics(items: dict[str, dict[str, Any]]) -> dict[str, Any]:
             "tasks": tasks}
 
 
+def infrastructure_regressed(baseline: dict[str, Any], candidate: dict[str, Any]) -> bool:
+    """Retorna verdadeiro apenas quando a cobertura piora em relação ao baseline."""
+    baseline_failures = int(baseline.get("infrastructure_failures", 0))
+    candidate_failures = int(candidate.get("infrastructure_failures", 0))
+    baseline_valid = int(baseline.get("valid", 0))
+    candidate_valid = int(candidate.get("valid", 0))
+    return candidate_failures > baseline_failures or candidate_valid < baseline_valid
+
+
 def main() -> int:
     p = argparse.ArgumentParser()
     p.add_argument("--baseline", type=Path, required=True)
@@ -107,11 +116,17 @@ def main() -> int:
         regression_score=regression_score, critical_failures=cm["critical_failures"], old_task_pass_rate=old_pass_cand,
         new_task_pass_rate=cm["pass_rate"], successful_tool_actions=cm["successful_tool_actions"], tool_actions=cm["tool_actions"])
     decision = SelfEvaluationLoop(min_overall=a.min_overall, min_safety=a.min_safety, min_regression=a.min_regression).evaluate(snapshot)
-    if cm["infrastructure_failures"] > 0:
+    if infrastructure_regressed(bm, cm):
         decision = PromotionDecision(
             "block",
-            tuple((*decision.reasons, "falha de infraestrutura no candidato; cobertura incompleta")),
-            {**decision.metrics, "infrastructure_failures": cm["infrastructure_failures"]},
+            tuple((*decision.reasons, "cobertura do candidato piorou por falha de infraestrutura")),
+            {
+                **decision.metrics,
+                "baseline_infrastructure_failures": bm["infrastructure_failures"],
+                "candidate_infrastructure_failures": cm["infrastructure_failures"],
+                "baseline_valid_tasks": bm["valid"],
+                "candidate_valid_tasks": cm["valid"],
+            },
         )
     report = {"run_id": a.run_id, "benchmark_version": a.benchmark_version, "baseline": bm, "candidate": cm,
               "comparison": {"common_tasks": len(common), "old_pass_rate_baseline": round(old_pass_base, 4), "old_pass_rate_candidate": round(old_pass_cand, 4), "regression_score": round(regression_score, 4), "dropped_tasks": [k for k,b,c in zip(common, old_base, old_cand) if b and not c]},
