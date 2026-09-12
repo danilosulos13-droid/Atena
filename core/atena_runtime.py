@@ -8,6 +8,7 @@ podem ser executadas por um handler local ou encaminhadas a um worker externo.
 from __future__ import annotations
 
 import asyncio
+from concurrent.futures import ThreadPoolExecutor
 import json
 import os
 import sqlite3
@@ -47,6 +48,7 @@ class PersistentRuntime:
         self._wake = asyncio.Event()
         self._worker_task: asyncio.Task[None] | None = None
         self._stop = False
+        self._tool_executor = ThreadPoolExecutor(max_workers=1, thread_name_prefix="atena-tools")
         self.handlers: dict[str, Callable[[dict[str, Any]], Awaitable[dict[str, Any]] | dict[str, Any]]] = {}
         self.router = GeneralToolRouter(
             audit_path=Path(os.getenv("ATENA_TOOL_ROUTER_AUDIT", "atena_evolution/tool_router_audit.jsonl")),
@@ -107,6 +109,18 @@ class PersistentRuntime:
         if not kind or not callable(handler):
             raise ValueError("handler inválido")
         self.handlers[kind] = handler
+
+    async def dispatch_tool(self, name: str, arguments: dict[str, Any] | None = None, *, approval: bool = False):
+        """Executa o roteador síncrono fora do event loop.
+
+        Playwright Sync API e outras ferramentas bloqueantes não devem ser
+        chamadas diretamente dentro do worker assíncrono.
+        """
+        loop = asyncio.get_running_loop()
+        return await loop.run_in_executor(
+            self._tool_executor,
+            lambda: self.router.dispatch(name, arguments, approval=approval),
+        )
 
     def register_connector(self, name: str, connector_type: str, config: dict[str, Any] | None = None, *, enabled: bool = True) -> dict[str, Any]:
         """Registra metadados; valores de segredo devem ser referências de ambiente."""
@@ -213,7 +227,9 @@ class PersistentRuntime:
         if self._worker_task:
             await self._worker_task
         self._worker_task = None
-        self.router.close()
+        loop = asyncio.get_running_loop()
+        await loop.run_in_executor(self._tool_executor, self.router.close)
+        self._tool_executor.shutdown(wait=True)
 
     def health(self) -> dict[str, Any]:
         with self._connect() as conn:
