@@ -299,6 +299,22 @@ def insight_text(item: object) -> str:
     return str(item.get("text", "")) if isinstance(item, dict) else str(item)
 
 
+def keep_current_evidence_refs(observations: dict, current_refs: set[str]) -> dict:
+    """Remove refs de ciclos anteriores antes de persistir ou promover o ciclo."""
+    allowed = {str(ref) for ref in current_refs}
+    for insight in observations.get("insights", []):
+        if not isinstance(insight, dict):
+            continue
+        refs = insight.get("evidence_refs", [])
+        if not isinstance(refs, list):
+            refs = []
+        insight["evidence_refs"] = [str(ref) for ref in refs if str(ref) in allowed]
+        if not insight["evidence_refs"] and insight.get("type") == "fact":
+            insight["type"] = "limitation"
+            insight["confidence"] = 0.0
+    return observations
+
+
 def build_evidence_fallback(research: dict) -> dict | None:
     """Registra a absorção de duas fontes novas sem inventar uma conclusão factual."""
     refs: list[str] = []
@@ -367,12 +383,13 @@ def deduplicate_observations(observations: dict, memory: list[dict]) -> dict:
     return observations
 
 
-def ask_local_model(memory: list[dict], research: dict, topic: str, question: str, sqlite_context: str = "", lesson_context: str = "", agent_context: str = "") -> tuple[dict, str, str]:
+def ask_local_model(memory: list[dict], research: dict, topic: str, question: str, sqlite_context: str = "", lesson_context: str = "", agent_context: str = "", current_evidence_refs: set[str] | None = None) -> tuple[dict, str, str]:
     context = json.dumps(compact_context(memory[-200:], max_items=30), ensure_ascii=False, indent=2)[:9000]
     research_context = json.dumps(research, ensure_ascii=False, indent=2)[:7000]
     sqlite_context = sqlite_context or "(nenhum contexto SQLite recuperado)"
     lesson_context = lesson_context or "(nenhuma lição validada recuperada)"
     agent_context = agent_context or "(nenhuma validação agentiva disponível)"
+    current_refs_context = json.dumps(sorted(current_evidence_refs or set()), ensure_ascii=False)
     prompt = f"""Você é o módulo local de análise da ATENA. Faça um ciclo de aprendizagem de no máximo cinco minutos.
 Responda SOMENTE com um objeto JSON, sem Markdown, sem comentários, sem códigos ANSI e sem texto antes ou depois.
 As chaves obrigatórias são: insights (lista de objetos), risks (lista de strings), proposed_changes
@@ -391,6 +408,9 @@ REGRAS DE DIVERSIDADE:
 - Se existirem pelo menos duas evidências novas com evidence_ref, gere ao menos uma observação ou hipótese citando esses refs.
 - Se não houver evidência suficiente, use type=limitation ou type=hypothesis, evidence_refs=[], confidence=0.0 e explique a lacuna.
 - Nunca invente IDs, URLs ou fontes; referências ausentes invalidam a promoção.
+- Para este ciclo, os únicos evidence_refs válidos são os IDs abaixo. Use somente esses IDs,
+  exatamente como escritos; nunca reutilize um ID encontrado na memória de outro ciclo:
+  {current_refs_context}
 
 Pergunta de investigação: {question}
 Dados coletados das fontes públicas autorizadas:
@@ -497,26 +517,36 @@ def run_agent_validation(topic: str, question: str) -> dict:
                 if tool_name in broker.policies
             ),
         )
-        result = planner.execute(plan)
+        result = planner.execute(plan) or {}
+        if not isinstance(result, dict):
+            raise TypeError("planner.execute deve retornar um objeto dict")
+        raw_observations = result.get("observations") or []
+        observations = [item for item in raw_observations if isinstance(item, dict)]
+        critic = result.get("critic") if isinstance(result.get("critic"), dict) else {
+            "accepted": False, "failed_steps": [], "missing_evidence": [],
+            "rollback_failures": [], "explanation": "critic ausente ou inválido",
+        }
         web_observation = next(
             (
-                item for item in result["observations"]
-                if item.get("output", {}).get("tool_result", {}).get("name") == "web.search"
+                item for item in observations
+                if isinstance(item.get("output"), dict)
+                and isinstance(item["output"].get("tool_result"), dict)
+                and item["output"]["tool_result"].get("name") == "web.search"
             ),
             None,
         )
-        web_output = web_observation.get("output", {}) if web_observation else {}
-        if result["critic"]["accepted"] and not web_output.get("items"):
-            result["critic"]["accepted"] = False
-            result["critic"]["missing_evidence"] = [*result["critic"].get("missing_evidence", []), "web"]
-            result["critic"]["explanation"] = "pesquisa web executada, mas não retornou evidência de fonte"
+        web_output = web_observation.get("output", {}).get("tool_result", {}) if web_observation else {}
+        if critic.get("accepted") and not web_output.get("items"):
+            critic["accepted"] = False
+            critic["missing_evidence"] = [*critic.get("missing_evidence", []), "web"]
+            critic["explanation"] = "pesquisa web executada, mas não retornou evidência de fonte"
         return {
-            "status": "accepted" if result["critic"]["accepted"] else "blocked",
-            "agent": agent.describe(),
-            "plan": result["plan"],
-            "observations": result["observations"],
-            "rollback": result["rollback"],
-            "critic": result["critic"],
+            "status": "accepted" if critic.get("accepted") else "blocked",
+            "agent": agent.describe() if agent is not None else None,
+            "plan": result.get("plan"),
+            "observations": observations,
+            "rollback": result.get("rollback") or [],
+            "critic": critic,
             "audit_path": str(audit_path),
         }
     except Exception as exc:
@@ -610,7 +640,8 @@ def main() -> int:
     lesson_context = json.dumps(validated_lessons, ensure_ascii=False, indent=2)[:6000]
     agent_trace = run_agent_validation(topic, question)
     agent_context = json.dumps(agent_trace, ensure_ascii=False, indent=2)[:10000]
-    observations, provider_used, model_used = ask_local_model(memory, research, topic, question, sqlite_context, lesson_context, agent_context)
+    observations, provider_used, model_used = ask_local_model(memory, research, topic, question, sqlite_context, lesson_context, agent_context, source_episode_ids)
+    observations = keep_current_evidence_refs(observations, source_episode_ids)
     observations = deduplicate_observations(observations, memory)
     if not observations.get("insights"):
         fallback = build_evidence_fallback(research)
