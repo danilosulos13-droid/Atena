@@ -559,6 +559,12 @@ jobs:
           }
           JSON
 
+      - name: Diagnosticar destino Telegram
+        env:
+          ATENA_TELEGRAM_BOT_TOKEN: ${{ secrets.ATENA_TELEGRAM_BOT_TOKEN }}
+          ATENA_TELEGRAM_CHAT_ID: ${{ secrets.ATENA_TELEGRAM_CHAT_ID }}
+        run: python scripts/diagnose_telegram_target.py
+
       - name: Enviar mensagem de teste
         env:
           ATENA_TELEGRAM_BOT_TOKEN: ${{ secrets.ATENA_TELEGRAM_BOT_TOKEN }}
