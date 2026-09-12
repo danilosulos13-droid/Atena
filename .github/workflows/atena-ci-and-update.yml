@@ -356,7 +356,9 @@ jobs:
 
           echo "Modo do job: $ATENA_CYCLE_ROLE"
           echo "Fontes autônomas por padrão; fontes interativas somente via intenção Telegram."
-          timeout --signal=TERM --kill-after=15s 300s python scripts/atena_scheduled_cycle.py
+          # O ciclo pode fazer fallback entre provedores e ultrapassar 5 min.
+          # Mantemos uma janela finita, mas damos margem a essas tentativas.
+          timeout --signal=TERM --kill-after=15s 420s python scripts/atena_scheduled_cycle.py
 
       - name: Validar memória e proposta do ciclo atual
         id: validate_learning
