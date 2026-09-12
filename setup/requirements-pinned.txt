@@ -8,6 +8,7 @@
 numpy>=1.26.0,<2.0
 scipy>=1.10.0,<1.14
 pandas>=2.0.0,<3.0
+sympy>=1.12,<2.0
 
 # ─── AST / Code Manipulation ──────────────────────────────────────────────────
 astor>=0.8.1,<1.0          # AST → source (usado em MutationEngine)

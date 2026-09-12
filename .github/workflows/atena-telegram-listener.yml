@@ -65,9 +65,20 @@ jobs:
           test -n "$ATENA_TELEGRAM_BOT_TOKEN" || { echo "Secret ATENA_TELEGRAM_BOT_TOKEN ausente"; exit 1; }
           test -n "$ATENA_TELEGRAM_CHAT_ID" || { echo "Secret ATENA_TELEGRAM_CHAT_ID ausente"; exit 1; }
           python -m py_compile scripts/atena_telegram_chat.py
+          # O listener usa o runner como uma janela temporária de polling.
+          # O código 124 do timeout é o encerramento esperado dessa janela.
+          set +e
           timeout --signal=TERM --kill-after=10s 480s \
             python scripts/atena_telegram_chat.py --poll-timeout 20 \
             2>&1 | tee /tmp/atena-telegram-listener.log
+          listener_status=${PIPESTATUS[0]}
+          set -e
+          if [ "$listener_status" -eq 124 ]; then
+            echo "Janela de polling encerrada normalmente após 480 segundos."
+          elif [ "$listener_status" -ne 0 ]; then
+            echo "Listener encerrado com código $listener_status."
+            exit "$listener_status"
+          fi
 
       - name: Publicar log sem credenciais
         if: always()

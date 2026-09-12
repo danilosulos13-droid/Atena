@@ -421,12 +421,26 @@ jobs:
             echo "Pull Request já aberto: $existing_pr"
             exit 0
           fi
-          gh pr create \
+          set +e
+          pr_output="$(gh pr create \
             --repo "$GITHUB_REPOSITORY" \
             --base main \
             --head atena/autoevolution \
             --title "chore(atena): proposta de autoevolução" \
-            --body "## Proposta automática da Atena\n\nEsta PR contém alterações geradas no ciclo de autoevolução.\n\n- Branch de origem: \\`atena/autoevolution\\`\n- Execução: $GITHUB_RUN_URL\n- Validações: testes, compilação, memória e consolidação SQLite\n- Merge automático: desabilitado; revisar o diff e os resultados antes de aprovar."
+            --body "## Proposta automática da Atena\n\nEsta PR contém alterações geradas no ciclo de autoevolução.\n\n- Branch de origem: \\`atena/autoevolution\\`\n- Execução: $GITHUB_RUN_URL\n- Validações: testes, compilação, memória e consolidação SQLite\n- Merge automático: desabilitado; revisar o diff e os resultados antes de aprovar." 2>&1)"
+          pr_status=$?
+          set -e
+          if [ "$pr_status" -eq 0 ]; then
+            printf '%s\n' "$pr_output"
+            exit 0
+          fi
+          printf '%s\n' "$pr_output"
+          if printf '%s' "$pr_output" | grep -qi 'not permitted to create or approve pull requests'; then
+            echo "::warning title=PR automático não criado::A branch atena/autoevolution foi publicada, mas o token do Actions não pode criar Pull Requests. Habilite essa permissão nas configurações do repositório para abrir a PR automaticamente."
+            exit 0
+          fi
+          echo "::error title=Falha ao criar PR automático::A criação da PR falhou por um motivo diferente de permissão."
+          exit "$pr_status"
 
       - name: Disponibilizar notificador aprovado
         if: always() && steps.validate_learning.outputs.latest_proposal != ''
@@ -437,7 +451,9 @@ jobs:
 
       - name: Notificar nova aprendizagem no Telegram
         if: always() && steps.validate_learning.outputs.latest_proposal != ''
-        continue-on-error: false
+        # A notificação é observabilidade; credenciais inválidas não devem
+        # transformar um ciclo já validado em falha de CI.
+        continue-on-error: true
         env:
           ATENA_TELEGRAM_BOT_TOKEN: ${{ secrets.ATENA_TELEGRAM_BOT_TOKEN }}
           ATENA_TELEGRAM_CHAT_ID: ${{ secrets.ATENA_TELEGRAM_CHAT_ID }}
