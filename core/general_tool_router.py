@@ -7,6 +7,7 @@ Playwright não está instalado, a ferramenta falha de forma explícita e segura
 from __future__ import annotations
 
 import json
+import os
 import re
 import time
 import uuid
@@ -47,11 +48,13 @@ class PlaywrightBrowser:
     que alterem dados nunca são aprovados implicitamente pelo roteador.
     """
 
-    def __init__(self, *, headless: bool = True, timeout_ms: int = 20_000) -> None:
+    def __init__(self, *, headless: bool = True, timeout_ms: int = 20_000, user_data_dir: str | Path | None = None) -> None:
         self.headless = headless
         self.timeout_ms = timeout_ms
+        self.user_data_dir = Path(user_data_dir or os.getenv("ATENA_BROWSER_PROFILE_DIR", "atena_evolution/browser-profile")).resolve()
         self._playwright = None
         self._browser = None
+        self._context = None
         self._page = None
 
     def _page_or_start(self):
@@ -62,9 +65,14 @@ class PlaywrightBrowser:
         except ImportError as exc:
             raise ToolRouterError("playwright_not_installed") from exc
         self._playwright = sync_playwright().start()
-        self._browser = self._playwright.chromium.launch(headless=self.headless)
-        context = self._browser.new_context()
-        self._page = context.new_page()
+        self.user_data_dir.mkdir(parents=True, exist_ok=True)
+        self._context = self._playwright.chromium.launch_persistent_context(
+            user_data_dir=str(self.user_data_dir),
+            headless=self.headless,
+            viewport={"width": 1440, "height": 1000},
+        )
+        self._browser = self._context.browser
+        self._page = self._context.pages[0] if self._context.pages else self._context.new_page()
         self._page.set_default_timeout(self.timeout_ms)
         return self._page
 
@@ -112,11 +120,13 @@ class PlaywrightBrowser:
         return {"path": str(output), "url": page.url}
 
     def close(self) -> None:
-        if self._browser:
+        if self._context:
+            self._context.close()
+        elif self._browser:
             self._browser.close()
         if self._playwright:
             self._playwright.stop()
-        self._browser = self._playwright = self._page = None
+        self._browser = self._context = self._playwright = self._page = None
 
 
 class GeneralToolRouter:

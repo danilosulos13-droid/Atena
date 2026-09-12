@@ -341,3 +341,54 @@ Abra uma issue descrevendo o problema e incluindo passos reproduzíveis. Para al
 O repositório oficial desta documentação é:
 
 <https://github.com/danilosulos13-droid/Atena>
+
+
+## Runtime persistente e orquestração local
+
+A camada `core/atena_runtime.py` adiciona um runtime persistente para uma instância própria da Atena. Ela inclui:
+
+- fila SQLite durável para tarefas;
+- worker assíncrono com estados `queued`, `running`, `succeeded` e `failed`;
+- eventos de execução para auditoria;
+- registro de conectores sem persistir tokens ou senhas;
+- sessão persistente do navegador Playwright em `ATENA_BROWSER_PROFILE_DIR`;
+- endpoints de saúde, tarefas e conectores na API FastAPI.
+
+Endpoints principais:
+
+```text
+GET  /healthz
+GET  /api/runtime/health
+POST /api/runtime/tasks
+GET  /api/runtime/tasks
+GET  /api/runtime/tasks/{task_id}
+POST /api/runtime/connectors
+GET  /api/runtime/connectors
+```
+
+Uma tarefa de pesquisa pode ser enfileirada assim:
+
+```bash
+curl -X POST http://127.0.0.1:8000/api/runtime/tasks \
+  -H 'Content-Type: application/json' \
+  -d '{"kind":"research","payload":{"question":"Compare RAG e fine-tuning para documentação empresarial","max_sources":8}}'
+```
+
+A fila é persistente, mas o runtime ainda é uma implantação **single-node**. Para alta disponibilidade são necessários um banco compartilhado, fila externa, múltiplos workers, locks distribuídos, autenticação da API e observabilidade centralizada.
+
+### Executar como serviço
+
+Em uma máquina Ubuntu persistente, adapte `deploy/atena-runtime.service`, instale o projeto em `/opt/atena`, crie `/etc/atena/atena.env` a partir de [`deploy/atena.env.example`](deploy/atena.env.example) e então:
+
+```bash
+sudo install -d -m 0750 /etc/atena /var/lib/atena
+sudo install -m 0644 deploy/atena-runtime.service /etc/systemd/system/atena-runtime.service
+sudo chmod 600 /etc/atena/atena.env
+sudo systemctl daemon-reload
+sudo systemctl enable --now atena-runtime
+curl http://127.0.0.1:8000/healthz
+```
+
+O serviço não substitui a configuração de firewall, TLS, autenticação, backup, segredo externo ou monitoramento necessários para produção pública.
+
+Quando a API não estiver limitada a `127.0.0.1`, configure `ATENA_API_TOKEN`. Os endpoints operacionais aceitam esse valor em `X-Atena-Token` ou como `Authorization: Bearer ...`. Não exponha a API sem TLS, autenticação e um proxy com limites de requisição.
