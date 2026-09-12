@@ -63,6 +63,31 @@ jobs:
             echo "skip=true" >> "$GITHUB_OUTPUT"
             exit 0
           fi
+          if [ -z "${EVENT_PR:-}" ]; then
+            head_sha="${{ github.event.workflow_run.head_sha }}"
+            required_workflows=(
+              "ATENA CI and controlled updates"
+              "Atena rotating regression gate"
+              "Atena self-modification sandbox"
+            )
+            runs_json="$(gh run list --repo "$GITHUB_REPOSITORY" --commit "$head_sha" --limit 50 --json name,status,conclusion)"
+            for required in "${required_workflows[@]}"; do
+              state="$(printf '%s' "$runs_json" | python -c 'import json,sys; name=sys.argv[1]; rows=[r for r in json.load(sys.stdin) if r.get("name")==name]; rows.sort(key=lambda r: (r.get("status")=="completed", r.get("conclusion")=="success"), reverse=True); print((rows[0].get("status", "missing") + ":" + str(rows[0].get("conclusion") or "")) if rows else "missing:")' "$required")"
+              case "$state" in
+                completed:success) ;;
+                completed:*)
+                  echo "$required terminou com estado $state; promoção bloqueada."
+                  echo "skip=true" >> "$GITHUB_OUTPUT"
+                  exit 0
+                  ;;
+                *)
+                  echo "$required ainda não terminou ($state); aguardando o próximo evento de workflow."
+                  echo "skip=true" >> "$GITHUB_OUTPUT"
+                  exit 0
+                  ;;
+              esac
+            done
+          fi
           echo "skip=false" >> "$GITHUB_OUTPUT"
           echo "number=$pr" >> "$GITHUB_OUTPUT"
           echo "PR selecionado: #$pr"
