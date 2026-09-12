@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, asdict
+from pathlib import PurePosixPath
 from typing import Any
 from urllib.parse import urlparse
 
@@ -35,6 +36,27 @@ def _is_evidence_ref(value: object) -> bool:
     return bool(ref) and (_is_http_url(ref) or ref.startswith(("mem-", "rss:", "source:", "tool://")))
 
 
+def _proposal_issue(proposal: object) -> str | None:
+    """Valida a forma de uma proposta sem executar qualquer alteração."""
+    if not isinstance(proposal, dict):
+        return "proposta não é um objeto"
+    filename = str(proposal.get("file", "")).strip()
+    rationale = str(proposal.get("rationale", "")).strip()
+    tests = proposal.get("tests")
+    if not filename:
+        return "proposta sem arquivo alvo"
+    path = PurePosixPath(filename.replace("\\", "/"))
+    if path.is_absolute() or ".." in path.parts or "\x00" in filename:
+        return "proposta contém caminho absoluto ou traversal"
+    if filename.lower().endswith(('.env', '.pem', '.key')) or 'secret' in filename.lower():
+        return "proposta aponta para arquivo sensível"
+    if len(rationale) < 12:
+        return "proposta sem justificativa suficiente"
+    if not isinstance(tests, list) or not tests or not all(isinstance(item, str) and item.strip() for item in tests):
+        return "proposta sem teste reproduzível"
+    return None
+
+
 def evaluate_cycle(observations: dict[str, Any], *, min_evidence: int = 1, max_duplicate_ratio: float = 0.5) -> GateResult:
     reasons: list[str] = []
     insights = observations.get("insights", [])
@@ -49,6 +71,8 @@ def evaluate_cycle(observations: dict[str, Any], *, min_evidence: int = 1, max_d
     texts: list[str] = []
     evidence_refs = 0
     limitation_without_evidence = 0
+    proposal_rejections = 0
+    proposal_files: set[str] = set()
     for item in insights:
         if not isinstance(item, dict):
             reasons.append("insight não estruturado")
@@ -80,6 +104,17 @@ def evaluate_cycle(observations: dict[str, Any], *, min_evidence: int = 1, max_d
         reasons.append("risco crítico presente; exige revisão humana")
     if insights and not next_cycle:
         reasons.append("insights sem próximo teste ou plano de verificação")
+    for proposal in proposals:
+        issue = _proposal_issue(proposal)
+        if issue:
+            proposal_rejections += 1
+            reasons.append(issue)
+            continue
+        filename = str(proposal["file"]).strip().replace("\\", "/").casefold()
+        if filename in proposal_files:
+            proposal_rejections += 1
+            reasons.append("propostas duplicam o mesmo arquivo alvo")
+        proposal_files.add(filename)
 
     metrics = {
         "insights": len(insights),
@@ -87,5 +122,6 @@ def evaluate_cycle(observations: dict[str, Any], *, min_evidence: int = 1, max_d
         "duplicate_ratio": round(duplicate_ratio, 4),
         "proposals": len(proposals),
         "risks": len(risks),
+        "proposal_rejections": proposal_rejections,
     }
     return GateResult(not reasons, tuple(reasons), metrics)

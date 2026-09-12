@@ -739,6 +739,25 @@ def discover_any_apis(query: str, limit: int = 10) -> list[dict[str, str]]:
     q = (query or "").strip().lower()
     out: list[dict[str, str]] = []
 
+    # O catálogo privado é local e já foi validado pela presença da chave.
+    # Resolva consultas específicas por ele antes de baixar catálogos públicos
+    # grandes; isso reduz latência e mantém o caminho determinístico em CI.
+    private_matches = []
+    for item in _load_private_api_catalog():
+        name = str(item.get("name", "")).lower()
+        endpoint = str(item.get("endpoint", "")).lower()
+        if q and q not in name and q not in endpoint:
+            continue
+        private_matches.append(
+            {
+                "name": str(item.get("name", "private-api")),
+                "endpoint": str(item.get("endpoint", "")),
+                "category": str(item.get("category", "private_catalog")),
+            }
+        )
+    if q and private_matches:
+        return private_matches[: max(1, int(limit))]
+
     # 1) APIs.guru (OpenAPI directory)
     try:
         data = _fetch_json("https://api.apis.guru/v2/list.json")

@@ -356,7 +356,9 @@ jobs:
 
           echo "Modo do job: $ATENA_CYCLE_ROLE"
           echo "Fontes autônomas por padrão; fontes interativas somente via intenção Telegram."
-          timeout --signal=TERM --kill-after=15s 300s python scripts/atena_scheduled_cycle.py
+          # O ciclo pode fazer fallback entre provedores e ultrapassar 5 min.
+          # Mantemos uma janela finita, mas damos margem a essas tentativas.
+          timeout --signal=TERM --kill-after=15s 420s python scripts/atena_scheduled_cycle.py
 
       - name: Validar memória e proposta do ciclo atual
         id: validate_learning
@@ -367,8 +369,10 @@ jobs:
           echo "latest_proposal=$latest_proposal" >> "$GITHUB_OUTPUT"
           python - "$latest_proposal" <<'PY'
           import json
+          import os
           import sys
           from pathlib import Path
+          from core.evolution_quality_gate import evaluate_cycle
 
           proposal_path = Path(sys.argv[1])
           proposal = json.loads(proposal_path.read_text(encoding="utf-8"))
@@ -378,6 +382,14 @@ jobs:
               raise SystemExit("Proposta atual não atende ao esquema esperado.")
           if "parse_error" in json.dumps(proposal, ensure_ascii=False):
               raise SystemExit("Resposta inválida no ciclo atual; bloqueando publicação.")
+          gate = evaluate_cycle(observations)
+          print(json.dumps({"quality_gate": gate.to_dict()}, ensure_ascii=False))
+          output_path = Path(os.environ["GITHUB_OUTPUT"])
+          with output_path.open("a", encoding="utf-8") as handle:
+              handle.write(f"gate_accepted={'true' if gate.accepted else 'false'}\n")
+          if not gate.accepted:
+              print("Gate rejeitou a proposta; memória será preservada, mas nenhum PR será aberto.")
+              print("; ".join(gate.reasons))
           print(f"Proposta atual validada: {proposal_path}")
           PY
           git diff --check
@@ -405,6 +417,7 @@ jobs:
           git push origin HEAD:atena/autoevolution
 
       - name: Abrir Pull Request da autoevolução
+        if: steps.validate_learning.outputs.gate_accepted == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
           GITHUB_REPOSITORY: ${{ github.repository }}
@@ -412,6 +425,10 @@ jobs:
         run: |
           set -euo pipefail
           git fetch origin main --depth=1
+          if ! git merge-base origin/main HEAD >/dev/null 2>&1; then
+            echo "::warning title=Branch sem ancestral comum::A branch atena/autoevolution não compartilha histórico com main; PR automático não será criado."
+            exit 0
+          fi
           if git diff --quiet origin/main...HEAD; then
             echo "Nenhuma diferença entre atena/autoevolution e main; PR não necessário."
             exit 0
@@ -421,12 +438,26 @@ jobs:
             echo "Pull Request já aberto: $existing_pr"
             exit 0
           fi
-          gh pr create \
+          set +e
+          pr_output="$(gh pr create \
             --repo "$GITHUB_REPOSITORY" \
             --base main \
             --head atena/autoevolution \
             --title "chore(atena): proposta de autoevolução" \
-            --body "## Proposta automática da Atena\n\nEsta PR contém alterações geradas no ciclo de autoevolução.\n\n- Branch de origem: \\`atena/autoevolution\\`\n- Execução: $GITHUB_RUN_URL\n- Validações: testes, compilação, memória e consolidação SQLite\n- Merge automático: desabilitado; revisar o diff e os resultados antes de aprovar."
+            --body "## Proposta automática da Atena\n\nEsta PR contém alterações geradas no ciclo de autoevolução.\n\n- Branch de origem: \\`atena/autoevolution\\`\n- Execução: $GITHUB_RUN_URL\n- Validações: testes, compilação, memória e consolidação SQLite\n- Merge automático: desabilitado; revisar o diff e os resultados antes de aprovar." 2>&1)"
+          pr_status=$?
+          set -e
+          if [ "$pr_status" -eq 0 ]; then
+            printf '%s\n' "$pr_output"
+            exit 0
+          fi
+          printf '%s\n' "$pr_output"
+          if printf '%s' "$pr_output" | grep -qi 'not permitted to create or approve pull requests'; then
+            echo "::warning title=PR automático não criado::A branch atena/autoevolution foi publicada, mas o token do Actions não pode criar Pull Requests. Habilite essa permissão nas configurações do repositório para abrir a PR automaticamente."
+            exit 0
+          fi
+          echo "::error title=Falha ao criar PR automático::A criação da PR falhou por um motivo diferente de permissão."
+          exit "$pr_status"
 
       - name: Disponibilizar notificador aprovado
         if: always() && steps.validate_learning.outputs.latest_proposal != ''
@@ -437,7 +468,9 @@ jobs:
 
       - name: Notificar nova aprendizagem no Telegram
         if: always() && steps.validate_learning.outputs.latest_proposal != ''
-        continue-on-error: false
+        # A notificação é observabilidade; credenciais inválidas não devem
+        # transformar um ciclo já validado em falha de CI.
+        continue-on-error: true
         env:
           ATENA_TELEGRAM_BOT_TOKEN: ${{ secrets.ATENA_TELEGRAM_BOT_TOKEN }}
           ATENA_TELEGRAM_CHAT_ID: ${{ secrets.ATENA_TELEGRAM_CHAT_ID }}
@@ -448,17 +481,25 @@ jobs:
           ATENA_PIPER_BIN: piper
           ATENA_PIPER_MODEL: ${{ runner.temp }}/piper/pt_BR-faber-medium.onnx
           ATENA_PIPER_CONFIG: ${{ runner.temp }}/piper/pt_BR-faber-medium.onnx.json
+          ATENA_TELEGRAM_SEND_VOICE: "0"
           PROPOSAL_PATH: ${{ steps.validate_learning.outputs.latest_proposal }}
         run: |
-          set -euo pipefail
-          command -v "$ATENA_PIPER_BIN" >/dev/null
-          test -s "$ATENA_PIPER_MODEL"
-          test -s "$ATENA_PIPER_CONFIG"
+          set -uo pipefail
+          text_status=0
           python /tmp/notify_telegram_learning.py \
-            --proposal "$PROPOSAL_PATH"
-          python /tmp/notify_telegram_learning.py \
-            --proposal "$PROPOSAL_PATH" \
-            --voice
+            --proposal "$PROPOSAL_PATH" || text_status=$?
+          if [ "$text_status" -ne 0 ]; then
+            echo "::error title=Telegram não recebeu o resumo::Corrija ATENA_TELEGRAM_CHAT_ID para um chat humano/grupo/canal, não para o próprio bot."
+            exit "$text_status"
+          fi
+          if [ "${ATENA_TELEGRAM_SEND_VOICE:-0}" = "1" ]; then
+            if command -v "$ATENA_PIPER_BIN" >/dev/null && test -s "$ATENA_PIPER_MODEL" && test -s "$ATENA_PIPER_CONFIG"; then
+              python /tmp/notify_telegram_learning.py --proposal "$PROPOSAL_PATH" --voice || \
+                echo "::warning title=Áudio Telegram não enviado::O resumo textual foi enviado, mas a síntese de voz falhou."
+            else
+              echo "::warning title=Áudio Telegram indisponível::O resumo textual foi enviado sem voz."
+            fi
+          fi
 
       - name: Arquivar logs e estado persistente do ciclo
         if: always()
@@ -517,6 +558,12 @@ jobs:
             }
           }
           JSON
+
+      - name: Diagnosticar destino Telegram
+        env:
+          ATENA_TELEGRAM_BOT_TOKEN: ${{ secrets.ATENA_TELEGRAM_BOT_TOKEN }}
+          ATENA_TELEGRAM_CHAT_ID: ${{ secrets.ATENA_TELEGRAM_CHAT_ID }}
+        run: python scripts/diagnose_telegram_target.py
 
       - name: Enviar mensagem de teste
         env:
