@@ -58,3 +58,34 @@ def test_gate_rejects_cycle_with_only_next_cycle_plan():
     })
     assert not result.accepted
     assert any("sem aprendizagem" in reason for reason in result.reasons)
+
+
+def test_gate_rejects_unsafe_proposal_path():
+    result = evaluate_cycle({
+        "insights": [{"text": "evidência", "confidence": 0.5, "evidence_refs": ["mem-1"]}],
+        "risks": [],
+        "proposed_changes": [{
+            "file": "../../.env",
+            "rationale": "alterar configuração importante",
+            "tests": ["pytest"],
+        }],
+        "next_cycle": ["verificar a proposta"],
+    })
+    assert not result.accepted
+    assert result.metrics["proposal_rejections"] == 1
+    assert any("caminho absoluto ou traversal" in reason for reason in result.reasons)
+
+
+def test_gate_rejects_proposal_without_reproducible_test():
+    result = evaluate_cycle({
+        "insights": [{"text": "evidência", "confidence": 0.5, "evidence_refs": ["mem-1"]}],
+        "risks": [],
+        "proposed_changes": [{
+            "file": "core/example.py",
+            "rationale": "melhorar a validação do fluxo",
+            "tests": [],
+        }],
+        "next_cycle": ["verificar a proposta"],
+    })
+    assert not result.accepted
+    assert any("teste reproduzível" in reason for reason in result.reasons)

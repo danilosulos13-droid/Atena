@@ -369,8 +369,10 @@ jobs:
           echo "latest_proposal=$latest_proposal" >> "$GITHUB_OUTPUT"
           python - "$latest_proposal" <<'PY'
           import json
+          import os
           import sys
           from pathlib import Path
+          from core.evolution_quality_gate import evaluate_cycle
 
           proposal_path = Path(sys.argv[1])
           proposal = json.loads(proposal_path.read_text(encoding="utf-8"))
@@ -380,6 +382,14 @@ jobs:
               raise SystemExit("Proposta atual não atende ao esquema esperado.")
           if "parse_error" in json.dumps(proposal, ensure_ascii=False):
               raise SystemExit("Resposta inválida no ciclo atual; bloqueando publicação.")
+          gate = evaluate_cycle(observations)
+          print(json.dumps({"quality_gate": gate.to_dict()}, ensure_ascii=False))
+          output_path = Path(os.environ["GITHUB_OUTPUT"])
+          with output_path.open("a", encoding="utf-8") as handle:
+              handle.write(f"gate_accepted={'true' if gate.accepted else 'false'}\n")
+          if not gate.accepted:
+              print("Gate rejeitou a proposta; memória será preservada, mas nenhum PR será aberto.")
+              print("; ".join(gate.reasons))
           print(f"Proposta atual validada: {proposal_path}")
           PY
           git diff --check
@@ -407,6 +417,7 @@ jobs:
           git push origin HEAD:atena/autoevolution
 
       - name: Abrir Pull Request da autoevolução
+        if: steps.validate_learning.outputs.gate_accepted == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
           GITHUB_REPOSITORY: ${{ github.repository }}
