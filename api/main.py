@@ -47,11 +47,29 @@ _init_chat_db()
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     logger.info("🚀 Iniciando ATENA Ω...")
+    await RUNTIME.start()
     yield
+    await RUNTIME.stop()
+    TOOL_ROUTER.close()
     logger.info("🛑 Encerrando ATENA Ω...")
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 app = FastAPI(title="ATENA Ω API", version="10.2.0", lifespan=lifespan)
+
+
+@app.middleware("http")
+async def runtime_auth(request: Request, call_next):
+    """Protege endpoints operacionais quando ATENA_API_TOKEN está configurado."""
+    token = os.getenv("ATENA_API_TOKEN", "").strip()
+    protected = request.url.path.startswith(("/api/", "/api")) and request.url.path != "/api/status"
+    if token and protected:
+        supplied = request.headers.get("x-atena-token", "")
+        authorization = request.headers.get("authorization", "")
+        if supplied != token and authorization != f"Bearer {token}":
+            from fastapi.responses import JSONResponse
+
+            return JSONResponse({"detail": "authentication_required"}, status_code=401)
+    return await call_next(request)
 
 # --- IMPORTAÇÕES RESTANTES ---
 from fastapi.middleware.cors import CORSMiddleware
@@ -63,10 +81,29 @@ from api.dashboard_html import get_dashboard_html
 from api.connectors_api import router as connectors_router
 from core.research_orchestrator import ResearchError, run_deep_research
 from core.general_tool_router import GeneralToolRouter
+from core.atena_runtime import PersistentRuntime
 
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
 app.include_router(connectors_router)
 TOOL_ROUTER = GeneralToolRouter(audit_path=Path(os.getenv("ATENA_TOOL_ROUTER_AUDIT", "atena_evolution/tool_router_audit.jsonl")))
+RUNTIME = PersistentRuntime()
+
+
+async def _runtime_research(payload: dict[str, Any]) -> dict[str, Any]:
+    question = str(payload.get("question", "")).strip()
+    if not question:
+        raise ValueError("question_required")
+    return await run_in_threadpool(
+        run_deep_research,
+        question,
+        topic=payload.get("topic"),
+        limit_per_query=max(1, min(int(payload.get("limit_per_query", 5)), 10)),
+        max_sources=max(1, min(int(payload.get("max_sources", 12)), 20)),
+        use_llm=bool(payload.get("use_llm", True)),
+    )
+
+
+RUNTIME.register_handler("research", _runtime_research)
 
 
 class ChatRequest(BaseModel):
@@ -93,7 +130,51 @@ class ToolExecutionRequest(BaseModel):
 # --- ENDPOINTS ---
 @app.get("/healthz")
 async def healthz():
-    return {"status": "healthy", "version": "10.2.0"}
+    return {"status": "healthy", "version": "10.2.0", "runtime": RUNTIME.health()}
+
+
+@app.get("/api/runtime/health")
+async def runtime_health():
+    return RUNTIME.health()
+
+
+@app.post("/api/runtime/tasks")
+async def enqueue_runtime_task(payload: dict[str, Any]):
+    kind = str(payload.get("kind", "")).strip()
+    task_payload = payload.get("payload", {})
+    if not kind or not isinstance(task_payload, dict):
+        raise HTTPException(status_code=400, detail="kind e payload são obrigatórios")
+    if kind not in RUNTIME.handlers:
+        raise HTTPException(status_code=400, detail=f"tipo de tarefa não registrado: {kind}")
+    return RUNTIME.enqueue(kind, task_payload).public()
+
+
+@app.get("/api/runtime/tasks")
+async def list_runtime_tasks(limit: int = 50):
+    return {"tasks": [task.public() for task in RUNTIME.list_tasks(limit)]}
+
+
+@app.get("/api/runtime/tasks/{task_id}")
+async def get_runtime_task(task_id: str):
+    task = RUNTIME.get_task(task_id)
+    if task is None:
+        raise HTTPException(status_code=404, detail="task_not_found")
+    return task.public()
+
+
+@app.post("/api/runtime/connectors")
+async def register_runtime_connector(payload: dict[str, Any]):
+    name = str(payload.get("name", "")).strip()
+    connector_type = str(payload.get("connector_type", "")).strip()
+    config = payload.get("config", {})
+    if not name or not connector_type or not isinstance(config, dict):
+        raise HTTPException(status_code=400, detail="name, connector_type e config são obrigatórios")
+    return RUNTIME.register_connector(name, connector_type, config, enabled=bool(payload.get("enabled", True)))
+
+
+@app.get("/api/runtime/connectors")
+async def list_runtime_connectors():
+    return {"connectors": RUNTIME.list_connectors()}
 
 
 @app.get("/api/tools")

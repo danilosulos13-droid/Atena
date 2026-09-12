@@ -1,743 +1,394 @@
-# 🔱 ATENA Ω (Atena-AGI) v3.2.0
+# Atena Especialista
 
-[![CI/CD Pipeline](https://github.com/danilosullos-lang/Atena-IA/actions/workflows/atena-ci-and-update.yml/badge.svg)](https://github.com/danilosullos-lang/Atena-IA/actions/workflows/atena-ci-and-update.yml)
-[![Repository](https://img.shields.io/badge/repository-Atena--IA-blue)](https://github.com/danilosullos-lang/Atena-IA)
-[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![CI principal](https://github.com/danilosulos13-droid/Atena/actions/workflows/atena-ci-and-update.yml/badge.svg)](https://github.com/danilosulos13-droid/Atena/actions/workflows/atena-ci-and-update.yml)
+[![Licença MIT](https://img.shields.io/badge/licença-MIT-yellow.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/python-3.10--3.12-blue.svg)](https://www.python.org/downloads/)
 
-**ATENA Ω** é um sistema de IA autônomo avançado para execução de assistentes de terminal, missões autônomas e gates de qualidade com evolução segura de sistemas. Combinando arquitetura moderna de agentes, a ATENA integra execução local com capacidades avançadas de orquestração multi-LLM.
+> **Atena Especialista** é uma assistente experimental com texto, voz, memória persistente e ciclos controlados de aprendizagem. Ela pode pesquisar um tema, registrar evidências, resumir o que foi confirmado e responder pelo Telegram com fontes quando o fluxo de pesquisa estiver habilitado.
 
----
+O projeto é desenvolvido em Python e integra modelos locais via Ollama, provedores remotos opcionais, SQLite, pesquisa web, Telegram, Piper TTS e workflows do GitHub Actions.
 
-## 🏁 Status atual do projeto
+## Status real
 
-> A Atena é um sistema experimental de agentes com memória, planejamento, roteamento de modelos, gates de segurança e integrações controladas. Os benchmarks atuais **não comprovam AGI nem generalização perfeita**.
+Atena é um **protótipo avançado**, não um sistema AGI comprovado. Os ciclos autônomos geram observações, propostas e memória auditável; eles não transformam automaticamente qualquer texto recebido em conhecimento verdadeiro nem fazem autoalterações irrestritas no código.
 
-Os resultados devem ser interpretados pelos relatórios e testes reproduzíveis do repositório. A arquitetura possui capacidades de planejamento, recuperação de memória e execução de ferramentas em sandbox, mas ações reais continuam condicionadas a allowlists, credenciais e confirmação explícita.
+As capacidades atualmente verificadas no repositório são:
 
----
+- conversa local pelo terminal e pelo Telegram;
+- modelo local `qwen2.5:3b-instruct` via Ollama no workflow principal;
+- memória episódica e base de conhecimento em SQLite;
+- pesquisas com fontes públicas e relatórios auditáveis;
+- geração de propostas de aprendizagem;
+- gates de qualidade, testes e sandbox para reduzir regressões;
+- respostas de texto e mensagens de voz em português pelo Piper;
+- ciclos periódicos no GitHub Actions;
+- allowlist de chats do Telegram e registro de auditoria para ferramentas.
 
-## ✨ Características Principais
+Atena ainda **não** oferece, por padrão, atendimento Telegram 24 horas em um servidor permanente, isolamento completo por cliente, ingestão de gigabytes em produção, garantia de precisão profissional ou aprendizagem autônoma sem supervisão.
 
-- 🤖 **Assistente de Terminal Interativo** - Interface conversacional inteligente
-- 🚀 **Sistema de Missões Autônomas** - Execução assíncrona de tarefas complexas
-- 🛡️ **Gates de Segurança e Qualidade** - Validação automática robusta
-- 🧬 **Motor de Auto-Evolução** - Aprendizado contínuo e otimização
-- 🔄 **Orquestração Multi-LLM** - Suporte a OpenAI, Anthropic, modelos locais
-- 🔐 **Validação de Código Segura** - Proteção contra execução maliciosa
-- 📊 **Dashboard em Tempo Real** - Monitoramento e visualizações
-- 🧪 **Sistema de Testes Robusto** - Cobertura completa com pytest
+## O que ela pode fazer
 
----
+### Assistente especialista
 
-## 🚀 Início Rápido
+O usuário pode enviar um tema ou uma pergunta. A Atena pode pesquisar, organizar o material, separar evidências de hipóteses e registrar uma proposta para os próximos ciclos. A especialização deve ser tratada como uma combinação de **memória recuperável, fontes e instruções**, não como alteração automática dos pesos do modelo.
+
+Um uso recomendado é:
+
+```text
+Quero que você estude manutenção de painéis solares para me ajudar a interpretar manuais e responder dúvidas técnicas.
+```
+
+Para uso empresarial, a memória deve ser separada por usuário ou organização antes de receber dados confidenciais. Essa separação multi-tenant ainda é um item de produção, não uma promessa do protótipo atual.
+
+### Telegram
+
+A ponte `scripts/atena_telegram_chat.py` usa long polling e responde apenas a chats presentes em `ATENA_TELEGRAM_CHAT_ID`. Mensagens de outros chats são ignoradas.
+
+Comandos principais:
+
+| Comando | Função |
+|---|---|
+| `/start` | Inicia ou apresenta a conversa |
+| `/help` | Mostra ajuda |
+| `/status` | Informa o estado resumido da memória e do modelo |
+| `/aprendizagens` | Mostra a última aprendizagem em texto |
+| `/aprendizagens audio` | Gera e envia a última aprendizagem como voz |
+| `/modelo` | Mostra o backend e o modelo local |
+| `/capabilities` | Lista capacidades catalogadas |
+| `/reset` | Remove o histórico curto daquele chat |
+| `/pesquisar <tema>` | Enfileira uma pesquisa para o próximo ciclo |
+
+O listener local é um processo contínuo. O workflow do GitHub Actions mantém uma janela temporária de polling durante o ciclo; isso **não** equivale a um bot 24/7.
+
+### Voz
+
+A voz usa Piper e a configuração `pt_BR-faber-medium` no workflow de aprendizagem. O resumo textual é enviado primeiro e o áudio é enviado em seguida quando `ATENA_TELEGRAM_SEND_VOICE=1`.
+
+Para usar localmente:
+
+```bash
+export ATENA_PIPER_BIN=piper
+export ATENA_PIPER_MODEL=/caminho/para/pt_BR-faber-medium.onnx
+export ATENA_PIPER_CONFIG=/caminho/para/pt_BR-faber-medium.onnx.json
+```
+
+A geração ocorre localmente, o arquivo de áudio é enviado ao chat autorizado e removido depois do envio. Consulte [`docs/LEARNING_AUDIO.md`](docs/LEARNING_AUDIO.md) para detalhes.
+
+## Como a aprendizagem funciona
+
+O ciclo autônomo, em linhas gerais, executa estas etapas:
+
+1. restaura o runtime de memória e os módulos permitidos;
+2. inicia o modelo local e os serviços necessários;
+3. pesquisa ou processa sinais conforme a configuração do ciclo;
+4. gera observações, riscos, evidências e propostas;
+5. valida memória, testes, compilação e gates de qualidade;
+6. publica apenas o estado permitido na branch de autoevolução;
+7. envia um resumo textual e, quando habilitado, áudio pelo Telegram;
+8. arquiva relatórios e logs para auditoria.
+
+Uma proposta autônoma pode ser rejeitada por falta de evidência, alteração perigosa, ausência de testes, regressão ou falha de infraestrutura. O workflow de promoção não deve ser interpretado como prova de que toda conclusão da Atena está correta.
+
+## Arquitetura resumida
+
+```text
+Telegram / Terminal
+        |
+        v
+Roteador de tarefas e allowlists
+        |
+        +--> Ollama local: qwen2.5:3b-instruct
+        +--> Provedores remotos opcionais
+        +--> Pesquisa web e fontes públicas
+        |
+        v
+Memória SQLite + relatórios + histórico curto
+        |
+        v
+Ciclo de aprendizagem e gates determinísticos
+        |
+        +--> Texto Telegram
+        +--> Piper TTS -> áudio Telegram
+        +--> Proposta / artefato / PR
+```
+
+Os pesos do modelo não ficam versionados no repositório. O workflow principal instala Ollama e executa `ollama pull qwen2.5:3b-instruct` no runner. A memória persistida e os pesos do modelo são componentes diferentes: documentos e fatos devem ser armazenados em uma camada RAG escalável, não incorporados indiscriminadamente aos pesos.
+
+## Instalação local
 
 ### Requisitos
 
-- **Python 3.10+** (Python 3.11 recomendado)
-- **Git** para clonar o repositório
-- **Pip** para gerenciamento de pacotes
-- **(Opcional)** Chaves de API para OpenAI, Anthropic, etc.
+- Python `>=3.10,<3.13`;
+- Git;
+- Ollama para conversa local;
+- Piper e uma voz ONNX para áudio local;
+- dependências do arquivo de requisitos adequado ao uso;
+- Playwright somente para recursos de navegador;
+- hardware suficiente para o modelo escolhido.
 
-### Instalação em Windows 💻
+### Linux/macOS
 
 ```bash
-# Ir para uma pasta onde você quer baixar o projeto
-cd C:\Users\danilosullos-lang
-
-# Remover pasta existente (se existir)
-Remove-Item -Recurse -Force Atena-IA -ErrorAction SilentlyContinue
-
-# Clonar o repositório
-git clone https://github.com/danilosullos-lang/Atena-IA.git
-
-# Entrar na pasta
-cd Atena-IA
-
-# Instalar dependências de runtime e desenvolvimento
+git clone https://github.com/danilosulos13-droid/Atena.git
+cd Atena
+python3 -m venv .venv
+source .venv/bin/activate
 python -m pip install --upgrade pip
 python -m pip install -r setup/requirements-pinned.txt
 python -m pip install -r setup/requirements-dev.txt
-
-# Rodar o assistente
-python atena assistant
 ```
 
-### Instalação em Linux/macOS 🐧🍎
+Para instalar todos os extras conhecidos:
 
 ```bash
-# Vá para o diretório de projetos
-cd ~/projects
-
-# Remova qualquer diretório existente
-rm -rf Atena-IA
-
-# Clone o repositório
-git clone https://github.com/danilosullos-lang/Atena-IA.git
-
-# Entre no diretório
-cd Atena-IA
-
-# Crie um ambiente virtual (recomendado)
-python3 -m venv .venv
-source .venv/bin/activate
-
-# Instale as dependências
-pip install --upgrade pip
-pip install -r setup/requirements-pinned.txt
-pip install -r setup/requirements-dev.txt
-
-# (Opcional) Instale Playwright para o agente de navegador
-playwright install chromium
-
-# Execute o assistente
-./atena assistant
+python -m pip install -r setup/requirements-all.txt
 ```
 
+Para conferir o ambiente:
 
+```bash
+bash atena --doctor
+python -m pytest -q
+```
 
-### Quickstart Universal ✅
-
-Se você só quer funcionar rápido em qualquer ambiente:
+O bootstrap portátil também está disponível:
 
 ```bash
 python3 setup/bootstrap_portable.py --full-auto
 bash atena assistant
 ```
 
-Se estiver sem permissão de administrador, use:
+Use `--skip-system` quando não houver permissão para instalar pacotes do sistema. Recursos opcionais podem exigir os arquivos `setup/requirements-browser.txt`, `setup/requirements-voice.txt`, `setup/requirements-video.txt` ou `setup/requirements-math.txt`.
+
+### Ollama
+
+Instale o Ollama conforme a documentação oficial e prepare o modelo usado pela configuração atual:
 
 ```bash
-python3 setup/bootstrap_portable.py --full-auto --skip-system
+ollama serve
+ollama pull qwen2.5:3b-instruct
+```
+
+A configuração padrão do chat local é:
+
+```bash
+export ATENA_LOCAL_MODEL=qwen2.5:3b-instruct
+export ATENA_OLLAMA_CHAT_URL=http://127.0.0.1:11434/api/chat
+```
+
+Não troque o modelo padrão em produção apenas por download. Compare factualidade, português, código, memória, segurança, latência e consumo de RAM; depois faça a mudança por Pull Request.
+
+## Configuração do Telegram
+
+Nunca coloque token ou chat ID no código, no Git, em issues ou em mensagens públicas.
+
+```bash
+export ATENA_ROOT="$PWD"
+export ATENA_TELEGRAM_BOT_TOKEN='token-do-bot'
+export ATENA_TELEGRAM_CHAT_ID='id-do-chat-autorizado'
+export ATENA_LOCAL_MODEL='qwen2.5:3b-instruct'
+```
+
+O `ATENA_TELEGRAM_CHAT_ID` é uma allowlist. Ele deve ser o ID do usuário, grupo ou canal que receberá as mensagens, não o ID do próprio bot. O usuário precisa iniciar a conversa com o bot antes de receber mensagens privadas.
+
+Execução local:
+
+```bash
+python3 scripts/atena_telegram_chat.py
+```
+
+Para uma única leitura de updates:
+
+```bash
+python3 scripts/atena_telegram_chat.py --once
+```
+
+Para atendimento contínuo, mantenha esse processo em um serviço persistente com reinício automático, logs, health check, limites de recursos e backup da sessão. Não use GitHub Actions como substituto de um serviço 24/7.
+
+## Comandos do launcher
+
+```bash
+bash atena --help
+bash atena --doctor
 bash atena assistant
+bash atena research "pergunta com fontes"
+bash atena --auto
+bash atena self-test
+bash atena release-gate
+bash atena metrics
+bash atena model-download
 ```
 
-### Bootstrap Portátil (Linux/macOS/Windows/Colab) 🌍
+O launcher também expõe comandos experimentais de benchmark, treinamento em background, varredura GitHub e evolução. Comandos experimentais devem ser executados primeiro em branch e ambiente isolados.
 
-Para deixar a Atena pronta em qualquer ambiente, rode:
+## Pesquisa com fontes
+
+O fluxo de pesquisa pode consultar fontes públicas e gravar relatórios em `analysis_reports/research/`. Para síntese remota, configure o provedor correspondente; sem chave, a pesquisa pode retornar resultados e trechos sem inventar uma conclusão.
 
 ```bash
-python3 setup/bootstrap_portable.py --full-auto
+bash atena research "quais são os avanços recentes em agentes de IA"
 ```
 
-Modo simulação (não instala nada):
+Provedores opcionais incluem variáveis como `OPENAI_API_KEY`, `ATENA_TAVILY_API_KEY`, `ATENA_GOOGLE_API_KEY`, `ATENA_GOOGLE_CSE_ID` e `ATENA_BRAVE_SEARCH_API_KEY`. Segredos devem permanecer fora do repositório.
 
-> Dica: use `--skip-system` se estiver sem permissão de administrador.
+## Memória e ingestão de documentos
+
+Hoje o projeto usa SQLite e módulos de memória locais. Isso é suficiente para prototipagem, testes e coleções pequenas, mas não deve ser descrito como armazenamento empresarial de gigabytes.
+
+Para uma edição oficial, a evolução recomendada é:
+
+- armazenamento dos documentos originais em objeto persistente;
+- divisão em chunks com hash e deduplicação;
+- embeddings gerados em lotes;
+- índice vetorial persistente;
+- filtros por usuário, organização, fonte e versão;
+- citações e rastreabilidade por trecho;
+- exclusão e backup por tenant;
+- processamento em streaming, sem carregar arquivos inteiros na RAM.
+
+Atena pode ser especializada por assunto usando RAG sem alterar os pesos do modelo a cada mensagem. Fine-tuning/QLoRA deve ser reservado para dados estáveis, curados e avaliados, com rollback.
+
+## Workflows e operação
+
+Os workflows principais incluem:
+
+- `atena-ci-and-update.yml`: testes, ciclo de aprendizagem e notificações;
+- `atena-telegram-listener.yml`: janela temporária de polling do Telegram;
+- `atena-memory-health.yml`: saúde e rotação da memória;
+- `rotating-regression.yml`: regressão rotativa;
+- `selfmod-sandbox.yml`: validação isolada de auto-modificação;
+- `atena-qlora-1.5b.yml`: pipeline experimental de treinamento;
+- `sync-memory-supabase.yml`: sincronização opcional da memória aprovada;
+- `daily-news-digest.yml`: digest periódico de notícias;
+- `auto-promote-main.yml`: promoção controlada quando os gates permitem.
+
+Os workflows usam secrets do GitHub para Telegram e provedores externos. O diagnóstico e os logs devem mascarar tokens e nunca imprimir valores secretos.
+
+## Segurança e limites
+
+Atena foi desenhada para preferir ações controladas, mas não deve ser tratada como autoridade autônoma em decisões médicas, jurídicas, financeiras, governamentais ou de segurança física.
+
+Antes de produção, implemente ou confirme:
+
+- isolamento de memória por usuário/empresa;
+- autorização por ação, não apenas por chat;
+- aprovação humana para operações sensíveis;
+- limites de custo, tempo e requisições;
+- proteção contra prompt injection e conteúdo malicioso;
+- auditoria e retenção de logs;
+- backups testados e restauração;
+- atualização e rollback de modelos;
+- política de privacidade e tratamento de dados conforme a LGPD;
+- monitoramento 24/7 em infraestrutura persistente.
+
+O sistema pode pesquisar e propor uma evolução; isso não significa que uma proposta deva ser aplicada sem revisão. Ações externas, alterações de código, deploys e comandos destrutivos precisam continuar atrás de allowlists e confirmação apropriada.
+
+## Testes
+
+Execute a suíte completa no ambiente virtual:
 
 ```bash
-python3 setup/bootstrap_portable.py --full-auto --dry-run
+python -m pytest -q
 ```
 
-### Google Colab (corrigido) ☁️
-
-Se estiver dando erro no Colab, use o bootstrap pronto:
-
-> Importante: esse comando já faz o clone do repositório.
+Validações úteis:
 
 ```bash
-# Dentro do Colab
-!bash setup/colab_bootstrap.sh /content/projects/ATENA-IA
+python -m compileall -q api core modules scripts
+bash atena --doctor
+bash atena self-test
+git diff --check
 ```
 
-Depois execute:
+Mudanças em workflows devem ser validadas com um parser YAML e, quando possível, por uma execução real em branch. Nunca use um workflow de produção como único teste de um novo modelo ou integração.
 
-```bash
-!cd /content/projects/Atena-IA && bash atena doctor
-!cd /content/projects/Atena-IA && ATENA_AUTO_ENDPOINT_SETUP=false USER=colab bash atena assistant
-```
+## Roadmap para uma Atena oficial
 
-Uma célula única no Colab (clone + bootstrap + run):
+### Próximo ciclo
 
-```bash
-!mkdir -p /content/projects && cd /content/projects && rm -rf ATENA- && git clone https://github.com/danilosullos-lang/Atena-IA.git && bash /content/projects/ATENA-/setup/colab_bootstrap.sh /content/projects/Atena-IA && cd /content/projects/Atena-IA && ATENA_AUTO_ENDPOINT_SETUP=false USER=colab bash atena assistant
-```
+- serviço Telegram persistente, separado dos runners de CI;
+- memória vetorial persistente e ingestão em streaming;
+- isolamento por usuário/empresa;
+- painel de saúde, custos, fontes e aprovações;
+- testes de voz e pesquisa no CI;
+- documentação de instalação reproduzível.
 
-Uma célula Python alternativa (com fallback de `pip` no venv):
+### Depois da validação com usuários
 
-```python
-# Ir para uma pasta onde você quer baixar o projeto
-# Colab usa um ambiente Linux, então caminhos Windows como C:\Users não são válidos.
-# Usaremos /content como um diretório de trabalho comum no Colab.
-%cd /content
+- planos e limites por organização;
+- backup e restauração self-service;
+- observabilidade e alertas;
+- processo de incidentes e suporte;
+- revisão jurídica, marca, termos e política de privacidade;
+- fine-tuning somente com dataset curado e benchmark de regressão.
 
-# Remover pasta existente (se existir)
-# 'Remove-Item' é um comando PowerShell. No Linux, 'rm -rf' é usado.
-!rm -rf Atena-IA
+## Licença
 
-# Clonar o repositório
-!git clone https://github.com/danilosullos-lang/Atena-IA.git
+Este projeto é distribuído sob a licença MIT. Consulte [`LICENSE`](LICENSE). A licença do código não substitui as licenças dos modelos, vozes, fontes, APIs ou documentos processados.
 
-# Entrar na pasta
-%cd Atena-IA
+## Documentação complementar
 
-# Ir para setup
-%cd setup
+- [`docs/telegram-chat-bridge.md`](docs/telegram-chat-bridge.md): ponte Telegram e operação contínua;
+- [`docs/LEARNING_AUDIO.md`](docs/LEARNING_AUDIO.md): geração e envio de voz;
+- [`docs/LLM_ROUTING_AND_OLLAMA.md`](docs/LLM_ROUTING_AND_OLLAMA.md): roteamento e modelos locais;
+- [`docs/MASS_INGESTION_REPORT.md`](docs/MASS_INGESTION_REPORT.md): relatório histórico de ingestão, não garantia de capacidade de produção;
+- [`docs/production_essentials_recommendations.md`](docs/production_essentials_recommendations.md): recomendações de produção.
 
-# Instalar dependências
-!pip install -r requirements-pinned.txt
-!pip install -r requirements-dev.txt
+## Contribuição
 
-# Voltar para raiz
-%cd ..
+Abra uma issue descrevendo o problema e incluindo passos reproduzíveis. Para alterações de código, use uma branch, adicione testes, execute a suíte local e abra um Pull Request. Não inclua tokens, bases privadas, sessões do Telegram, documentos confidenciais ou pesos de modelos no commit.
 
-# Conceder permissão de execução ao script 'atena'
-!chmod +x atena
+O repositório oficial desta documentação é:
 
-# Rodar o assistente
-# '.\atena assistant' é um caminho de executável Windows.
-# Assumindo que 'atena' é um executável ou script disponibilizado após a instalação via pip,
-# podemos tentar executá-lo diretamente.
-# O executável 'atena' está na raiz do repositório, então usamos './atena'
-!./atena assistant
-```
+<https://github.com/danilosulos13-droid/Atena>
 
-> Dica: no Colab prefira `bash atena ...` em vez de `./atena ...` para evitar erro de permissão em alguns mounts.
 
-### Instalação em Android (Termux) 📱
+## Runtime persistente e orquestração local
 
-```bash
-# Atualizar pacotes
-pkg update && pkg upgrade -y
+A camada `core/atena_runtime.py` adiciona um runtime persistente para uma instância própria da Atena. Ela inclui:
 
-# Instalar dependências
-pkg install git python clang make -y
+- fila SQLite durável para tarefas;
+- worker assíncrono com estados `queued`, `running`, `succeeded` e `failed`;
+- eventos de execução para auditoria;
+- registro de conectores sem persistir tokens ou senhas;
+- sessão persistente do navegador Playwright em `ATENA_BROWSER_PROFILE_DIR`;
+- endpoints de saúde, tarefas e conectores na API FastAPI.
 
-# Clonar o repositório
-git clone https://github.com/danilosullos-lang/Atena-IA.git
-
-# Acessar a pasta correta (ajustado para o repositório)
-cd Atena-IA
-
-# Instalar requisitos de runtime
-python -m pip install -r setup/requirements-pinned.txt
-
-# Dependências de desenvolvimento são opcionais no Android
-# python -m pip install -r setup/requirements-dev.txt
-
-```
-
-### Verificação de Instalação
-
-```bash
-# Verificar se ambiente está pronto
-./atena doctor
-
-# Deve mostrar status de todos os componentes
-```
-
-### Pesquisa web com síntese e citações
-
-A Atena agora possui um fluxo de pesquisa profunda que decompõe a pergunta,
-consulta fontes públicas, tenta ler as páginas encontradas, sintetiza somente o
-conteúdo recuperado e salva relatórios auditáveis em JSON e Markdown. Para usar
-diretamente no terminal:
-
-```bash
-./atena research "quais são os avanços recentes em agentes de IA"
-```
-
-No assistente interativo, use `/research <pergunta ou tema>`. O endpoint
-`POST /api/research` aceita `question`, `topic`, `limit_per_query`,
-`max_sources` e `use_llm`. O chat também encaminha pedidos explícitos de
-pesquisa para esse fluxo.
-
-Para obter síntese narrativa, configure `OPENAI_API_KEY` e, opcionalmente,
-`ATENA_RESEARCH_MODEL` (o padrão é `gpt-5-mini`). A pesquisa continua
-funcionando sem uma chave, entregando os trechos encontrados sem inventar uma
-conclusão. Provedores de busca opcionais: `ATENA_TAVILY_API_KEY`,
-`ATENA_GOOGLE_API_KEY` com `ATENA_GOOGLE_CSE_ID` e
-`ATENA_BRAVE_SEARCH_API_KEY`. Os relatórios são gravados em
-`analysis_reports/research/` por padrão.
-
-### Roteador geral de ferramentas e navegador interativo
-
-A API também expõe um roteador allowlisted para pesquisa, memória, testes de
-código e navegação web. Todas as chamadas são auditadas; URLs precisam usar
-`http` ou `https`, e operações que podem alterar uma página (`browser.click` e
-`browser.fill`) exigem `approval: true`.
-
-```bash
-# Listar capacidades disponíveis
-curl http://127.0.0.1:8000/api/tools
-
-# Abrir uma página pública
-curl -X POST http://127.0.0.1:8000/api/tools/execute \
-  -H 'Content-Type: application/json' \
-  -d '{"name":"browser.navigate","arguments":{"url":"https://example.com"}}'
-
-# Ler a página atual
-curl -X POST http://127.0.0.1:8000/api/tools/execute \
-  -H 'Content-Type: application/json' \
-  -d '{"name":"browser.view","arguments":{}}'
-```
-
-O backend real usa Playwright e mantém uma sessão enquanto o processo da API
-estiver ativo. Instale-o com `python3 -m pip install -r
-setup/requirements-browser.txt` e depois `python3 -m playwright install chromium`.
-O navegador não recebe credenciais automaticamente, não faz login e não envia
-formulários sem aprovação explícita. O arquivo de auditoria padrão é
-`atena_evolution/tool_router_audit.jsonl`.
-
----
-
-## 🎮 Uso
-
-### Comandos Principais
-
-| Comando | Descrição | Exemplo |
-|---------|-----------|---------|
-| `./atena assistant` | Inicia assistente interativo | `./atena assistant` |
-| `./atena doctor` | Diagnóstico de ambiente | `./atena doctor` |
-| `./atena guardian` | Gate de segurança essencial | `./atena guardian` |
-| `./atena production-ready` | Validação completa para release | `./atena production-ready` |
-| `./atena hacker-recon --topic <tópico>` | Executa Hacker Recon avançado (batch, paralelo, retries, score, histórico adaptativo, `--json`, `--output-json`, `--timeout`) | `./atena hacker-recon --batch-file topics.txt --parallel 3 --retries 1 --prioritize-history --json --output-json analysis_reports/recon.json` |
-| `/api-scan <tarefa>` | Escaneia APIs públicas e retorna ranking por aderência | `/api-scan "agenda de futebol e resultados"` |
-| `/api-filter <tarefa>` | Filtra Top APIs por tarefa/pergunta com score | `/api-filter "criar agente programável com SDK"` |
-| `/api-pick <tarefa>` | Escolhe 1 API e já gera exemplo de request | `/api-pick "cotação de moedas em tempo real"` |
-| `./atena code-build` | Gerador automático de projetos | `./atena code-build --type api` |
-| `./atena research-lab` | Propostas de evolução | `./atena research-lab` |
-| `./atena future-ai` | Gera inovação técnica; inclui `app-food-delivery-complete` para app completo de delivery com backend + mobile | `./atena future-ai --mode app-food-delivery-complete --topic "delivery de comida" --json` |
-| `./atena go-no-go` | Checklist pré-divulgação | `./atena go-no-go` |
-| `./atena agi-uplift` | Missão AGI interna (memória/eval/segurança) | `./atena agi-uplift` |
-| `./atena agi-external-validation` | Validação AGI externa independente | `./atena agi-external-validation` |
-| `./atena digital-organism-audit` | Auditoria automática de maturidade como organismo digital | `./atena digital-organism-audit` |
-| `./atena digital-organism-live-cycle` | Aprende na internet, cria software, executa/testa, auto-recupera falhas e roda em daemon; use `--challenge-level agi-only` para tarefa extremamente difícil | `./atena digital-organism-live-cycle --challenge-level agi-only --iterations 3 --batches 2 --strict --recovery-attempts 2` |
-| `/vulnerability-scan [repo\|system]` | Varredura defensiva local de vulnerabilidades com relatório Markdown/JSON | `/vulnerability-scan repo` |
-
-> CI evolução: o workflow `ATENA-EVO` agora inclui um *stagnation guard* que reduz ciclos e ativa `--checker` quando detecta plateau de mutações.
-
-### Exemplos de Uso
-
-#### 0. Modo Computador — Varredura de Códigos
-
-```bash
-# Executa o modo computador da ATENA e salva artefatos de varredura + diff incremental em analysis_reports/
-bash scripts/run_computer_mode_code_scan.sh
-
-# Modo profundo: adiciona diff por hash de conteúdo dos arquivos de código
-bash scripts/run_computer_mode_code_scan.sh --deep-hash
-```
-
-#### 1. Assistente Interativo
-
-```bash
-./atena assistant
-
-# Interface conversacional
-> Olá ATENA!
-ATENA: Olá! Como posso ajudar hoje?
-
-> Crie uma API REST em FastAPI
-ATENA: Gerando projeto FastAPI...
-✅ Projeto criado em ./output/api_project/
-```
-
-#### 1.1 Varredura Defensiva de Vulnerabilidades
-
-Dentro do assistente interativo, a Atena pode procurar vulnerabilidades no repositório local e gerar relatórios em `analysis_reports/`:
+Endpoints principais:
 
 ```text
-/vulnerability-scan repo
+GET  /healthz
+GET  /api/runtime/health
+POST /api/runtime/tasks
+GET  /api/runtime/tasks
+GET  /api/runtime/tasks/{task_id}
+POST /api/runtime/connectors
+GET  /api/runtime/connectors
 ```
 
-Para incluir checagens locais de configuração do sistema (sem exploração ativa de terceiros):
-
-```text
-/vulnerability-scan system
-```
-
-O relatório consolida achados de análise estática Python, dependências, auditoria de segredos, marcadores de risco no código e, quando disponível, auditoria do dashboard via `pnpm audit`.
-
-#### 2. Executar Missão Específica
-
-```python
-# Em Python
-from protocols.atena_invoke import run_mission
-
-result = await run_mission(
-    mission_type="code_build",
-    params={
-        "project_type": "api",
-        "framework": "fastapi"
-    }
-)
-```
-
-#### 3. Resolver problema complexo com subagente especialista
+Uma tarefa de pesquisa pode ser enfileirada assim:
 
 ```bash
-./atena production-center subagent-solve --problem "Invente um algoritmo que ordene números usando apenas operações de comparação, mas sem if/else ou operadores ternários; explorar truques com min/max e arrays"
+curl -X POST http://127.0.0.1:8000/api/runtime/tasks \
+  -H 'Content-Type: application/json' \
+  -d '{"kind":"research","payload":{"question":"Compare RAG e fine-tuning para documentação empresarial","max_sources":8}}'
 ```
 
-Saída esperada (resumida): `status: ok`, `subagent: specialist-solver`, plano incremental, recomendações de rollout e `contract_valid: true`.
+A fila é persistente, mas o runtime ainda é uma implantação **single-node**. Para alta disponibilidade são necessários um banco compartilhado, fila externa, múltiplos workers, locks distribuídos, autenticação da API e observabilidade centralizada.
 
-#### 4. Validação de Código
+### Executar como serviço
 
-```python
-from core.security_validator import validate_code_safe, SecurityLevel
-
-code = """
-def hello():
-    return "Hello, World!"
-"""
-
-is_valid, violations = validate_code_safe(code, SecurityLevel.STANDARD)
-if is_valid:
-    print("✅ Código seguro!")
-else:
-    print(f"❌ Violações: {violations}")
-```
-
----
-
-## 📂 Estrutura do Projeto
-
-```
-ATENA-/
-├── 📁 core/                    # Núcleo executivo
-│   ├── main.py                # Motor principal
-│   ├── atena_pipeline.py      # Pipeline de processamento
-│   ├── atena_launcher.py      # Ponto de entrada
-│   ├── security_validator.py  # ✨ Validação de segurança
-│   └── [30+ módulos]
-│
-├── 📁 modules/                 # Módulos funcionais
-│   ├── atena_engine.py        # Motor auxiliar
-│   ├── atena_codex.py         # Gerador de código
-│   ├── atena_browser_agent.py # Automação web
-│   ├── atena_tasks.py         # Executor de tarefas
-│   └── [50+ módulos]
-│
-├── 📁 protocols/               # Missões e protocolos
-│   ├── atena_invoke.py        # Orquestrador
-│   └── [20+ missões]
-│
-├── 📁 tests/                   # ✨ Testes completos
-│   ├── unit/                  # Testes unitários
-│   ├── integration/           # Testes de integração
-│   ├── e2e/                   # Testes end-to-end
-│   └── conftest.py            # Fixtures compartilhadas
-│
-├── 📁 setup/                   # Instalação
-│   ├── requirements.txt       # Dependências originais
-│   ├── requirements-pinned.txt # ✨ Versões pinadas
-│   └── requirements-dev.txt   # ✨ Ferramentas de dev
-│
-├── 📁 docs/                    # Documentação
-├── 📁 atena_evolution/         # Estado e evolução
-├── 📁 reference_dna/           # Interface React/TS
-│
-├── .env.example               # ✨ Template de configuração
-├── .gitignore                 # ✨ Atualizado com segurança
-├── .pre-commit-config.yaml    # ✨ Hooks de qualidade
-├── pyproject.toml             # ✨ Configuração do projeto
-├── README.md                  # ✨ Este arquivo
-└── LICENSE                    # Licença MIT
-```
-
----
-
-## 🔧 Desenvolvimento
-
-### Configurando Ambiente de Desenvolvimento
+Em uma máquina Ubuntu persistente, adapte `deploy/atena-runtime.service`, instale o projeto em `/opt/atena`, crie `/etc/atena/atena.env` a partir de [`deploy/atena.env.example`](deploy/atena.env.example) e então:
 
 ```bash
-# Instalar ferramentas de desenvolvimento
-pip install -r setup/requirements-dev.txt
-
-# Configurar pre-commit hooks
-pre-commit install
-
-# Executar formatação
-black core/ modules/ protocols/
-isort core/ modules/ protocols/
-
-# Executar linting
-pylint core/ modules/ --fail-under=7.0
-flake8 core/ modules/ protocols/
-
-# Executar type checking
-mypy core/ modules/ --ignore-missing-imports
+sudo install -d -m 0750 /etc/atena /var/lib/atena
+sudo install -m 0644 deploy/atena-runtime.service /etc/systemd/system/atena-runtime.service
+sudo chmod 600 /etc/atena/atena.env
+sudo systemctl daemon-reload
+sudo systemctl enable --now atena-runtime
+curl http://127.0.0.1:8000/healthz
 ```
 
-### Executando Testes
+O serviço não substitui a configuração de firewall, TLS, autenticação, backup, segredo externo ou monitoramento necessários para produção pública.
 
-```bash
-# Todos os testes
-pytest
-
-# Apenas testes unitários
-pytest tests/unit/ -v
-
-# Com cobertura
-pytest --cov=core --cov=modules --cov-report=html
-
-# Testes específicos
-pytest tests/unit/test_atena_engine.py -v
-
-# Testes lentos (marcados com @pytest.mark.slow)
-pytest -m "not slow"  # Pula testes lentos
-pytest -m slow        # Apenas testes lentos
-```
-
-### Verificação de Qualidade
-
-```bash
-# Executar todas as verificações
-./scripts/run_quality_checks.sh
-
-# Ou manualmente:
-black --check core/ modules/
-pylint core/ modules/
-mypy core/ modules/
-bandit -r core/ modules/
-pytest --cov=core --cov=modules
-```
-
----
-
-## 🛡️ Fluxo de Qualidade (CI/CD)
-
-Para garantir estabilidade, use o fluxo recomendado antes de qualquer alteração importante:
-
-```bash
-# 1. Verificar ambiente
-./atena doctor
-
-# 2. Executar testes
-pytest
-
-# 3. Verificar segurança
-./atena guardian
-
-# 4. Validação final
-./atena production-ready
-```
-
-### Pipeline CI/CD
-
-O projeto inclui pipeline completo de CI/CD com GitHub Actions:
-
-- ✅ **Linting** - Black, isort, flake8, pylint
-- ✅ **Type Checking** - mypy
-- ✅ **Security Scan** - Bandit, Safety
-- ✅ **Unit Tests** - pytest com cobertura
-- ✅ **Integration Tests** - Testes de integração
-- ✅ **Build Check** - Verificação de build
-
----
-
-## 🔐 Segurança
-
-### Validação de Código
-
-ATENA inclui validação robusta de código para prevenir execução maliciosa:
-
-```python
-from core.security_validator import CodeSecurityValidator, SecurityLevel
-
-validator = CodeSecurityValidator(SecurityLevel.STRICT)
-result = validator.validate(user_code)
-
-if not result.is_valid:
-    print(f"❌ Código rejeitado:")
-    for violation in result.violations:
-        print(f"  - {violation}")
-```
-
-### Níveis de Segurança
-
-- **STRICT** - Máxima segurança, funcionalidade mínima
-- **STANDARD** - Balanceado (padrão)
-- **PERMISSIVE** - Menos restrições (use com cuidado)
-
-### Proteções Implementadas
-
-- ✅ Bloqueio de imports perigosos (os, sys, subprocess, etc.)
-- ✅ Bloqueio de funções builtin perigosas (exec, eval, __import__)
-- ✅ Validação de AST antes de execução
-- ✅ Sandbox isolado para execução
-- ✅ Timeout configurável
-- ✅ Limite de recursos (memória, CPU)
-
----
-
-## 📊 Monitoramento e Telemetria
-
-### Dashboard Local
-
-```bash
-# Iniciar dashboard Streamlit
-streamlit run atena_live_dashboard.py
-
-# Acessar em http://localhost:8501
-```
-
-### Métricas Disponíveis
-
-- Taxa de sucesso de missões
-- Tempo médio de execução
-- Gerações de evolução
-- Score de qualidade
-- Uso de recursos
-
----
-
-## 🤝 Contribuindo
-
-Contribuições são bem-vindas! Por favor:
-
-1. Fork o projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
-3. Execute os testes (`pytest`)
-4. Execute verificações de qualidade (`black`, `pylint`, `mypy`)
-5. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-6. Push para a branch (`git push origin feature/AmazingFeature`)
-7. Abra um Pull Request
-
-### Checklist para PRs
-
-- [ ] Testes passando (`pytest`)
-- [ ] Cobertura >60% para código novo
-- [ ] Linting sem erros (`black`, `pylint`)
-- [ ] Type hints adicionados
-- [ ] Documentação atualizada
-- [ ] Changelog atualizado
-
----
-
-## 📝 Changelog
-
-### v3.2.0 (2026-04-14) - Melhorias de Qualidade ✨
-
-**Adicionado:**
-- ✨ Sistema completo de testes (pytest)
-- ✨ Validação de código com AST
-- ✨ CI/CD pipeline com GitHub Actions
-- ✨ Pre-commit hooks para qualidade
-- ✨ Dependências pinadas para estabilidade
-- ✨ Configuração .env para segurança
-- ✨ Type hints e documentação melhorada
-
-**Melhorado:**
-- 🔧 .gitignore com proteções de segurança
-- 🔧 Estrutura de diretórios organizada
-- 🔧 README expandido e atualizado
-- 🔧 Configuração pyproject.toml
-
-**Segurança:**
-- 🔐 Proteção contra código malicioso
-- 🔐 Validação de imports
-- 🔐 Sandbox melhorado
-
-### v3.1.0 - Versão Original
-
-- Implementação inicial do motor de evolução
-- Assistente de terminal
-- Sistema de missões
-
----
-
-## 📚 Documentação
-
-Para documentação detalhada, consulte:
-
-- [Análise Completa](analysis_reports/ATENA_Analise_Completa.md)
-- [Guia de Implementação](analysis_reports/ATENA_Guia_Implementacao.md)
-- [Roadmap Executivo](analysis_reports/ATENA_Roadmap_Executivo.md)
-- [Modo Manual Internet](analysis_reports/ATENA_Modo_Manual_Internet.md)
-
----
-
-## 📜 Licença
-
-Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
-
----
-
-## 👥 Equipe
-
-**Desenvolvido por:** Danilo AtenaAuto Team
-
----
-
-## 🙏 Agradecimentos
-
-- Comunidade Python
-- Criadores do FastAPI, Streamlit, PyTorch
-- Todos os contribuidores open-source
-
----
-
-## 📞 Suporte
-
-Para questões e suporte:
-
-- 📧 Issues: [GitHub Issues](https://github.com/AtenaAuto/ATENA-/issues)
-- 📖 Documentação: [Wiki](https://github.com/AtenaAuto/ATENA-/wiki)
-- 💬 Discussões: [GitHub Discussions](https://github.com/AtenaAuto/ATENA-/discussions)
-
----
-
-<div align="center">
-
-**⚡ Feito com 💙 e Python**
-
-[⬆ Voltar ao topo](#-atena-ω-atena-code-v320)
-
-</div>
-
-## Aprendizagem autônoma v5
-
-A ATENA agora possui uma camada dedicada para fechar o ciclo de melhoria de forma auditável:
-
-`experiência → evidência → dataset → LoRA opcional → avaliação → promoção controlada`.
-
-- `core/autonomous_learning.py` mantém o ledger idempotente e constrói datasets.
-- `scripts/atena_autonomous_learning.py` executa `collect`, `train` e `cycle`.
-- `setup/requirements-autonomous-learning.txt` contém o stack de fine-tuning.
-- `setup/requirements-all.txt` reúne todos os grupos de dependências.
-- O workflow `.github/workflows/atena-evolution-agent.yml` foi corrigido para YAML válido e não recebe permissão de escrita no repositório.
-
-### Instalação completa
-
-```bash
-python setup/install.py --all --apply
-```
-
-### Evolução contínua
-
-```bash
-python scripts/atena_autonomous_learning.py cycle
-```
-
-O treino de pesos/adaptadores permanece opt-in. Configure `ATENA_TRAIN_MODEL` e `ATENA_AUTOTRAIN=1` somente em uma máquina preparada para treinamento. Um modelo candidato nunca é considerado melhor apenas porque reduziu a loss de treino: a promoção deve passar pelos benchmarks e gates de segurança/regressão existentes.
-
-## Base de conhecimento geral
-
-Atena agora possui uma base persistente de conhecimento no mesmo SQLite: pesquisa por assunto, coleta páginas públicas, deduplica por hash, divide em trechos e indexa com FTS5. O fluxo é geral (ciência, tecnologia, negócios, história, direito/advocacia etc.) e, para temas jurídicos, amplia a busca para legislação, jurisprudência e fontes oficiais brasileiras.
-
-```bash
-python scripts/atena_research.py "responsabilidade civil no Brasil" --topic direito
-python scripts/atena_research.py --search "responsabilidade civil"
-python scripts/atena_research.py --stats
-```
-
-A base guarda proveniência (URL, título, tópico, consulta e data). Conhecimento externo não é tratado como instrução executável. Em temas jurídicos, a Atena deve apresentar fonte, data de consulta e ressalvas quando houver conflito; pesquisa não substitui aconselhamento jurídico profissional.
-
-## GitHub Actions validation
-
-The repository includes a dedicated static validation workflow and an autonomous-learning workflow. Training remains opt-in and is gated behind a configured `ATENA_TRAIN_MODEL`; CI does not silently replace the base model.
-
-
-## Research Agent e Protocolo de Conhecimento
-
-Atena agora possui um agente de pesquisa multiassunto em `core/research_agent.py`, com decomposição de consultas, busca diversificada, ranking de fontes primárias, detecção conservadora de possíveis conflitos e persistência de proveniência na Knowledge Base. CLI:
-
-```bash
-python scripts/atena_research_agent.py "responsabilidade civil no Brasil" --topic direito
-python scripts/atena_research_agent.py "estado atual da computação quântica" --json
-```
-
-As regras de evidência, atualização, incerteza e aprendizado estão consolidadas em `ATENA_KNOWLEDGE_PROTOCOL.md`.
+Quando a API não estiver limitada a `127.0.0.1`, configure `ATENA_API_TOKEN`. Os endpoints operacionais aceitam esse valor em `X-Atena-Token` ou como `Authorization: Bearer ...`. Não exponha a API sem TLS, autenticação e um proxy com limites de requisição.

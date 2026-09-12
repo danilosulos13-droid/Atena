@@ -1,0 +1,25 @@
+[Unit]
+Description=Atena persistent runtime and Telegram/browser orchestration
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/opt/atena
+EnvironmentFile=-/etc/atena/atena.env
+Environment=PYTHONPATH=/opt/atena
+Environment=ATENA_RUNTIME_DB=/var/lib/atena/runtime.sqlite3
+Environment=ATENA_BROWSER_PROFILE_DIR=/var/lib/atena/browser-profile
+ExecStart=/opt/atena/.venv/bin/uvicorn api.main:app --host 127.0.0.1 --port 8000
+Restart=always
+RestartSec=5
+TimeoutStopSec=30
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ReadWritePaths=/opt/atena/atena_evolution /var/lib/atena
+
+[Install]
+WantedBy=multi-user.target
