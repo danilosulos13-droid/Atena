@@ -422,8 +422,28 @@ Trace da validação PlannerExecutorCritic:
         return parse_model_json(response.content), response.provider, response.model
     except Exception as router_exc:
         # Compatibilidade operacional: se o roteador não puder ser inicializado,
-        # tenta o endpoint nativo local sem alterar o contrato do ciclo.
-        print(f"roteador multi-API indisponível; fallback Ollama: {type(router_exc).__name__}", file=sys.stderr)
+        # tenta primeiro o proxy OpenAI configurado e depois o endpoint local.
+        print(f"roteador multi-API indisponível; tentando fallback OpenAI/Ollama: {type(router_exc).__name__}", file=sys.stderr)
+
+    # O ciclo não deve falhar apenas porque Ollama não está instalado ou
+    # iniciado. O proxy OpenAI é o fallback operacional já usado pela CI;
+    # a saída continua sujeita ao mesmo parse_model_json e aos mesmos gates.
+    if os.getenv("OPENAI_API_KEY"):
+        try:
+            from openai import OpenAI
+            client = OpenAI()
+            model = os.getenv("ATENA_CYCLE_OPENAI_MODEL", "gpt-5-mini")
+            response = client.chat.completions.create(
+                model=model,
+                messages=[{"role": "user", "content": prompt}],
+                temperature=0.1,
+                max_completion_tokens=1800,
+                extra_body={"reasoning": {"effort": os.getenv("ATENA_CYCLE_REASONING", "minimal")}},
+            )
+            content = response.choices[0].message.content or ""
+            return parse_model_json(content), "openai", model
+        except Exception as openai_exc:
+            print(f"fallback OpenAI indisponível: {type(openai_exc).__name__}", file=sys.stderr)
 
     host = os.getenv("OLLAMA_HOST", "http://127.0.0.1:11434").rstrip("/")
     payload = {
