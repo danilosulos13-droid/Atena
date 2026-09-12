@@ -250,6 +250,35 @@ conclusão. Provedores de busca opcionais: `ATENA_TAVILY_API_KEY`,
 `ATENA_BRAVE_SEARCH_API_KEY`. Os relatórios são gravados em
 `analysis_reports/research/` por padrão.
 
+### Roteador geral de ferramentas e navegador interativo
+
+A API também expõe um roteador allowlisted para pesquisa, memória, testes de
+código e navegação web. Todas as chamadas são auditadas; URLs precisam usar
+`http` ou `https`, e operações que podem alterar uma página (`browser.click` e
+`browser.fill`) exigem `approval: true`.
+
+```bash
+# Listar capacidades disponíveis
+curl http://127.0.0.1:8000/api/tools
+
+# Abrir uma página pública
+curl -X POST http://127.0.0.1:8000/api/tools/execute \
+  -H 'Content-Type: application/json' \
+  -d '{"name":"browser.navigate","arguments":{"url":"https://example.com"}}'
+
+# Ler a página atual
+curl -X POST http://127.0.0.1:8000/api/tools/execute \
+  -H 'Content-Type: application/json' \
+  -d '{"name":"browser.view","arguments":{}}'
+```
+
+O backend real usa Playwright e mantém uma sessão enquanto o processo da API
+estiver ativo. Instale-o com `python3 -m pip install -r
+setup/requirements-browser.txt` e depois `python3 -m playwright install chromium`.
+O navegador não recebe credenciais automaticamente, não faz login e não envia
+formulários sem aprovação explícita. O arquivo de auditoria padrão é
+`atena_evolution/tool_router_audit.jsonl`.
+
 ---
 
 ## 🎮 Uso

@@ -22,6 +22,7 @@ from contextlib import asynccontextmanager
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
+from pathlib import Path
 from typing import Dict, List, Optional, Any, Tuple
 
 # --- CONFIGURAÇÃO DE LOGGING ---
@@ -57,13 +58,15 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.concurrency import run_in_threadpool
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from api.dashboard_html import get_dashboard_html
 from api.connectors_api import router as connectors_router
 from core.research_orchestrator import ResearchError, run_deep_research
+from core.general_tool_router import GeneralToolRouter
 
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
 app.include_router(connectors_router)
+TOOL_ROUTER = GeneralToolRouter(audit_path=Path(os.getenv("ATENA_TOOL_ROUTER_AUDIT", "atena_evolution/tool_router_audit.jsonl")))
 
 
 class ChatRequest(BaseModel):
@@ -81,10 +84,34 @@ class ResearchRequest(BaseModel):
     max_sources: int = 12
     use_llm: bool = True
 
+
+class ToolExecutionRequest(BaseModel):
+    name: str
+    arguments: dict[str, Any] = Field(default_factory=dict)
+    approval: bool = False
+
 # --- ENDPOINTS ---
 @app.get("/healthz")
 async def healthz():
     return {"status": "healthy", "version": "10.2.0"}
+
+
+@app.get("/api/tools")
+async def list_tools():
+    """Lista capacidades disponíveis sem expor credenciais ou estado de sessão."""
+    return {"tools": [policy.__dict__ for policy in TOOL_ROUTER.POLICIES.values()]}
+
+
+@app.post("/api/tools/execute")
+async def execute_tool(request: ToolExecutionRequest):
+    """Executa uma ferramenta allowlisted; browser.write exige approval=true."""
+    result = await run_in_threadpool(
+        TOOL_ROUTER.dispatch,
+        request.name,
+        request.arguments,
+        approval=request.approval,
+    )
+    return result.__dict__
 
 # --- NOVOS ENDPOINTS DE CONSCIÊNCIA (ADICIONADOS) ---
 @app.get("/api/consciousness/state")

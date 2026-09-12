@@ -1,0 +1,2 @@
+# Navegador interativo opcional da Atena
+playwright>=1.40,<2.0
