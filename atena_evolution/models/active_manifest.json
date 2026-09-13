@@ -1,10 +1,10 @@
 {
   "status": "active",
-  "release_id": "34670886045-664ac81f5bf8",
-  "created_at": "2026-09-12T03:43:40.543499+00:00",
+  "release_id": "34735950669-08b8d513f78f",
+  "created_at": "2026-09-13T05:15:21.039681+00:00",
   "base_model": "Qwen/Qwen2.5-0.5B-Instruct",
   "active_path": "atena_evolution/models/active",
-  "release_path": "atena_evolution/models/releases/34670886045-664ac81f5bf8",
+  "release_path": "atena_evolution/models/releases/34735950669-08b8d513f78f",
   "files": [
     {
       "path": "README.md",
@@ -14,12 +14,12 @@
     {
       "path": "adapter_config.json",
       "bytes": 1110,
-      "sha256": "3c9fbd4b7a84c044a24851e161b215824661d559c5fa56ff058507b8f6e5fa82"
+      "sha256": "d70b8879e9b6eacc4ff6c2b172b4868bb3c50af00213fab09f2f769921d08614"
     },
     {
       "path": "adapter_model.safetensors",
       "bytes": 8676008,
-      "sha256": "7170dd9d0344677445ed6f26fe3a5c2f73d4cd97cea2932794559e31baf3710c"
+      "sha256": "e9207d26208cefe746ed50f57f7531fb380f7c4fdabdcc2292616012762b13e9"
     },
     {
       "path": "chat_template.jinja",
