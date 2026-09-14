@@ -15,6 +15,11 @@ on:
         required: false
         default: "64"
         type: string
+      focus_query:
+        description: "Temas prioritários para a coleta de pesquisa do ciclo"
+        required: false
+        default: "artificial intelligence machine learning deep learning natural language processing NLP language models LLM agents reasoning alignment evaluation"
+        type: string
 
 permissions:
   contents: write
@@ -36,6 +41,7 @@ jobs:
       ATENA_TRAIN_MODEL: "Qwen/Qwen2.5-0.5B-Instruct"
       ATENA_MIN_TRAIN_EXAMPLES: ${{ inputs.min_train_examples || '64' }}
       ATENA_MAX_TRAIN_EXAMPLES: ${{ inputs.max_train_examples || '64' }}
+      ATENA_FOCUS_QUERY: ${{ inputs.focus_query || 'artificial intelligence machine learning deep learning natural language processing NLP language models LLM agents reasoning alignment evaluation' }}
       ATENA_AUTOTRAIN: "1"
       ATENA_TRAIN_EPOCHS: "1"
       ATENA_TRAIN_BATCH_SIZE: "1"
@@ -88,7 +94,7 @@ jobs:
 
       - name: Pesquisar fontes RSS autônomas e persistir links
         run: |
-          python scripts/fetch_research_sources.py --max-sources 100 --limit-per-source 10 --max-pages 1000 --workers 16 --timeout 12 | tee /tmp/atena-research.json
+          python scripts/fetch_research_sources.py --query "${ATENA_FOCUS_QUERY}" --max-sources 100 --limit-per-source 10 --max-pages 1000 --workers 16 --timeout 12 | tee /tmp/atena-research.json
 
       - name: Coletar experiências e montar datasets
         run: |
