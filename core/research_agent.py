@@ -18,6 +18,7 @@ PRIMARY_HINTS = {
     "direito": ("gov.br", "planalto.gov.br", "stf.jus.br", "stj.jus.br", "trf", "tst.jus.br", "cnj.jus.br"),
     "saude": ("gov.br", "who.int", "paho.org", "nih.gov", "pubmed.ncbi.nlm.nih.gov"),
     "ciência": ("nature.com", "science.org", "nih.gov", "pubmed.ncbi.nlm.nih.gov", "arxiv.org"),
+    "nanorobótica": ("pubmed.ncbi.nlm.nih.gov", "europepmc.org", "nih.gov", "ncbi.nlm.nih.gov", "arxiv.org", "nature.com", "ieeexplore.ieee.org"),
     "finanças": ("bcb.gov.br", "gov.br", "cvm.gov.br", "sec.gov"),
     "tecnologia": ("docs.python.org", "developer.mozilla.org", "ietf.org", "w3.org"),
 }
@@ -43,6 +44,7 @@ def infer_topic(question: str) -> str:
     for topic, terms in {
         "direito": ("lei", "juríd", "processo", "crime", "constitucional", "contrato"),
         "saude": ("saúde", "doença", "medicamento", "sintoma", "medicina"),
+        "nanorobótica": ("nanorrobô", "nanorrobótica", "nanorobot", "nanorobotics", "microrrobô", "microrobotics", "nanomedicina"),
         "finanças": ("investimento", "ações", "juros", "inflação", "financeiro"),
         "ciência": ("pesquisa", "científico", "física", "química", "biologia"),
         "tecnologia": ("python", "software", "ia", "inteligência artificial", "computação"),

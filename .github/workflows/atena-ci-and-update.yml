@@ -330,6 +330,7 @@ jobs:
             core/memory_consolidation.py
             core/memory_retrieval.py
             core/research_sources.py
+            core/nanorobotics_learning.py
             core/provider_quota.py
             core/sensemaking.py
             core/identity_state.py
@@ -352,10 +353,17 @@ jobs:
             mkdir -p "$(dirname "$path")"
             git show "origin/main:$path" > "$path"
           done
+          git show origin/main:config/nanorobotics_sources.json > config/nanorobotics_sources.json
           python -m py_compile "${runtime_files[@]}"
 
           echo "Modo do job: $ATENA_CYCLE_ROLE"
           echo "Fontes autônomas por padrão; fontes interativas somente via intenção Telegram."
+          python core/nanorobotics_learning.py \
+            --query "nanorobotics nanorobots nanomedicine microrobots safety" \
+            --max-sources 19 \
+            --limit-per-source 3 \
+            --timeout 12 \
+            --output-dir atena_evolution/nanorobotics
           # O ciclo pode fazer fallback entre provedores e ultrapassar 5 min.
           # Mantemos uma janela finita, mas damos margem a essas tentativas.
           timeout --signal=TERM --kill-after=15s 420s python scripts/atena_scheduled_cycle.py
@@ -408,7 +416,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add atena_evolution/llm_learning_memory.json atena_evolution/proposals atena_evolution/memory.sqlite3 atena_evolution/consolidation-latest.json
+          git add atena_evolution/llm_learning_memory.json atena_evolution/proposals atena_evolution/memory.sqlite3 atena_evolution/consolidation-latest.json atena_evolution/nanorobotics
           if git diff --cached --quiet; then
             echo "Nenhuma atualização de memória ou proposta."
             exit 0
@@ -486,8 +494,12 @@ jobs:
         run: |
           set -uo pipefail
           text_status=0
-          python /tmp/notify_telegram_learning.py \
-            --proposal "$PROPOSAL_PATH" || text_status=$?
+          nano_report="$(find atena_evolution/nanorobotics -type f -name '*.json' -printf '%T@ %p\n' 2>/dev/null | sort -nr | head -1 | cut -d' ' -f2-)"
+          notify_args=(--proposal "$PROPOSAL_PATH")
+          if [ -n "$nano_report" ]; then
+            notify_args+=(--nanorobotics-report "$nano_report")
+          fi
+          python /tmp/notify_telegram_learning.py "${notify_args[@]}" || text_status=$?
           if [ "$text_status" -ne 0 ]; then
             echo "::error title=Telegram não recebeu o resumo::Corrija ATENA_TELEGRAM_CHAT_ID para um chat humano/grupo/canal, não para o próprio bot."
             exit "$text_status"
