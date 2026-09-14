@@ -460,7 +460,8 @@ class WifiCSISensingEngine:
     unwrap_phase = staticmethod(WifiCSIProcessor.unwrap_phase)
 
     def __init__(self, policy: SensingPolicy | None = None, mode: str = "motion_detection") -> None:
-        self.policy = policy or SensingPolicy(require_consent=False)
+        # Fail closed: dados CSI reais nunca são processados sem consentimento.
+        self.policy = policy or SensingPolicy(require_consent=True)
         self.processor = WifiCSIProcessor(mode=mode)
 
     def _has_valid_consent(self, frame: CSIFrame) -> bool:

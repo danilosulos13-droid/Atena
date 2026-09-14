@@ -30,8 +30,20 @@ def test_wifi_csi_policy_blocks_non_consented_frame() -> None:
 
 
 def test_wifi_csi_stream_summary_clear_when_no_motion() -> None:
-    engine = WifiCSISensingEngine()
-    payload = engine.analyze_stream(generate_synthetic_csi_stream(frames=4, motion=False))
+    token = "test-consent"
+    frames = [
+        CSIFrame(
+            timestamp_ms=frame.timestamp_ms,
+            amplitudes=frame.amplitudes,
+            phases=frame.phases,
+            device_id=frame.device_id,
+            location_label=frame.location_label,
+            consent_token=token,
+        )
+        for frame in generate_synthetic_csi_stream(frames=4, motion=False)
+    ]
+    engine = WifiCSISensingEngine(SensingPolicy(consent_token=token))
+    payload = engine.analyze_stream(frames)
 
     assert payload["frames"] == 4
     assert payload["blocked_frames"] == 0
