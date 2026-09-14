@@ -54,15 +54,83 @@ def _make_frame(item: dict[str, Any], index: int) -> CSIFrame:
     )
 
 
+def _temporal_analysis(result: dict[str, Any], *, timestamps: list[int] | None = None, window_size: int = 3) -> dict[str, Any]:
+    """Resume variações temporais sem inferir identidade ou localização humana."""
+    rows = result.get("results", [])
+    if not rows:
+        return {"frames": 0, "transitions": [], "windows": [], "max_continuous_active_ms": 0}
+
+    active = {"possible_presence", "motion"}
+    timeline = []
+    for index, row in enumerate(rows):
+        timeline.append({
+            "timestamp_ms": timestamps[index] if timestamps and index < len(timestamps) else None,
+            "generated_at": row["generated_at"],
+            "status": row["status"],
+            "active": row["status"] in active,
+            "motion_energy": row["motion_energy"],
+            "confidence": row["confidence"],
+        })
+
+    transitions = []
+    for previous, current in zip(timeline, timeline[1:]):
+        if previous["status"] != current["status"]:
+            transitions.append({"from": previous["status"], "to": current["status"], "at": current.get("timestamp_ms") or current["generated_at"]})
+
+    windows = []
+    size = max(1, int(window_size))
+    for start in range(0, len(timeline), size):
+        chunk = timeline[start:start + size]
+        windows.append({
+            "frame_start": start,
+            "frame_end": start + len(chunk) - 1,
+            "active_frames": sum(item["active"] for item in chunk),
+            "mean_motion_energy": round(sum(item["motion_energy"] for item in chunk) / len(chunk), 6),
+            "mean_confidence": round(sum(item["confidence"] for item in chunk) / len(chunk), 3),
+            "dominant_status": max((item["status"] for item in chunk), key=lambda status: sum(x["status"] == status for x in chunk)),
+        })
+
+    max_run = current_run = 0
+    run_start = max_run_start = None
+    max_run_end = None
+    for index, item in enumerate(timeline):
+        if item["active"]:
+            current_run += 1
+            run_start = index if current_run == 1 else run_start
+            if current_run > max_run:
+                max_run = current_run
+                max_run_start = run_start
+                max_run_end = index
+        else:
+            current_run = 0
+            run_start = None
+    return {
+        "frames": len(timeline),
+        "timeline": timeline,
+        "transitions": transitions,
+        "windows": windows,
+        "active_frame_ratio": round(sum(item["active"] for item in timeline) / len(timeline), 3),
+        "max_continuous_active_frames": max_run,
+        "max_continuous_active_ms": (
+            max(0, timestamps[max_run_end] - timestamps[max_run_start])
+            if timestamps and max_run_start is not None and max_run_end is not None
+            else max(0, max_run - 1) * 50
+        ),
+    }
+
+
 def process_payload(payload: dict[str, Any]) -> dict[str, Any]:
     frames = [_make_frame(item, index) for index, item in enumerate(_as_frames(payload), 1)]
     engine = WifiCSISensingEngine(mode="presence_sensing")
+    frames.sort(key=lambda frame: frame.timestamp_ms)
     result = engine.analyze_stream(frames)
+    temporal = _temporal_analysis(result, timestamps=[frame.timestamp_ms for frame in frames], window_size=int(payload.get("window_size", 3)))
     return {
         "test": "synthetic_csi_presence",
         "input_type": payload.get("type", "wifi_csi"),
         "input_frames": len(frames),
         "detection": result,
+        "temporal_analysis": temporal,
         "interpretation": {
             "presence_detected": result["status"] in {"possible_presence", "motion"},
             "motion_detected": result["motion_frames"] > 0,
