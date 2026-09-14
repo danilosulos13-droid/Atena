@@ -123,6 +123,19 @@ jobs:
           python scripts/atena_autonomous_learning.py collect | tee /tmp/atena-collection.json
           python scripts/index_long_term_memory.py
 
+      - name: Medir capacidade de conhecimento preservado
+        run: |
+          python scripts/report_knowledge_capacity.py --output /tmp/atena-knowledge-capacity.json
+          python -m json.tool /tmp/atena-knowledge-capacity.json >/dev/null
+          cat /tmp/atena-knowledge-capacity.json
+
+      - name: Publicar auditoria de capacidade
+        uses: actions/upload-artifact@v4
+        with:
+          name: atena-knowledge-capacity-${{ github.run_id }}
+          path: /tmp/atena-knowledge-capacity.json
+          if-no-files-found: error
+
       - name: Executar motor principal da Atena em ciclo único
         env:
           CI: "true"
