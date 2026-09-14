@@ -32,6 +32,7 @@ if str(ROOT) not in sys.path:
 DEFAULT_CONFIG = ROOT / "config" / "nanorobotics_sources.json"
 DEFAULT_DB = ROOT / "atena_evolution" / "memory.sqlite3"
 DEFAULT_REPORT_DIR = ROOT / "analysis_reports" / "research"
+DISCOVERY_REPORT_DIR = ROOT / "analysis_reports" / "source_discovery"
 USER_AGENT = "AtenaIA/1.0 (nanorobotics-research; read-only; authorized-project)"
 MAX_RESPONSE_BYTES = 2_000_000
 DEFAULT_TIMEOUT = 15
@@ -117,6 +118,63 @@ def load_config(path: str | Path = DEFAULT_CONFIG) -> list[dict[str, Any]]:
         item["weight"] = max(0.0, min(1.0, float(item.get("weight", 0.5))))
         result.append(item)
     return result
+
+
+def _source_key(url: str) -> str:
+    parsed = urllib.parse.urlparse(url)
+    return f"{parsed.netloc.lower().removeprefix('www.')}|{parsed.path.rstrip('/')}"
+
+
+def discover_sources(*, query: str, config_path: str | Path = DEFAULT_CONFIG, output_dir: str | Path = DISCOVERY_REPORT_DIR, timeout: int = DEFAULT_TIMEOUT, max_candidates: int = 30) -> dict[str, Any]:
+    """Descobre fontes em índices públicos e ativa apenas endpoints textuais verificáveis."""
+    path = Path(config_path)
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    sources = payload.setdefault("sources", [])
+    known = {_source_key(str(item.get("url", ""))) for item in sources if isinstance(item, dict)}
+    candidates: list[dict[str, Any]] = []
+    errors: list[str] = []
+    try:
+        result = _request_json("https://api.openalex.org/sources", params={"search": query, "per-page": min(max_candidates, 20)}, timeout=timeout)
+        for item in result.get("results", []) if isinstance(result, dict) else []:
+            url = _url(item.get("homepage_url"))
+            if url and _source_key(url) not in known:
+                candidates.append({"name": f"OpenAlex discovery — {item.get('display_name', url)}", "kind": "html", "url": url, "authority": "OpenAlex discovery", "scope": "journal or research source discovered from scholarly index", "access": "public metadata; verify license", "weight": 0.72, "enabled": False, "status": "candidate", "discovered_from": "OpenAlex", "keywords": [query, "nanorobotics"]})
+    except Exception as exc:
+        errors.append(f"OpenAlex: {type(exc).__name__}: {exc}")
+    try:
+        result = _request_json("https://api.crossref.org/works", params={"query": query, "rows": min(max_candidates, 20), "select": "URL,publisher"}, timeout=timeout)
+        for item in result.get("message", {}).get("items", []) if isinstance(result, dict) else []:
+            url = _url(item.get("URL"))
+            if url:
+                parsed = urllib.parse.urlparse(url)
+                if parsed.netloc.lower().removeprefix("www.") in {"doi.org", "dx.doi.org", "doi.crossref.org"}:
+                    continue
+                homepage = f"{parsed.scheme}://{parsed.netloc}/"
+                if _source_key(homepage) not in known and all(_source_key(homepage) != _source_key(candidate["url"]) for candidate in candidates):
+                    candidates.append({"name": f"Publisher discovery — {parsed.netloc}", "kind": "html", "url": homepage, "authority": str(item.get("publisher") or "Crossref publisher"), "scope": "publisher landing source discovered from DOI metadata", "access": "public landing page; full text may require access", "weight": 0.70, "enabled": False, "status": "candidate", "discovered_from": "Crossref", "keywords": [query, "nanorobotics"]})
+    except Exception as exc:
+        errors.append(f"Crossref: {type(exc).__name__}: {exc}")
+
+    added: list[dict[str, Any]] = []
+    for candidate in candidates[:max(1, min(max_candidates, 50))]:
+        try:
+            text = _request_text(candidate["url"], timeout=min(timeout, 10))
+            candidate["enabled"] = len(text.strip()) >= 100
+            candidate["validation"] = "reachable_text" if candidate["enabled"] else "too_short"
+        except Exception as exc:
+            candidate["validation"] = f"unreachable: {type(exc).__name__}"
+        sources.append(candidate)
+        known.add(_source_key(candidate["url"]))
+        added.append(candidate)
+    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    report = {"status": "ok", "query": query, "discovered_at": datetime.now(timezone.utc).isoformat(), "candidates_added": len(added), "enabled_added": sum(1 for item in added if item.get("enabled")), "sources_total": len(sources), "added": added, "errors": errors}
+    out = Path(output_dir)
+    out.mkdir(parents=True, exist_ok=True)
+    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    report_path = out / f"source_discovery_{stamp}.json"
+    report_path.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    report["report_path"] = str(report_path)
+    return report
 
 
 def _evidence(source: dict[str, Any], query: str, *, title: Any, url: Any = "", abstract: Any = "", published_at: Any = None) -> Evidence:
@@ -212,6 +270,21 @@ def _zenodo(query: str, source: dict[str, Any], limit: int, timeout: int) -> lis
     return [_evidence(source, query, title=item.get("metadata", {}).get("title"), url=item.get("links", {}).get("html"), abstract=item.get("metadata", {}).get("description"), published_at=item.get("metadata", {}).get("publication_date")) for item in (payload.get("hits", {}).get("hits", []) if isinstance(payload, dict) else [])]
 
 
+def _biorxiv(query: str, source: dict[str, Any], limit: int, timeout: int) -> list[Evidence]:
+    endpoint = source["url"].rstrip("/") + "/0/0"
+    payload = _request_json(endpoint, timeout=timeout)
+    terms = [term.lower() for term in query.split() if len(term) > 3]
+    result: list[Evidence] = []
+    for item in (payload.get("collection", []) if isinstance(payload, dict) else []):
+        title = _clean(item.get("title"))
+        abstract = _clean(item.get("abstract"))
+        if title and any(term in (title + " " + abstract).lower() for term in terms):
+            result.append(_evidence(source, query, title=title, url=item.get("doi") and "https://doi.org/" + item["doi"], abstract=abstract, published_at=item.get("date")))
+        if len(result) >= limit:
+            break
+    return result
+
+
 def _html_source(query: str, source: dict[str, Any], limit: int, timeout: int) -> list[Evidence]:
     text = _request_text(source["url"], timeout=timeout)
     try:
@@ -235,6 +308,8 @@ ADAPTERS = {
     "arxiv": _arxiv,
     "doaj": _doaj,
     "zenodo": _zenodo,
+    "biorxiv": _biorxiv,
+    "medrxiv": _biorxiv,
 }
 
 
@@ -285,10 +360,11 @@ def _report_markdown(payload: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
-def run_learning(*, query: str, config_path: str | Path = DEFAULT_CONFIG, db_path: str | Path = DEFAULT_DB, output_dir: str | Path = DEFAULT_REPORT_DIR, max_sources: int = 20, limit_per_source: int = 5, timeout: int = DEFAULT_TIMEOUT, no_html: bool = False) -> dict[str, Any]:
+def run_learning(*, query: str, config_path: str | Path = DEFAULT_CONFIG, db_path: str | Path = DEFAULT_DB, output_dir: str | Path = DEFAULT_REPORT_DIR, max_sources: int = 50, limit_per_source: int = 5, timeout: int = DEFAULT_TIMEOUT, no_html: bool = False, discover: bool = False) -> dict[str, Any]:
     from core.knowledge_base import KnowledgeBase
 
     started = datetime.now(timezone.utc).isoformat()
+    discovery = discover_sources(query=query, config_path=config_path, output_dir=Path(output_dir) / "discovery", timeout=timeout) if discover else None
     sources = load_config(config_path)[:max(1, min(max_sources, 50))]
     results: list[dict[str, Any]] = []
     for source in sources:
@@ -322,7 +398,7 @@ def run_learning(*, query: str, config_path: str | Path = DEFAULT_CONFIG, db_pat
     output = Path(output_dir)
     output.mkdir(parents=True, exist_ok=True)
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-    payload: dict[str, Any] = {"status": "ok" if evidence else "partial", "query": query, "started_at": started, "source_count": len(sources), "ok_sources": sum(1 for item in results if item.get("ok")), "evidence": evidence, "errors": [item for item in results if not item.get("ok")], "documents_added": docs, "chunks_added": chunks, "knowledge_stats": stats}
+    payload: dict[str, Any] = {"status": "ok" if evidence else "partial", "query": query, "started_at": started, "source_count": len(sources), "ok_sources": sum(1 for item in results if item.get("ok")), "evidence": evidence, "errors": [item for item in results if not item.get("ok")], "documents_added": docs, "chunks_added": chunks, "knowledge_stats": stats, "source_discovery": discovery}
     json_path = output / f"nanorobotics_learning_{stamp}.json"
     md_path = output / f"nanorobotics_learning_{stamp}.md"
     json_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -338,12 +414,13 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--config", default=str(DEFAULT_CONFIG))
     parser.add_argument("--db", default=str(DEFAULT_DB))
     parser.add_argument("--output-dir", default=str(DEFAULT_REPORT_DIR))
-    parser.add_argument("--max-sources", type=int, default=20)
+    parser.add_argument("--max-sources", type=int, default=50)
     parser.add_argument("--limit-per-source", type=int, default=5)
     parser.add_argument("--timeout", type=int, default=DEFAULT_TIMEOUT)
     parser.add_argument("--no-html", action="store_true")
+    parser.add_argument("--discover-sources", action="store_true", help="descobre, valida e registra novas fontes públicas")
     args = parser.parse_args(argv)
-    payload = run_learning(query=args.query, config_path=args.config, db_path=args.db, output_dir=args.output_dir, max_sources=args.max_sources, limit_per_source=args.limit_per_source, timeout=args.timeout, no_html=args.no_html)
+    payload = run_learning(query=args.query, config_path=args.config, db_path=args.db, output_dir=args.output_dir, max_sources=args.max_sources, limit_per_source=args.limit_per_source, timeout=args.timeout, no_html=args.no_html, discover=args.discover_sources)
     print(json.dumps(payload, ensure_ascii=False, indent=2))
     return 0 if payload["status"] in {"ok", "partial"} else 1
 

@@ -1,6 +1,6 @@
 # Aprendizagem temática sobre nanorrobótica
 
-A Atena agora possui um coletor temático para construir uma memória baseada em evidências sobre **nanorrobôs, microrrobótica, nanomedicina, materiais, controle, fabricação e segurança**. O fluxo é somente leitura: consulta fontes públicas, registra a proveniência, deduplica os itens, indexa títulos e resumos na memória SQLite e grava relatórios em `analysis_reports/research/`.
+A Atena agora possui um coletor temático para construir uma memória baseada em evidências sobre **nanorrobôs, microrrobótica, nanomedicina, materiais, controle, fabricação e segurança**. O catálogo curado contém **56 fontes** entre APIs acadêmicas, repositórios, registros clínicos, órgãos reguladores, normas, periódicos e laboratórios. O fluxo é somente leitura: consulta fontes públicas, registra a proveniência, deduplica os itens, indexa títulos e resumos na memória SQLite e grava relatórios em `analysis_reports/research/`.
 
 ## Uso
 
@@ -11,11 +11,14 @@ A Atena agora possui um coletor temático para construir uma memória baseada em
 # Ou pelo launcher
 bash atena nanorobotics --no-html --max-sources 20 --limit-per-source 5
 
+# Descobrir e validar novas fontes automaticamente antes da coleta
+bash atena nanorobotics --discover-sources --max-sources 50 --limit-per-source 3
+
 # Consultar a memória temática
 .venv/bin/python scripts/atena_research.py --search nanorobotics
 ```
 
-O arquivo `config/nanorobotics_sources.json` contém o catálogo de fontes. APIs acadêmicas como PubMed, Europe PMC, Crossref, OpenAlex, Semantic Scholar, arXiv, DOAJ e Zenodo são priorizadas. Páginas institucionais de NIH/NCI, FDA, ISO, IEEE, RSC, ACS, Nature e ETH complementam literatura, normas, segurança e engenharia. Algumas páginas possuem apenas metadados ou resumos públicos e podem exigir acesso institucional para o texto integral; o coletor não contorna paywalls, robots, autenticação ou limites de acesso.
+O arquivo `config/nanorobotics_sources.json` contém o catálogo de fontes. APIs acadêmicas como PubMed, Europe PMC, Crossref, OpenAlex, Semantic Scholar, arXiv, DOAJ e Zenodo são priorizadas. Páginas institucionais de NIH/NCI, FDA, EMA, WHO, OECD, EPA, NIST, ISO, IEEE, RSC, ACS, Nature e universidades complementam literatura, normas, segurança, ensaios clínicos, patentes e engenharia. O modo `--discover-sources` consulta índices públicos, adiciona novos hosts com URL e proveniência, testa se respondem com conteúdo textual e somente então os ativa; candidatos inacessíveis permanecem desativados. Algumas páginas possuem apenas metadados ou resumos públicos e podem exigir acesso institucional para o texto integral; o coletor não contorna paywalls, robots, autenticação ou limites de acesso.
 
 ## Proveniência e segurança
 

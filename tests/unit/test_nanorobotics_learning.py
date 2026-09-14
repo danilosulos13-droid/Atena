@@ -8,10 +8,29 @@ from core import nanorobotics_learning as learning
 
 def test_config_contains_public_sources_with_valid_weights() -> None:
     sources = learning.load_config()
-    assert len(sources) >= 15
+    assert len(sources) >= 50
     assert {source["name"] for source in sources} >= {"PubMed", "Europe PMC", "arXiv", "FDA Nanotechnology"}
     assert all(0.0 <= source["weight"] <= 1.0 for source in sources)
     assert all(source["url"].startswith(("http://", "https://")) for source in sources)
+
+
+def test_discover_sources_adds_and_validates_new_candidate(tmp_path: Path, monkeypatch) -> None:
+    config = tmp_path / "sources.json"
+    config.write_text(json.dumps({"sources": []}), encoding="utf-8")
+
+    def fake_json(url, **kwargs):
+        if "/sources" in url:
+            return {"results": [{"display_name": "Example Journal", "homepage_url": "https://journal.example.org"}]}
+        return {"message": {"items": []}}
+
+    monkeypatch.setattr(learning, "_request_json", fake_json)
+    monkeypatch.setattr(learning, "_request_text", lambda *args, **kwargs: "x" * 120)
+    report = learning.discover_sources(query="nanorobotics", config_path=config, output_dir=tmp_path / "reports", timeout=1, max_candidates=2)
+    saved = json.loads(config.read_text(encoding="utf-8"))
+    assert report["candidates_added"] == 1
+    assert report["enabled_added"] == 1
+    assert saved["sources"][0]["enabled"] is True
+    assert Path(report["report_path"]).exists()
 
 
 def test_evidence_serialization_includes_safe_content() -> None:
