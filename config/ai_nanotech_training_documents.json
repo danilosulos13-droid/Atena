@@ -1,0 +1,577 @@
+{
+  "version": 1,
+  "collection_cutoff": "2026-09-14T01:34:00",
+  "document_count": 30,
+  "documents": [
+    {
+      "id": "doc:800c22f49884e4acd3246c6203f6d99b",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41678949",
+      "canonical_url": "https://pubmed.ncbi.nlm.nih.gov/41678949",
+      "title": "Micro-/nanorobots in nanomedicine - Guidance, imaging and the integration of AI and robotics.",
+      "domain": "pubmed.ncbi.nlm.nih.gov",
+      "topic": "nanorobotics",
+      "fetched_at": "2026-09-14T01:37:54.886615+00:00",
+      "content_hash": "sha256:ad9b7fa733619078dbab79e6f134743999948d1d83e9eb6d66530b1dd91bda40",
+      "content": "Micro-/nanorobots in nanomedicine - Guidance, imaging and the integration of AI and robotics. The integration of robotics and artificial intelligence (AI) into nanomedicine represents a significant advancement in developing targeted therapeutic and diagnostic platforms. This field focuses on engineering micro- and nanoscale agents, such as magnetic nanoparticles (MNPs), microbots, and nanobots, for tasks like targeted therapies, sensing, and manipulation at diseased sites. MNPs are typically composed of iron oxides and serve as foundational components due to their biocompatibility, tunable surface chemistry, and responsiveness to external magnetic fields. They are used in targeted drug delivery, magnetic hyperthermia for tumor ablation, and as contrast agents in magnetic resonance imaging (MRI) and magnetic particle imaging (MPI). Microbots and nanobots, which often incorporate MNPs for propulsion, can be actively guided using external magnetic fields to navigate complex biological environments, perform micromanipulation, and enable triggered drug release. The precise control of these magnetic agents relies on electromagnetic or permanent magnet-based guidance systems, which balance magnetic force strength, workspace volume, and clinical integration. Other classes like biohybrid microbots or DNA nanobots, utilize magnetic field independent mechanisms for molecular sensing and cargo delivery. AI and machine learning enhance these systems by optimizing material and bot design through in silico modeling, facilitating real-time navigation via medical imaging feedback, and enabling adaptive pathfinding. AI can also support swarm control and data analysis for diagnostic improvement. However, clinical translation faces challenges, including ensuring long-term biocompatibility and biodistribution, achieving scalable Good Manufacturing Practice (GMP) production, demonstrating therapeutic advantage in preclinical models, navigating evolving regulatory frameworks, and securing sufficient funding.",
+      "metadata": {
+        "authority": "U.S. National Library of Medicine / NIH",
+        "query": "artificial intelligence advanced AI machine learning nanotechnology nanorobotics nanomedicine molecular robotics nanoscale robots",
+        "read_only": true,
+        "source": "PubMed",
+        "source_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+        "weight": 0.98
+      }
+    },
+    {
+      "id": "doc:4628a110c028418b0c3d17fca9633b3f",
+      "url": "https://doi.org/10.3390/molecules31081268",
+      "canonical_url": "https://doi.org/10.3390/molecules31081268",
+      "title": "Nanorobotic Approaches Against Multidrug-Resistant Infections: Design, Principle, Mechanistic Innovation, Translational Challenges and Biomedical Applications.",
+      "domain": "doi.org",
+      "topic": "nanorobotics",
+      "fetched_at": "2026-09-14T01:37:54.895169+00:00",
+      "content_hash": "sha256:3d2bf644b82a8c123f399e9d8bad464047c950eec97f6ace1e0a2e91f3040c96",
+      "content": "Nanorobotic Approaches Against Multidrug-Resistant Infections: Design, Principle, Mechanistic Innovation, Translational Challenges and Biomedical Applications. The efficacy of traditional antimicrobial treatments has been largely compromised due to the high occurrence of multidrug-resistant (MDR) pathogens, therefore underlining the limitations of existing drug delivery mechanisms. Pathogens resist pharmacological treatment via different mechanisms, including efflux pump overexpression, biofilm formation, and enzymatic destruction. The application of nanorobotics or controllable nanoscale devices has gained considerable attention for overcoming shortcomings while connecting biomedical engineering, materials science, and microbiology. Despite advancements in nanomedicine, there is still no suitable nanorobotic system applicable against MDR pathogens. Previous studies highlighted device categories and materials but did not explain the detailed nanorobotic mobility, sensing, and programmability to counteract biological resistance. This review combines cross-disciplinary discoveries to design a mechanistic and translational model for nanorobotics effective in controlling infectious diseases while focusing on the advancements in nanorobotic technologies over the past six years (2020-2025), with emphasis on translational readiness, biosafety issues, scalability, regulation, and their mechanistic ability to overwhelm MDR complications. Databases from different publishers, including PubMed, Scopus, and Web of Science, were used to select studies focusing on the potential of emerging nanorobotic therapeutic technologies, such as magnetic microrobots, catalytic nanoswimmers, and DNA origami nanodevices, and their application to bacterial biofilms and antibiotic drug delivery. Evidence from the literature shows that magnetically driven microrobots, catalytic nanoswimmers, and DNA origami structures can actively destroy biofilms, enhance antibiotic penetration, and perform site-specific antimicrobial administration. Nevertheless, most of these innovations remain in the preclinical or prototype stage, hindered by biosafety issues, immunological reactivity, poor routing precision, energy source optimization, and a lack of regulatory and ethical frameworks, which are major challenges for clinical translation.",
+      "metadata": {
+        "authority": "EMBL-EBI",
+        "query": "artificial intelligence advanced AI machine learning nanotechnology nanorobotics nanomedicine molecular robotics nanoscale robots",
+        "read_only": true,
+        "source": "Europe PMC",
+        "source_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search",
+        "weight": 0.97
+      }
+    },
+    {
+      "id": "doc:0e423170e76c0777013836c2a317a43c",
+      "url": "https://doi.org/10.3389/fbioe.2026.1778916",
+      "canonical_url": "https://doi.org/10.3389/fbioe.2026.1778916",
+      "title": "Advancements and challenges of nanorobots in surgical medicine: design, applications, and interdisciplinary integration.",
+      "domain": "doi.org",
+      "topic": "nanorobotics",
+      "fetched_at": "2026-09-14T01:37:54.896323+00:00",
+      "content_hash": "sha256:1661359ddde730191a64cb9ec7534ed485a56ea66dc2fe6e8064536a6a8a8756",
+      "content": "Advancements and challenges of nanorobots in surgical medicine: design, applications, and interdisciplinary integration. Surgical nanorobotics offers a strategy to surpass the physical constraints of conventional minimally invasive procedures. Designed to intervene at the cellular scale, these micro-agents facilitate high-precision tasks ranging from tumor margin delineation to targeted tissue manipulation. This article critically evaluates current actuation modalities-spanning magnetic, acoustic, optical, and chemical methods-for their efficacy in navigating complex physiological fluids. We specifically analyze the integration of propulsion systems with medical imaging, which is decisive for achieving the real-time feedback necessary for clinical safety in oncology and ophthalmology. Despite technical progress, widespread adoption faces persistent hurdles regarding long-term biocompatibility, deep-tissue control, and reproducible manufacturing standards. We conclude that bridging the gap between laboratory prototypes and clinical application requires shifting focus from novel locomotion schemes to comprehensive <i>in vivo</i> validation and standardized regulatory compliance.",
+      "metadata": {
+        "authority": "EMBL-EBI",
+        "query": "artificial intelligence advanced AI machine learning nanotechnology nanorobotics nanomedicine molecular robotics nanoscale robots",
+        "read_only": true,
+        "source": "Europe PMC",
+        "source_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search",
+        "weight": 0.97
+      }
+    },
+    {
+      "id": "doc:7eb01e12b27a465a79aca72a7a659177",
+      "url": "https://doi.org/10.1039/d5ra05296c",
+      "canonical_url": "https://doi.org/10.1039/d5ra05296c",
+      "title": "Exosome-driven biohybrid nanorobots: bridging nature and nanotechnology in biomedical innovation.",
+      "domain": "doi.org",
+      "topic": "nanorobotics",
+      "fetched_at": "2026-09-14T01:37:54.897055+00:00",
+      "content_hash": "sha256:99911c5dfd11bf024128a740cdebfd0af74d7262dab1561283fcbecf4b070503",
+      "content": "Exosome-driven biohybrid nanorobots: bridging nature and nanotechnology in biomedical innovation. Exosome- and extracellular vesicle (EV)-based biohybrid nanorobots represent a cutting-edge approach in nanomedicine, combining the natural targeting, immune tolerance, and molecular transport capabilities of EVs with the functional versatility of engineered nanomaterials. These hybrid systems can be designed for guided or autonomous navigation, enabling site-specific drug delivery with minimal cytotoxicity. Recent advances have integrated magnetic, photothermal, or drug-loaded components into EVs, transforming them into innovative nanoscale delivery systems. As naturally secreted vesicles from most cell types, EVs facilitate intercellular communication and are increasingly recognized for their clinical potential in treating conditions like Crohn's disease, type 1 diabetes, and COVID-19. Biohybrid EV nanorobots offer enhanced biodistribution, stability, and cellular uptake compared to traditional nanoparticles. Key design challenges include ensuring reproducibility, size control, and functional stability. This next-generation drug delivery platform holds promise for overcoming limitations of conventional systems while advancing targeted therapy and personalized medicine.",
+      "metadata": {
+        "authority": "EMBL-EBI",
+        "query": "artificial intelligence advanced AI machine learning nanotechnology nanorobotics nanomedicine molecular robotics nanoscale robots",
+        "read_only": true,
+        "source": "Europe PMC",
+        "source_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search",
+        "weight": 0.97
+      }
+    },
+    {
+      "id": "doc:47dbff634c3f71d0987221a6c5241ea6",
+      "url": "https://doi.org/10.3389/frobt.2025.1639445",
+      "canonical_url": "https://doi.org/10.3389/frobt.2025.1639445",
+      "title": "Nano bio-robots: a new frontier in targeted therapeutic delivery.",
+      "domain": "doi.org",
+      "topic": "nanorobotics",
+      "fetched_at": "2026-09-14T01:37:54.897959+00:00",
+      "content_hash": "sha256:df1c300fa9f9b3e5d18da6be5594344fc4aa8dd648f1687eb5b699a57cfea521",
+      "content": "Nano bio-robots: a new frontier in targeted therapeutic delivery. In macro world, the robots are programmed machines, engineered to perform repetitive and often specialized tasks. Scaling down the size of a robot by a billionth of a meter gives a nano robot. The primary driving force behind the advent of micro and nano robots have always been the domain of medical technology and these robots are popularly known as nano bio-robots. The current review shines a light on these bio-robots in all their facets, encompassing both top-down and bottom-up fabrication approaches to their associated challenges followed by ethical approvals. The study describes in detail the synthesis techniques of nano bio-robot along with required actuation mechanism of the bio-robots. Further, in this paper, how a nano biorobotic drug-delivery system (NDDS) can deliver the drugs in a controlled way to the targeted site of the host in contrast to conventional drug administration is discussed. The paper also reviews and summarizes the administration pathways of these bio-robots in the human body and their efficacy in reducing various disorders. Overall, it can be said that the integration of nano robots with bio-concept presents distinct advantages and possesses significant promises for many applications.",
+      "metadata": {
+        "authority": "EMBL-EBI",
+        "query": "artificial intelligence advanced AI machine learning nanotechnology nanorobotics nanomedicine molecular robotics nanoscale robots",
+        "read_only": true,
+        "source": "Europe PMC",
+        "source_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search",
+        "weight": 0.97
+      }
+    },
+    {
+      "id": "doc:677a40e2656269fab450ce654f30d658",
+      "url": "https://doi.org/10.32473/aimlrb.1.2.139237",
+      "canonical_url": "https://doi.org/10.32473/aimlrb.1.2.139237",
+      "title": "ARTIFICIAL INTELLIGENCE, MACHINE LEARNING AND ROBOTICS: THE CORE OF TOMORROW’S INDUSTRIES",
+      "domain": "doi.org",
+      "topic": "nanorobotics",
+      "fetched_at": "2026-09-14T01:37:54.898971+00:00",
+      "content_hash": "sha256:98e23a333438b2d3bae65a061c1a34873672bc012f04042a199815a4c9fe79b9",
+      "content": "ARTIFICIAL INTELLIGENCE, MACHINE LEARNING AND ROBOTICS: THE CORE OF TOMORROW’S INDUSTRIES <jats:p>The second issue of AI, ML, and Robotics in Business arrives amid global uncertainty and rapid technological evolution. As industries confront climate instability, labor shortages, and digital transformation, artificial intelligence, machine learning, and robotics are becoming essential engines of resilience and reinvention. This issue highlights sector-specific advances—from AI-driven precision agriculture and ethical frameworks in hospitality to team science and prevention strategies in healthcare. Contributors illustrate how these technologies move beyond automation to elevate human intelligence, ethics, and collaboration. Central themes include the integration of AI into trust-based services, interdisciplinary innovation, and the cultivation of diverse intelligences to navigate the Intelligence Era. NVIDIA’s GTC 2025 conference emphasizes this paradigm shift, revealing AI’s potential to build adaptive, human-augmenting systems across industries. These works signal a new frontier: one where progress lies not in replacing human effort, but in preparing society to lead with vision, empathy, and collective intelligence.</jats:p>",
+      "metadata": {
+        "authority": "Crossref",
+        "query": "artificial intelligence advanced AI machine learning nanotechnology nanorobotics nanomedicine molecular robotics nanoscale robots",
+        "read_only": true,
+        "source": "Crossref",
+        "source_url": "https://api.crossref.org/works",
+        "weight": 0.94
+      }
+    },
+    {
+      "id": "doc:dd907eda854a2d42ef02b343582a4565",
+      "url": "https://doi.org/10.33140/ijnn.04.02.03",
+      "canonical_url": "https://doi.org/10.33140/ijnn.04.02.03",
+      "title": "Artificial Intelligence Driven Resiliency with Machine Learning and Deep Learning Components",
+      "domain": "doi.org",
+      "topic": "nanorobotics",
+      "fetched_at": "2026-09-14T01:37:54.899669+00:00",
+      "content_hash": "sha256:91a58509c2b8d178d22cecf04b13694623ee71130880eb4e78f17983a392ef75",
+      "content": "Artificial Intelligence Driven Resiliency with Machine Learning and Deep Learning Components <jats:p>The future of any business from banking, e-commerce, real estate, homeland security, healthcare, and marketing, the stock market, manufacturing, education, and retail to government organizations depends on the data and analytics capabilities that are built and scaled. The speed of change in technology in recent years has been a real challenge for all businesses. To manage that, a significant number of organizations are exploring the Big Data (BD) infrastructure that helps them to take advantage of new opportunities while saving costs. Timely transformation of information is also critical for the survivability of an organization. Having the right information at the right time will enhance not only the knowledge of stakeholders within an organization but also providing them with a tool to make the right decision at the right moment. It is no longer enough to rely on a sampling of information about the organizations’ customers. The decision-makers need to get vital insights into the customers’ actual behavior, which requires enormous volumes of data to be processed. We believe that Big Data infrastructure is the key to successful Artificial Intelligence (AI) deployments and accurate, unbiased real-time insights. Big data solutions have a direct impact and changing the way the organization needs to work with help from AI and its components ML and DL. In this article, we discuss these topics.</jats:p>",
+      "metadata": {
+        "authority": "Crossref",
+        "query": "artificial intelligence advanced AI machine learning nanotechnology nanorobotics nanomedicine molecular robotics nanoscale robots",
+        "read_only": true,
+        "source": "Crossref",
+        "source_url": "https://api.crossref.org/works",
+        "weight": 0.94
+      }
+    },
+    {
+      "id": "doc:a2791d8e0124b81c19ed1a463ecd850d",
+      "url": "https://doi.org/10.1002/adhm.201901862",
+      "canonical_url": "https://doi.org/10.1002/adhm.201901862",
+      "title": "Artificial Intelligence and Machine Learning in Computational Nanotoxicology: Unlocking and Empowering Nanomedicine",
+      "domain": "doi.org",
+      "topic": "nanorobotics",
+      "fetched_at": "2026-09-14T01:37:54.901403+00:00",
+      "content_hash": "sha256:2ec03992e259188b80c1ca24d82d1b28f1e71c11581d5bc058712f8231d534e5",
+      "content": "Artificial Intelligence and Machine Learning in Computational Nanotoxicology: Unlocking and Empowering Nanomedicine Advances in nanomedicine, coupled with novel methods of creating advanced materials at the nanoscale, have opened new perspectives for the development of healthcare and medical products. Special attention must be paid toward safe design approaches for nanomaterial-based products. Recently, artificial intelligence (AI) and machine learning (ML) gifted the computational tool for enhancing and improving the simulation and modeling process for nanotoxicology and nanotherapeutics. In particular, the correlation of in vitro generated pharmacokinetics and pharmacodynamics to in vivo application scenarios is an important step toward the development of safe nanomedicinal products. This review portrays how in vitro and in vivo datasets are used in in silico models to unlock and empower nanomedicine. Physiologically based pharmacokinetic (PBPK) modeling and absorption, distribution, metabolism, and excretion (ADME)-based in silico methods along with dosimetry models as a focus area for nanomedicine are mainly described. The computational OMICS, colloidal particle determination, and algorithms to establish dosimetry for inhalation toxicology, and quantitative structure-activity relationships at nanoscale (nano-QSAR) are revisited. The challenges and opportunities facing the blind spots in nanotoxicology in this computationally dominated era are highlighted as the future to accelerate nanomedicine clinical translation.",
+      "metadata": {
+        "authority": "OurResearch / OpenAlex",
+        "query": "artificial intelligence advanced AI machine learning nanotechnology nanorobotics nanomedicine molecular robotics nanoscale robots",
+        "read_only": true,
+        "source": "OpenAlex",
+        "source_url": "https://api.openalex.org/works",
+        "weight": 0.93
+      }
+    },
+    {
+      "id": "doc:ba780a42ece081c3ebb82a924b07b1f9",
+      "url": "https://doi.org/10.1002/aisy.202000084",
+      "canonical_url": "https://doi.org/10.1002/aisy.202000084",
+      "title": "Artificial Intelligence and Machine Learning Empower Advanced Biomedical Material Design to Toxicity Prediction",
+      "domain": "doi.org",
+      "topic": "nanorobotics",
+      "fetched_at": "2026-09-14T01:37:54.902192+00:00",
+      "content_hash": "sha256:49ba6923417a7f0ebe3449cc4492ddafab76efe412596fd876750db5b112a66a",
+      "content": "Artificial Intelligence and Machine Learning Empower Advanced Biomedical Material Design to Toxicity Prediction Materials at the nanoscale exhibit specific physicochemical interactions with their environment. Therefore, evaluating their toxic potential is a primary requirement for regulatory purposes and for the safer development of nanomedicines. In this review, to aid the understanding of nano–bio interactions from environmental and health and safety perspectives, the potential, reality, challenges, and future advances that artificial intelligence (AI) and machine learning (ML) present are described. Herein, AI and ML algorithms that assist in the reporting of the minimum information required for biomaterial characterization and aid in the development and establishment of standard operating procedures are focused. ML tools and ab initio simulations adopted to improve the reproducibility of data for robust quantitative comparisons and to facilitate in silico modeling and meta‐analyses leading to a substantial contribution to safe‐by‐design development in nanotoxicology/nanomedicine are mainly focused. In addition, future opportunities and challenges in the application of ML in nanoinformatics, which is particularly well‐suited for the clinical translation of nanotherapeutics, are highlighted. This comprehensive review is believed that it will promote an unprecedented involvement of AI research in improvements in the field of nanotoxicology and nanomedicine.",
+      "metadata": {
+        "authority": "OurResearch / OpenAlex",
+        "query": "artificial intelligence advanced AI machine learning nanotechnology nanorobotics nanomedicine molecular robotics nanoscale robots",
+        "read_only": true,
+        "source": "OpenAlex",
+        "source_url": "https://api.openalex.org/works",
+        "weight": 0.93
+      }
+    },
+    {
+      "id": "doc:503d0ebc9670dc6e360147c44bc73940",
+      "url": "https://doi.org/10.7759/cureus.50415",
+      "canonical_url": "https://doi.org/10.7759/cureus.50415",
+      "title": "Advancements in Robotic Surgery: A Comprehensive Overview of Current Utilizations and Upcoming Frontiers",
+      "domain": "doi.org",
+      "topic": "nanorobotics",
+      "fetched_at": "2026-09-14T01:37:54.903025+00:00",
+      "content_hash": "sha256:77a5f80761f0696fcbd134517ab8e419e8413d1cd089780921e0bfa875c6a699",
+      "content": "Advancements in Robotic Surgery: A Comprehensive Overview of Current Utilizations and Upcoming Frontiers Robotic surgery, a groundbreaking advancement in medical technology, has redefined the landscape of surgical procedures. This comprehensive overview explores the multifaceted world of robotic surgery, encompassing its definition, historical development, current applications, clinical outcomes, benefits, emerging frontiers, challenges, and future implications. We delve into the fundamentals of robotic surgical systems, examining their components and advantages. From general and gynecological surgery to urology, cardiac surgery, orthopedics, and beyond, we highlight the diverse specialties where robotic surgery is making a significant impact. The many benefits discussed include improved patient outcomes, reduced complications, faster recovery times, cost-effectiveness, and enhanced surgeon experiences. The outlook reveals a healthcare landscape where robotic surgery is increasingly vital, enabling personalized medicine, bridging healthcare disparities, and advancing surgical precision. However, challenges such as cost, surgeon training, technical issues, ethical considerations, and patient acceptance remain relevant. In conclusion, robotic surgery is poised to continue shaping the future of health care, offering transformative possibilities while emphasizing the importance of collaboration, innovation, and ethical governance.",
+      "metadata": {
+        "authority": "OurResearch / OpenAlex",
+        "query": "artificial intelligence advanced AI machine learning nanotechnology nanorobotics nanomedicine molecular robotics nanoscale robots",
+        "read_only": true,
+        "source": "OpenAlex",
+        "source_url": "https://api.openalex.org/works",
+        "weight": 0.93
+      }
+    },
+    {
+      "id": "doc:71fcefdf0d90c7f0dc94096c7b617e4e",
+      "url": "https://doi.org/10.3390/ma17071621",
+      "canonical_url": "https://doi.org/10.3390/ma17071621",
+      "title": "Bridging Nanomanufacturing and Artificial Intelligence—A Comprehensive Review",
+      "domain": "doi.org",
+      "topic": "nanorobotics",
+      "fetched_at": "2026-09-14T01:37:54.903739+00:00",
+      "content_hash": "sha256:4c509fe2638871cd92d76896ec77150f2e1a07233082a8a54df8bf9d3349ab6e",
+      "content": "Bridging Nanomanufacturing and Artificial Intelligence—A Comprehensive Review Nanomanufacturing and digital manufacturing (DM) are defining the forefront of the fourth industrial revolution-Industry 4.0-as enabling technologies for the processing of materials spanning several length scales. This review delineates the evolution of nanomaterials and nanomanufacturing in the digital age for applications in medicine, robotics, sensory technology, semiconductors, and consumer electronics. The incorporation of artificial intelligence (AI) tools to explore nanomaterial synthesis, optimize nanomanufacturing processes, and aid high-fidelity nanoscale characterization is discussed. This paper elaborates on different machine-learning and deep-learning algorithms for analyzing nanoscale images, designing nanomaterials, and nano quality assurance. The challenges associated with the application of machine- and deep-learning models to achieve robust and accurate predictions are outlined. The prospects of incorporating sophisticated AI algorithms such as reinforced learning, explainable artificial intelligence (XAI), big data analytics for material synthesis, manufacturing process innovation, and nanosystem integration are discussed.",
+      "metadata": {
+        "authority": "OurResearch / OpenAlex",
+        "query": "artificial intelligence advanced AI machine learning nanotechnology nanorobotics nanomedicine molecular robotics nanoscale robots",
+        "read_only": true,
+        "source": "OpenAlex",
+        "source_url": "https://api.openalex.org/works",
+        "weight": 0.93
+      }
+    },
+    {
+      "id": "doc:abfbdc4ee12ec16a26acd193506b31e7",
+      "url": "https://doi.org/10.3389/fmedt.2022.1067144",
+      "canonical_url": "https://doi.org/10.3389/fmedt.2022.1067144",
+      "title": "Nanoparticles and convergence of artificial intelligence for targeted drug delivery for cancer therapy: Current progress and challenges",
+      "domain": "doi.org",
+      "topic": "nanorobotics",
+      "fetched_at": "2026-09-14T01:37:54.904622+00:00",
+      "content_hash": "sha256:0d8b4b3a39b74e03d7c01dfc1179702a245016e4aa232e4c5ef2ed2c0333db6d",
+      "content": "Nanoparticles and convergence of artificial intelligence for targeted drug delivery for cancer therapy: Current progress and challenges Cancer is a life-threatening disease, resulting in nearly 10 million deaths worldwide. There are various causes of cancer, and the prognostic information varies in each patient because of unique molecular signatures in the human body. However, genetic heterogeneity occurs due to different cancer types and changes in the neoplasms, which complicates the diagnosis and treatment. Targeted drug delivery is considered a pivotal contributor to precision medicine for cancer treatments as this method helps deliver medication to patients by systematically increasing the drug concentration on the targeted body parts. In such cases, nanoparticle-mediated drug delivery and the integration of artificial intelligence (AI) can help bridge the gap and enhance localized drug delivery systems capable of biomarker sensing. Diagnostic assays using nanoparticles (NPs) enable biomarker identification by accumulating in the specific cancer sites and ensuring accurate drug delivery planning. Integrating NPs for cancer targeting and AI can help devise sophisticated systems that further classify cancer types and understand complex disease patterns. Advanced AI algorithms can also help in biomarker detection, predicting different NP interactions of the targeted drug, and evaluating drug efficacy. Considering the advantages of the convergence of NPs and AI for targeted drug delivery, there has been significantly limited research focusing on the specific research theme, with most of the research being proposed on AI and drug discovery. Thus, the study's primary objective is to highlight the recent advances in drug delivery using NPs, and their impact on personalized treatment plans for cancer patients. In addition, a focal point of the study is also to highlight how integrating AI, and NPs can help address some of the existing challenges in drug delivery by conducting a collective survey.",
+      "metadata": {
+        "authority": "OurResearch / OpenAlex",
+        "query": "artificial intelligence advanced AI machine learning nanotechnology nanorobotics nanomedicine molecular robotics nanoscale robots",
+        "read_only": true,
+        "source": "OpenAlex",
+        "source_url": "https://api.openalex.org/works",
+        "weight": 0.93
+      }
+    },
+    {
+      "id": "doc:55b253e039f407ce64fbed820b706950",
+      "url": "https://nanolab.cancer.gov",
+      "canonical_url": "https://nanolab.cancer.gov",
+      "title": "Nanotechnology - NCI",
+      "domain": "nanolab.cancer.gov",
+      "topic": "nanorobotics",
+      "fetched_at": "2026-09-14T01:37:54.905520+00:00",
+      "content_hash": "sha256:fa3cbcb72e37061d07c0bcb6d09a6da5e7d55ea0c66ea283c164e9ca089b749f",
+      "content": "Nanotechnology - NCI Nanotechnology - NCI Skip to main content Print Email Nanotechnology The Division of Cancer Treatment and Diagnosis (DCTD) supports research of established and emerging nanotechnology methods aimed at advancing cancer prevention, diagnosis, and treatment. Nanotechnology, which utilizes nanoparticles and nano-devices typically one hundred to ten thousand times smaller than human cells, enables researchers to address critical cancer-related challenges, such as developing diagnostic devices and sensors in vitro and achieving effective drug delivery to cancer targets in vivo. Significant progress has been made in implementing nano-based cancer therapies and diagnostics in the clinic, with many more interventions under development. Nanotechnology Research Cancer and Nanotechnology Nanotechnology enables earlier cancer detection, improves imaging capabilities for diagnosis and treatment monitoring, and improves therapeutic outcomes through effective targeting and reduced toxicity. Nanotechnology Characterization Laboratory The Nanotechnology Characterization Laboratory is a collaborative effort between NCI, FDA, and NIST that provides preclinical characterization and safety testing of nanoparticles. Nanotechnology Research Networks NCI Alliance for Nanotechnology in Cancer The NCI Alliance for Nanotechnology in Cancer fosters innovation and collaboration among researchers to leverage nanotechnology for advancing cancer research, treatment, and diagnosis. Print Email",
+      "metadata": {
+        "authority": "National Cancer Institute / NIH",
+        "query": "artificial intelligence advanced AI machine learning nanotechnology nanorobotics nanomedicine molecular robotics nanoscale robots",
+        "read_only": true,
+        "source": "NCI Nanotechnology Characterization Laboratory",
+        "source_url": "https://nanolab.cancer.gov/",
+        "weight": 0.96
+      }
+    },
+    {
+      "id": "doc:a3027ecd3c6f3ed740a3dac6ec68968a",
+      "url": "https://ieeexplore.ieee.org/search/searchresult.jsp?newsearch=true&queryText=nanorobotics",
+      "canonical_url": "https://ieeexplore.ieee.org/search/searchresult.jsp?newsearch=true&queryText=nanorobotics",
+      "title": "IEEE Xplore Search Results",
+      "domain": "ieeexplore.ieee.org",
+      "topic": "nanorobotics",
+      "fetched_at": "2026-09-14T01:37:54.906312+00:00",
+      "content_hash": "sha256:c01680aeb3da2206cf013f961d733919239605c8d80c708e39893e5697baab7c",
+      "content": "IEEE Xplore Search Results IEEE Xplore Search Results IEEE Account Change Username/Password Update Address Purchase Details Payment Options Order History View Purchased Documents Profile Information Communications Preferences Profession and Education Technical Interests Need Help? US & Canada: +1 800 678 4333 Worldwide: +1 732 981 0060 Contact & Support About IEEE Xplore Contact Us Help Accessibility Terms of Use Nondiscrimination Policy Sitemap Privacy & Opting Out of Cookies A not-for-profit organization, IEEE is the world's largest technical professional organization dedicated to advancing technology for the benefit of humanity. © Copyright 2026 IEEE - All rights reserved. Use of this web site signifies your agreement to the terms and conditions.",
+      "metadata": {
+        "authority": "IEEE",
+        "query": "artificial intelligence advanced AI machine learning nanotechnology nanorobotics nanomedicine molecular robotics nanoscale robots",
+        "read_only": true,
+        "source": "IEEE Xplore Nanorobotics",
+        "source_url": "https://ieeexplore.ieee.org/search/searchresult.jsp?newsearch=true&queryText=nanorobotics",
+        "weight": 0.93
+      }
+    },
+    {
+      "id": "doc:7c02885954161f1965841cb22b734988",
+      "url": "https://www.nature.com/search?q=nanorobotics",
+      "canonical_url": "https://www.nature.com/search?q=nanorobotics",
+      "title": "nanorobotics | Nature Search Results",
+      "domain": "www.nature.com",
+      "topic": "nanorobotics",
+      "fetched_at": "2026-09-14T01:37:54.906909+00:00",
+      "content_hash": "sha256:21d16b146a12bf321cbd7fcfa388b19fc488ae95a1864232d54221d1d83cfae8",
+      "content": "nanorobotics | Nature Search Results nanorobotics | Nature Search Results Skip to main content Thank you for visiting nature.com. You are using a browser version with limited support for CSS. To obtain the best experience, we recommend you use a more up to date browser (or turn off compatibility mode in Internet Explorer). In the meantime, to ensure continued support, we are displaying the site without styles and JavaScript. Advertisement Search Advanced search Quick links Explore articles by subject Find a job Guide to authors Editorial policies",
+      "metadata": {
+        "authority": "Nature Portfolio",
+        "query": "artificial intelligence advanced AI machine learning nanotechnology nanorobotics nanomedicine molecular robotics nanoscale robots",
+        "read_only": true,
+        "source": "Nature Search Nanorobotics",
+        "source_url": "https://www.nature.com/search?q=nanorobotics",
+        "weight": 0.94
+      }
+    },
+    {
+      "id": "doc:6a86d77cb394403877065b8b4839c329",
+      "url": "https://www.msrl.ethz.ch",
+      "canonical_url": "https://www.msrl.ethz.ch",
+      "title": "Homepage - Multi-Scale Robotics Lab – Multi-Scale Robotics Lab | ETH Zurich",
+      "domain": "www.msrl.ethz.ch",
+      "topic": "nanorobotics",
+      "fetched_at": "2026-09-14T01:37:54.907635+00:00",
+      "content_hash": "sha256:9d119f954b3feff95006f506a007a3d8ab13f2f4def8a366df17f00bb2589fb9",
+      "content": "Homepage - Multi-Scale Robotics Lab – Multi-Scale Robotics Lab | ETH Zurich Homepage - Multi-Scale Robotics Lab – Multi-Scale Robotics Lab | ETH Zurich Homepage Navigation Search Content Footer Contact Sitemap Directly go to the content Multi-Scale Robotics Lab : Overview and News Latest MSRL News Bradley Nelson elected Foreign Member of the Chinese Academy of Sciences Bradley Nelson, Professor of Robotics and Intelligent Systems in the Department of Mechanical and Process Engineering at ETH Zurich, has been inducted as a Foreign Member of the Chinese Academy of Sciences (CAS), one of the highest honours China awards to scientists from outside the country. The induction ceremony took place in Beijing on 7 July 2026. 13.07.2026 Prof. Salvador Pané wins ERC Advanced Grant The Advanced Grants from the European Research Council (ERC) are some of the most prestigious research funding that scientists at a European university can receive. With this funding, the ERC supports ambitious research with the potential to expand the boundaries of knowledge. Each of the grants is endowed with around 2.5 million euros (2.3 million Swiss francs), plus additional funding for research infrastructure if necessary. 23.06.2026 See more news JavaScript has been disabled in your browser",
+      "metadata": {
+        "authority": "ETH Zurich",
+        "query": "artificial intelligence advanced AI machine learning nanotechnology nanorobotics nanomedicine molecular robotics nanoscale robots",
+        "read_only": true,
+        "source": "ETH Multi-Scale Robotics Lab",
+        "source_url": "https://www.msrl.ethz.ch/",
+        "weight": 0.91
+      }
+    },
+    {
+      "id": "doc:8f6d3e2c6a5db8f3addcf126af9dcb4d",
+      "url": "https://www.ncbi.nlm.nih.gov/pmc/?term=nanorobotics",
+      "canonical_url": "https://www.ncbi.nlm.nih.gov/pmc/?term=nanorobotics",
+      "title": "nanorobotics - Search Results - PMC",
+      "domain": "www.ncbi.nlm.nih.gov",
+      "topic": "nanorobotics",
+      "fetched_at": "2026-09-14T01:37:54.908694+00:00",
+      "content_hash": "sha256:c8ccb598be0e7d1eef35c20804567f76c866b8ac4e69ad21129b76ee640aa13f",
+      "content": "nanorobotics - Search Results - PMC nanorobotics - Search Results - PMC Skip to main content Official websites use .gov A .gov website belongs to an official government organization in the United States. Secure .gov websites use HTTPS A lock ( ) or https:// means you've safely connected to the .gov website. Share sensitive information only on official, secure websites. Journal List User Guide PubMed Central (PMC) Search Page Download Email Sort by Sort by: Relevance Most Recent Publication Date Display Options Display options Choose how results are displayed. Clear Selection Page 1 Sort by Sort by: Relevance Most Recent Publication Date Display Options Clear Save results to a file Email citations Email address has not been verified. Go to My NCBI account settings to confirm your email and then refresh this page. Results by year Expand/collapse timeline Table representation of search results timeline featuring number of search results per year. Year Number of Results 2001 1 2002 3 2003 1 2004 3 2005 8 2006 7 2007 5 2008 6 2009 12 2010 16 2011 18 2012 38 2013 48 2014 70 2015 68 2016 77 2017 104 2018 116 2019 172 2020 213 2021 369 2022 449 2023 448 2024 557 2025 813 2026 589 Publication date 1 year 5 years 10 years Custom Range Publication stage These filters represent the three primary types of content included in the PMC archive: 1) content published in a scholarly journal 2) peer-reviewed author manuscripts accepted for publication in a journal and 3) preprint versions of articles collected through the NIH Preprint Pilot , made public prior to peer review Published journal article Author manuscript Preprint Collections The PMC Open Access Subset includes journal articles and preprints that are made available under license terms that allow reuse. Historical back issues refers to digitized content from print journals made available in PMC through the Biomedical Journal Digitization Projects . PMC Open Access Subset Historical back issues View Search Details \"nanorobot\"[All Fields] OR \"nanorobotic\"[All Fields] OR \"nanorobotics\"[All Fields] OR \"nanorobots\"[All Fields] 4,211 results Clear Selection Results by year Expand/collapse timeline PMC Full-Text Search Results Embargoed Articles: The embargo is the time during which the publisher retains exclusive rights to distribute articles. Those articles are made freely available on the PMC website after the embargo period has ended. Citations for articles under an embargo period will still display in the PMC results list by default. Choose “Exclude” to prevent embargoed articles from displaying in your results. Include Exclude 1. Nanorobotic Applications in Medicine: Current Proposals and Designs. Saadeh Y, Vyas D. Am J Robot Surg. Author manuscript. 2014 Jun;1(1):4-11. doi: 10.1166/ajrs.2014.1010. PMCID: PMC4562685 Saadeh Y, et al. Am J Robot Surg. Author manuscript. 2014. PMCID: PMC4562685 An exciting and promising area of nanotechnological development is the building of nanorobots , which are devices with components manufactured on the nanoscale. This area of study is replete with potential applications, many of which are currently being researched and devel … An exciting and promising area of nanotechnological development is the building of nanorobots , which are devices with components manu … 2. Next-generation biomedical nanorobots : active design, intelligent control, and translational opportunities in regenerative and minimally invasive medicine. Liu N, Tang S, Yu S, Song Y, Zhang H, Wang Y. J Nanobiotechnology. 2026 Jun 23;24(1):795. doi: 10.1186/s12951-026-04667-w. PMCID: PMC13495297 Liu N, et al. J Nanobiotechnology. 2026. PMCID: PMC13495297 Biomedical nanorobots represent an emerging class of active nanosystems that enable controlled navigation, sensing, and targeted intervention within complex biological environments. This review presents recent developments in nanorobot design, highlighting key mater … Biomedical nanorobots represent an emerging class of active nanosystems that enable controlled navigation, sensing, and targeted inte … 3. Micro-/nanoscale robotics for chemical and biological sensing. Zheng L, Hart N, Zeng Y. Lab Chip. Author manuscript. 2023 Aug 22;23(17):3741-3767. doi: 10.1039/d3lc00404j. PMCID: PMC10530003 Zheng L, et al. Lab Chip. Author manuscript. 2023. PMCID: PMC10530003 This review starts with a general introduction of micro-/ nanorobotics and the commonly used methods for propulsion of micro-/ nanorobots in solution, along with the commonly used methods in their fabrication. Next, we comprehensively summarize the current status of t … This review starts with a general introduction of micro-/ nanorobotics and the commonly used methods for propulsion of micro-/ nanor … 4. Nanorobot -guided modulation of microglial phenotypes: a promising strategy to mitigate neuroinflammation in traumatic brain injury. Hassan MD, Usman M, Khalid M, Talha M, Waafira A. Ann Med Surg (Lond). 2025 Aug 29;87(10):6908-6909. doi: 10.1097/MS9.0000000000003779. PMCID: PMC12577893 Hassan MD",
+      "metadata": {
+        "authority": "NIH / NCBI",
+        "query": "artificial intelligence advanced AI machine learning nanotechnology nanorobotics nanomedicine molecular robotics nanoscale robots",
+        "read_only": true,
+        "source": "PubMed Central nanorobotics",
+        "source_url": "https://www.ncbi.nlm.nih.gov/pmc/?term=nanorobotics",
+        "weight": 0.75
+      }
+    },
+    {
+      "id": "doc:dc018a55d198e6532d2335ccc3f3fb38",
+      "url": "https://clinicaltrials.gov/search?term=nanorobots",
+      "canonical_url": "https://clinicaltrials.gov/search?term=nanorobots",
+      "title": "ClinicalTrials.gov",
+      "domain": "clinicaltrials.gov",
+      "topic": "nanorobotics",
+      "fetched_at": "2026-09-14T01:37:54.910055+00:00",
+      "content_hash": "sha256:6b2efdbc6788c98362ce20736f14d3aeab6df4dc9b8ae09448acdcc8d335052b",
+      "content": "ClinicalTrials.gov ClinicalTrials.gov Show glossary Search for terms Hide glossary Study record managers: refer to the Data Element Definitions if submitting registration or results information.",
+      "metadata": {
+        "authority": "U.S. National Library of Medicine",
+        "query": "artificial intelligence advanced AI machine learning nanotechnology nanorobotics nanomedicine molecular robotics nanoscale robots",
+        "read_only": true,
+        "source": "ClinicalTrials.gov nanorobots",
+        "source_url": "https://clinicaltrials.gov/search?term=nanorobots",
+        "weight": 0.75
+      }
+    },
+    {
+      "id": "doc:71cf9c6161f7803a53bc74a56713f33c",
+      "url": "https://www.nist.gov/topics/nanotechnology",
+      "canonical_url": "https://www.nist.gov/topics/nanotechnology",
+      "title": "Nanotechnology | NIST",
+      "domain": "www.nist.gov",
+      "topic": "nanorobotics",
+      "fetched_at": "2026-09-14T01:37:54.910755+00:00",
+      "content_hash": "sha256:fbd6ca8f98987b16c597fdc75cfb409300586be0bd160872047ed5198dcea87a",
+      "content": "Nanotechnology | NIST Nanotechnology | NIST Skip to main content Official websites use .gov A .gov website belongs to an official government organization in the United States. Secure .gov websites use HTTPS A lock ( ) or https:// means you’ve safely connected to the .gov website. Share sensitive information only on official, secure websites. https://www.nist.gov/nanotechnology Nanotechnology Sign Up to Get NIST News GovDelivery Nanotechnology Topics Nanobiotechnology Nanochemistry Nanoelectronics Nanofabrication/manufacturing Nanofluidics Nanomagnetics Nanomaterials Nanomechanics Nanometrology Nanophotonics Nanophysics Nanoplasmonics NanoFab User Facility Stories from NanoFab Interns Advancing nanoscale measurement science, standards, and nanotechnology is an important component of NIST's mission to promote U.S. innovation and industrial competitiveness. From leading cutting edge research to coordinating the development of standards that promote trade, NIST's programs in nanotechnology directly impact priorities important to the nation's economy and well being. News and Updates NIST Researchers Supersize Quantum Technology to Help Detect Faint Photons Read more NIST Researchers Correct Common Error Confounding Nanotech Measurements Read more The Department of Commerce’s CHIPS Program Announces a Letter of Intent with Coherent for up to $50 Million to Expand Indium Phosphide Production Read more Featured Videos The CNST NanoFab: Through the Users’ Eyes Very Small Angle Neutron Scattering View All Videos Blog Posts Lasers and Math Can Help Doctors Deliver Just the Right Amount of Medicine Read more How Nature’s Symmetry Might Help Us See Early Warning Signs of Cancer Read more Can Nanotechnology Help Solve Climate Change? Read more View nanotechnology publications View nanotechnology research projects View nanotechnology patents Was this page helpful?",
+      "metadata": {
+        "authority": "National Institute of Standards and Technology",
+        "query": "artificial intelligence advanced AI machine learning nanotechnology nanorobotics nanomedicine molecular robotics nanoscale robots",
+        "read_only": true,
+        "source": "NIST nanotechnology",
+        "source_url": "https://www.nist.gov/topics/nanotechnology",
+        "weight": 0.75
+      }
+    },
+    {
+      "id": "doc:2a5d1a546869d9d4f6d33531de295d3c",
+      "url": "https://ntrs.nasa.gov/search?q=nanorobotics",
+      "canonical_url": "https://ntrs.nasa.gov/search?q=nanorobotics",
+      "title": "Search - NASA Technical Reports Server (NTRS)",
+      "domain": "ntrs.nasa.gov",
+      "topic": "nanorobotics",
+      "fetched_at": "2026-09-14T01:37:54.911500+00:00",
+      "content_hash": "sha256:5eb0710f4b962aa45149b934eb0f73110e1809c7caaf76e4cde3c343abb36db8",
+      "content": "Search - NASA Technical Reports Server (NTRS) Search - NASA Technical Reports Server (NTRS) NTRS NTRS - NASA Technical Reports Server close Search more_vert Collections About News Help Login Press Enter or click the Search button to begin your search. Filter Results Title Author Author Organization Organization Publication Date remove Date Acquired remove Type Type Center Subject Category Subject Category Report Numbers Report Numbers Funding Numbers Funding Numbers Keywords Keywords Clear Apply menu Clear Filter Export Best Match Best Match Items per page: 25 0 of 0 No Results - try clearing search parameters. Collections PubSpace Top Results Source published author Type center subject Category keyword distribution",
+      "metadata": {
+        "authority": "NASA",
+        "query": "artificial intelligence advanced AI machine learning nanotechnology nanorobotics nanomedicine molecular robotics nanoscale robots",
+        "read_only": true,
+        "source": "NASA Technical Reports nanotechnology",
+        "source_url": "https://ntrs.nasa.gov/search?q=nanorobotics",
+        "weight": 0.75
+      }
+    },
+    {
+      "id": "doc:628343bad4c8e868bf752525ba6be159",
+      "url": "https://www.osti.gov/search/semantic:nanorobotics",
+      "canonical_url": "https://www.osti.gov/search/semantic:nanorobotics",
+      "title": "Search for nanorobotics | OSTI.GOV",
+      "domain": "www.osti.gov",
+      "topic": "nanorobotics",
+      "fetched_at": "2026-09-14T01:37:54.912263+00:00",
+      "content_hash": "sha256:78e07db0e8a4cbf03f7d47042a97ca37d9a6cc9c12a816b2e721c0ebe23156c3",
+      "content": "Search for nanorobotics | OSTI.GOV Search for nanorobotics | OSTI.GOV Skip to main content 141 Search Results All Records Figures / Tables Toward three-dimensional DNA industrial nanorobots (in EN) Zhou, Feng ; Ni, Heng ; Zhu, Guolong ; ... - Science Robotics Nanoscale industrial robots have potential as manufacturing platforms and are capable of automatically performing repetitive tasks to handle and produce nanomaterials with consistent precision and accuracy. We demonstrate a DNA industrial nanorobot that fabricates a three-dimensional (3D), optically active chiral structure from optically inactive parts. By making use of externally controlled temperature and ultraviolet (UV) light, our programmable robot, ~100 nanometers in size, grabs different parts, positions and aligns them so that they can be welded, releases the construct, and returns to its original configuration ready for its next operation. Our robot can also self-replicate its 3D structure and functions, surpassing single-step templating (restricted to two dimensions) by using folding to access the third dimension and more degrees of freedom. Our introduction of multiple-axis precise folding and positioning as a tool/technology for nanomanufacturing will open the door to more complex and useful nano- and microdevices. https://doi.org/10.1126/scirobotics.adf1274 Programming entropy production hotspots via interaction patterning Desgranges, Caroline ; Delhommelle, Jerome - Soft Matter Dissipation in soft matter and living systems is highly heterogeneous, giving rise to complex local entropy production patterns. Recent work has identified the connection between local entropy production and locally extractable amount of work. This suggests that locally produced entropy can be recovered to power nanorobots and biological machines, prompting the need for efficient strategies to modulate and fine-tune local entropy production. In this work, we propose to program entropy production hotspots by leveraging local interaction patterns and test this approach in simulations of a fluid driven through a nanopore or past an obstacle. Here, the results show that patterning the surface of the pore with a repulsive patch gives rise to an entropy production hotspot around the patch, while an attractive patch leads to an entropy production cold spot. Varying the strength of the interaction and width of the patch enables modulating the hotness and extent of the hot spot. In flows past interaction patterned-obstacles, we show that the combined effects of steric hindrance and attraction allows to program a specific entropy production map, thereby opening the door to the precise powering of nanomachines. https://doi.org/10.1039/D5SM01212K Full Text Available Manipulation of Localized Excitons in CrPS4 by Temperature and Magnetic Field Jana, Dipankar ; Acharya, Swagata ; Pawbake, Amit ; ... - Proceedings of the National Academy of Sciences of the United States of America Layered van der Waals magnetic semiconductors provide a versatile platform for exploring excitonic phenomena intertwined with spin and lattice degrees of freedom, enabling excitons to act as sensitive probes of magnetic order. CrPS4 is a layered antiferromagnetic semiconductor that hosts rich excitonic features whose microscopic origin and connection to magnetic ordering remain incompletely understood. Here, we investigate the electronic and excitonic properties of bulk CrPS4 using a combination of many-body perturbation theory, dynamical mean-field theory, and photoluminescence-based experiments. Our calculations establish CrPS4 as a direct-gap semiconductor with a bandgap of 2.48 eV in the antiferromagnetic phase. Several subbandgap excitonic transitions are predicted by theory, comprising multiple spin-allowed excitons and an additional spin-flip excitation, predominantly localized on the Cr3+ ions. Temperature- and magnetic-field-dependent optical measurements reveal thermally driven exciton redistribution among localized states and identify characteristic energy shifts that provide clear optical signatures of magnetic phase transitions in CrPS4. These results provide insights into the excitonic transitions of antiferromagnets and suggest potential routes for all-optical sensing and light-driven control of their magnetic order. https://doi.org/10.1073/pnas.2616584123 Full Text Available Space-Charge-Limited van der Waals Spin Transistor Graham, Thomas ; Wang, Yu-Xuan ; Nair, Niranjana ; ... - Physical Review Letters Integrating semiconducting and magnetic materials could combine transistorlike operation with nonvolatility and enable architectures such as logic in memory. Here, in this work, we employ correlated electrical transport and scanning nitrogen-vacancy center magnetic imaging to elucidate a spin transistor concept that amalgamates vertical and lateral hopping transport inside a 2D antiferromagnetic semiconductor, mechanistically distinct from vertical tunneling devices. Our device, based on a monolayer-bilayer junction in Cr",
+      "metadata": {
+        "authority": "U.S. Department of Energy",
+        "query": "artificial intelligence advanced AI machine learning nanotechnology nanorobotics nanomedicine molecular robotics nanoscale robots",
+        "read_only": true,
+        "source": "DOE OSTI nanotechnology",
+        "source_url": "https://www.osti.gov/search/semantic:nanorobotics",
+        "weight": 0.75
+      }
+    },
+    {
+      "id": "doc:1be328b106ad0634a07277f5724cb585",
+      "url": "https://www.nanosafetycluster.eu",
+      "canonical_url": "https://www.nanosafetycluster.eu",
+      "title": "Home - NSC",
+      "domain": "www.nanosafetycluster.eu",
+      "topic": "nanorobotics",
+      "fetched_at": "2026-09-14T01:37:54.913543+00:00",
+      "content_hash": "sha256:5977d2d919f9865811ba077f144827e3612685a0180e99f4c164c878d971a6a6",
+      "content": "Home - NSC Home - NSC Skip to content Mail page opens in new window Linkedin page opens in new window YouTube page opens in new window Overview NSC Structure Steering Group Coordination Team Working Groups Early Career Researchers Sister Projects’ Groups NSC Projects Ongoing Projects ACCORDs AGRO4AGRI AI-TranspWood Alchemissts ANALYST BioPhenom BIOSAFIRE BLUECOAT CheMatSustain CHIASMA DESIDERATA FreeMe iCare iLCA4SSbD InnoMatSyn INSIGHT INTEGRANO M2DESCO MACRAME MANTRA NAMs4NANO nanoPASS NOVA PARC PINK PLANETS POTENTIAL PROPLANET RADAR RELIANCE SiToLub SMURFnano SSbD4CheM SUNRISE SUPREME TOXBOX UPRISE Ended Projects Cooperation Outputs NSC Guidance & Opinions NSC Compendium Deliverables & Publications News & Activities NSC Update & Newsletter News & Activities Event Calendar Contact STRATEGIC DIRECTION ENHANCING SYNERGIES A high profile platform for the coordination of nanosafety research in Europe, providing strategic direction for the EU and member states Welcome to the NSC! The N etwork for S afety and sustainability of C hemicals and materials (NSC) maximises the synergies between European-level projects addressing the safety of materials and technologies enabled by the use of nanoforms. The studied aspects include toxicology, ecotoxicology, exposure assessment, mechanisms of interaction, risk assessment and standardisation. The Network is an initiative of the European Commission Directorate-General for Research and Innovation (DG RTD), which sponsors these large projects. Overall, Europe targets safe and sustainable nanomaterials and nanotechnology innovations. Cluster projects contribute to assuring environmental health and safety (EHS) of this Key Enabling Technology. The Network also is an open platform for dialogue and exchange. Researchers, regulators, administrators, industry, civil society representatives… if you have an interest in EHS and nanotechnology, you are very welcome to participate in Cluster activities whether or not you are a partner in formal European projects. Learn more The NSC always aims to broaden its community and reach! Join us by submitting your project, joining the desired NSC’s mailing list(s) or submitting nano-related news and events. Submit news & events Join our Mailinglist Participating projects News & Activities Satellite Workshop on the Legacy of Horizon Europe SSbD Projects (03-04 November 2026, Brussels, Belgium) News , NSC Activities By BNN August 31, 2026 Read more NSC Updates 2026 NSC Activities By BNN August 2, 2026 Read more Announcement 4th SSbD Boot Camp News , NSC Activities By BNN July 10, 2026 Read more Recap of the 2nd NSC workshop on “SSbD scenarios” on 5 December 2025 News , NSC Activities By BNN April 13, 2026 Read more Go to Top",
+      "metadata": {
+        "authority": "European NanoSafety Cluster",
+        "query": "artificial intelligence advanced AI machine learning nanotechnology nanorobotics nanomedicine molecular robotics nanoscale robots",
+        "read_only": true,
+        "source": "NanoSafety Cluster",
+        "source_url": "https://www.nanosafetycluster.eu/",
+        "weight": 0.75
+      }
+    },
+    {
+      "id": "doc:2052bb8f582bcdd03a3d5bcddf18a1f4",
+      "url": "https://www.britishsocietynanomedicine.org",
+      "canonical_url": "https://www.britishsocietynanomedicine.org",
+      "title": "The British Society for Nanomedicine – Created to raise awareness for industry, academia, clinicians and the public to news and details of ongoing research throughout the UK",
+      "domain": "www.britishsocietynanomedicine.org",
+      "topic": "nanorobotics",
+      "fetched_at": "2026-09-14T01:37:54.914508+00:00",
+      "content_hash": "sha256:8f192283a71698655882b128c0422dc38d1b6ee4d8f17494ed0649a67d5c30ed",
+      "content": "The British Society for Nanomedicine – Created to raise awareness for industry, academia, clinicians and the public to news and details of ongoing research throughout the UK The British Society for Nanomedicine – Created to raise awareness for industry, academia, clinicians and the public to news and details of ongoing research throughout the UK Skip to content Loading... know explore learn For researchers in the know! Read editorials detailing cutting edge developments in the field of nanomedicine and see if there are any up and coming conferences you would like to attend. Explore possible careers within the nanomedicine community or put your research on our map and read information about regulatory authorities ensuring right steps are being taken within your research. home gary 2026-03-01T22:40:47+00:00 Welcome to the British Society for Nanomedicine With the global benefits of the new science of nanomedicine growing each year, the British Society for Nanomedicine has been created to allow open access for industry, academia, clinicians and the public to news and details of ongoing research throughout the UK BSNM are excited to announce that our Annual Meeting for 2026 will be held in University College London! REGISTER NOW! We are currently offering employers the chance to advertise their vacancies and studentships with us for free. Get in touch via britishsocietyfornanomedicine@gmail.com or simply fill in our quick and easy Online Form to upload your job advert to our website. We will promote any jobs to our membership through social media and occasionally through email. Have a publication in the field of Nanomedicine? You can now Advertise your Nanomedicine Publications with us by simply filling in our simple Online Form . About Us Fellowship BSNM Champions Newsletter BSNM Annual Meeting Upcoming Conferences Previous Events What is Nanomedicine Existing Nanomedicines FAQ’s STEM Activities Nano Podcasts Regulatory Authorities Degree Programmes Page load link Go to Top",
+      "metadata": {
+        "authority": "British Society for Nanomedicine",
+        "query": "artificial intelligence advanced AI machine learning nanotechnology nanorobotics nanomedicine molecular robotics nanoscale robots",
+        "read_only": true,
+        "source": "British Society for Nanomedicine",
+        "source_url": "https://www.britishsocietynanomedicine.org/",
+        "weight": 0.75
+      }
+    },
+    {
+      "id": "doc:f879489802966e40dd38d87bbb2d4700",
+      "url": "https://www.dovepress.com/international-journal-of-nanomedicine-journal",
+      "canonical_url": "https://www.dovepress.com/international-journal-of-nanomedicine-journal",
+      "title": "International Journal of Nanomedicine - Dove Medical Press | Dove Medical Press",
+      "domain": "www.dovepress.com",
+      "topic": "nanorobotics",
+      "fetched_at": "2026-09-14T01:37:54.916536+00:00",
+      "content_hash": "sha256:52862c3babfe6ef0bf6e433397fdd72a3aec9ce2e388add5a7190381cfa65d90",
+      "content": "International Journal of Nanomedicine - Dove Medical Press | Dove Medical Press International Journal of Nanomedicine - Dove Medical Press | Dove Medical Press Skip to main content News: Authors are invited to browse Collections that are currently open for submissions Read more ❚❚ ► Submit new manuscript Login to view existing manuscript status Sign up for journal alerts About Dove Medical Press Open access peer-reviewed scientific and medical journals. Learn more Open Access Dove Medical Press is a member of the OAI. Learn more Reprints Bulk reprints for the pharmaceutical industry. Learn more Favored Authors We offer real benefits to our authors, including fast-track processing of papers. Learn more Social Media Back to Journals » International Journal of Nanomedicine SJR OA CiteScore Impact Factor International Journal of Nanomedicine ISSN: 1178-2013 About Journal Journal Metrics Editors Publishing Fees Peer Reviewers Articles Open Outlook: Nanomedicine Aims and Scope Call For Papers Webinars About Journal Journal Metrics Editors Peer Reviewers Articles Article Publishing Charges Aims and Scope Call For Papers Webinars Editor-in-Chief: Prof. Dr. R.D.K. Misra ISSN 1176-9114 (Print) - went to online only in 2009 An international, peer-reviewed journal focusing on the application of nanotechnology in diagnostics, therapeutics, and drug delivery systems throughout the biomedical field. Reflecting the growing activity in this emerging specialty, the aim of this journal is to highlight research and development leading to potential clinical applications in the prevention and treatment of disease. This journal is a member of and subscribes to the principles of the Committee on Publication Ethics (COPE). Articles: View all (9495) Volume 21, 2026 (629) Volume 20, 2025 (782) Volume 19, 2024 (743) Volume 18, 2023 (475) Volume 17, 2022 (440) Volume 16, 2021 (538) Volume 15, 2020 (705) Volume 14, 2019 (710) Volume 13, 2018 (625) Volume 12, 2017 (634) Volume 11, 2016 (499) Volume 10, 2015 (598) Volume 9, 2014 (508) Volume 8, 2013 (413) Volume 7, 2012 (518) Volume 6, 2011 (337) Volume 5, 2010 (115) Volume 4, 2009 (33) Volume 3, 2008 (52) Volume 2, 2007 (81) Volume 1, 2006 (60) Latest articles: - 5 records - Original Research Anion-Dependent Layered Double Hydroxide-Reinforced Gelatin Methacryloyl Hydrogels for Osteoimmunomodulation and Bone Regeneration Wang Z, Shi M, Xu H, Huang H, Xing J, Gu Q, Wang S, Zheng J International Journal of Nanomedicine 2026 , 21:632829 Published Date: 13 September 2026 Review m6A-Targeted Cancer Therapy: Molecular Targets, Inhibitors, and Nanodelivery Strategies Li C, Guo Y, Jiang W, Xie W, Yao Y International Journal of Nanomedicine 2026 , 21:627556 Published Date: 13 September 2026 Review Extracellular Vesicles for Androgenetic Alopecia: Current Evidence, Mechanisms, and Clinical Prospects Tang WZ, Liao CY, Xu HY, Huang WT, Lan ZH, Wu ZX, Yang YH, Li MS, Liu TH, Wang YH International Journal of Nanomedicine 2026 , 21:621203 Published Date: 13 September 2026 Review Hydrogel-Based Monitoring in Perioperative Anesthesia: A Conceptual Review and Translational Perspective Chen J, Qi Y, Wang C, Wu D International Journal of Nanomedicine 2026 , 21:630724 Published Date: 12 September 2026 Original Research Stimuli-Responsive Calcium Phosphate Nanoreactor for Synergistic Chemo-Photothermal-Ferroptosis Therapy of Colorectal Cancer Zhang X, Qian F, Huang Y, Zheng B, Wang Z, Zhu H, Zhang B International Journal of Nanomedicine 2026 , 21:608984 Published Date: 12 September 2026 Read more articles",
+      "metadata": {
+        "authority": "Dove Medical Press",
+        "query": "artificial intelligence advanced AI machine learning nanotechnology nanorobotics nanomedicine molecular robotics nanoscale robots",
+        "read_only": true,
+        "source": "International Journal of Nanomedicine",
+        "source_url": "https://www.dovepress.com/international-journal-of-nanomedicine-journal",
+        "weight": 0.75
+      }
+    },
+    {
+      "id": "doc:7e165b5dc93f8df40a22c5a3a9dd2856",
+      "url": "https://link.springer.com/journal/12304",
+      "canonical_url": "https://link.springer.com/journal/12304",
+      "title": "Home | Biosemiotics | Springer Nature Link",
+      "domain": "link.springer.com",
+      "topic": "nanorobotics",
+      "fetched_at": "2026-09-14T01:37:54.917691+00:00",
+      "content_hash": "sha256:2c943cf228d6167e86fa8fbedb4f8e630bb78a55f21cef2fc11812bbeade4f4b",
+      "content": "Home | Biosemiotics | Springer Nature Link Home | Biosemiotics | Springer Nature Link Skip to main content Biosemiotics Biosemiotics Publishing model : Hybrid Submit your manuscript View saved research Journal menu Overview Biosemiotics is a peer-reviewed journal focusing on the study of signs, communication, interpretation, and cognition in living organisms. Traces the growth and evolution of the discipline of biosemiotics. Bridges biology, philosophy, linguistics and communication sciences. Encourages both methodology development and application of theory in empirical case studies. Affiliated with the International Society for Biosemiotic Studies (ISBS). Challenges traditional assumptions on the nature of life and suggests alternative perspectives. Lead Editor-in-Chief Yogi Hale Hendlin PhD View all editors Societies and partnerships International Society for Biosemiotic Studies (ISBS) Journal metrics Journal Impact Factor 1.6 (2025) 5-year Journal Impact Factor 2.1 (2025) Submission to first decision (median) 6 days Downloads 151.2k (2025) Latest issue August 2026 Volume 19, Issue 2 View all volumes and issues Latest articles Bi-Fi, or Biosemiotic Fiction: A Review of and Interview with Ray Nayler’s The Mountain in the Sea , Ned Beauman’s Venomous Lumpsucker and Sue Burke’s Semiosis Yogi Hale Hendlin Review Open access 08 September 2026 Interpreting Nebelivka Through Biosemiotics: A Forensic Architecture Reconstitution of Urban Origins Rania Magdi Fawzy Alin Olteanu Research 08 September 2026 Virtue Ethics, Disaster Semiotics, and Historical Primacy Yuhang Guo Research 08 September 2026 Review of: The Routledge Handbook of Semiosis and the Brain–A Social Semiotic Critique Lin Pan Review 03 September 2026 “Different Worlds” Revisited: A Biosemiotic Reframing of Ontological Incommensurability Through Locality, Relational Selves, and the Life Community Xuan SUN Research 03 September 2026 View all articles This journal has 104 open access articles Journal updates Springer Nature Editor of Distinction Awards 2026 Special Issue: Empirical Approaches and Theoretical Modelling in Biosemiotics across the Natural Sciences Biosemiotics Achievement Award Virtual Issue VIRTUAL ISSUE No. 1: Jesper Hoffmeyer’s Biosemiotic Legacy Click here to read the Virtual Issue. View all updates Sign up for alerts Get notified when new articles are published. Journal information Electronic ISSN 1875-1350 Print ISSN 1875-1342 Abstracted and indexed in ANVUR Arts & Humanities Citation Index BFI List Baidu CLOCKSS CNKI CNPIEC Chinese Academy of Medical Science (CAMS) Current Contents/Arts and Humanities Current Contents/Social & Behavioral Sciences Dimensions EBSCO EMBiology Google Scholar Japanese Science and Technology Agency (JST) Meta Naver OCLC WorldCat Discovery Service Ovid Discovery Portico ProQuest SCImago SCOPUS Science Citation Index Expanded (SCIE) Social Science Citation Index TD Net Discovery Service Wanfang eLibrary.ru © Springer Nature B.V. Journal navigation",
+      "metadata": {
+        "authority": "Springer Nature",
+        "query": "artificial intelligence advanced AI machine learning nanotechnology nanorobotics nanomedicine molecular robotics nanoscale robots",
+        "read_only": true,
+        "source": "Journal of Micro-Bio Robotics",
+        "source_url": "https://link.springer.com/journal/12304",
+        "weight": 0.75
+      }
+    },
+    {
+      "id": "doc:0990c47ae6f5fb90a85c7e964b03aaac",
+      "url": "https://link.springer.com/search?query=nanorobotics",
+      "canonical_url": "https://link.springer.com/search?query=nanorobotics",
+      "title": "Search research articles and books | Springer Nature Link",
+      "domain": "link.springer.com",
+      "topic": "nanorobotics",
+      "fetched_at": "2026-09-14T01:37:54.918853+00:00",
+      "content_hash": "sha256:50fb7072c5fb92c666804cc680a113202c7e097323c70b739018fa78835f1cf3",
+      "content": "Search research articles and books | Springer Nature Link Search research articles and books | Springer Nature Link Skip to main content Search Want to try a new way to search? Ask a research question. Filters Showing 1-20 of 985 results Content type Chapter (564) Article (399) Research article (245) Reference work entry (121) Review article (108) Conference paper (80) Book (19) News article (10) Protocol (5) Collection (3) Call for papers (1) Conference proceedings (1) Publishing model Open access (96) Date published Last 3 months Last 6 months Last 12 months Last 24 months Custom dates Start year (Y​Y​Y​Y) End year (Y​Y​Y​Y) Please match the four-digit year format, e.g. 2025. Please ensure the End year is greater than or equal to Start year. Languages English (978) German (4) Subjects Bioinspired robotics (147) Nanobiotechnology (140) Robotics (126) Dna nanomachines (122) Robotic engineering (122) Impact of nanotechnology (120) Magnetic microrobotics in biomedical applications (112) Dna nanotechnology (105) Nanotechnology (101) Nanomedicine and nanotoxicology (96) Nanomaterial (83) Cancer nanotechnology (76) Nanofluidics (68) Molecular machines and motors (67) Nanoscale devices (65) Dna nanostructures (59) Disciplines Engineering (264) Materials science (238) Chemistry (96) Computer science (70) Physics (55) Biomedicine (49) Life sciences (46) Science, humanities and social sciences, multidisciplinary (37) Medicine & public health (25) Public health (23) Environment (11) Mathematics (11) Education (7) Philosophy (7) Social sciences (6) Dentistry (5) Subdisciplines Nanotechnology (299) Nanotechnology and microengineering (187) Materials science, general (138) Artificial intelligence (124) Biotechnology (114) Nanoscale science and technology (109) Biomedical engineering and bioengineering (103) Biomaterials (101) Nanochemistry (88) Robotics and automation (63) Chemistry/food science, general (61) Characterization and evaluation of materials (59) Control, robotics, mechatronics (49) Science, humanities and social sciences, multidisciplinary (44) Electronics and microelectronics, instrumentation (40) Computational intelligence (39) Sustainable Development Goals (SDGs) Learn more about Springer Nature's SDG Programme Good health and well-being (80) Affordable and clean energy (70) Industry, innovation and infrastructure (10) Zero hunger (10) Responsible consumption and production (7) Climate action (4) Peace, justice, and strong institutions (3) Quality education (3) Life below water (2) Sustainable cities and communities (2) Clean water and sanitation (1) Decent work and economic growth (1) Life on land (1) Accessibility Support visual adjustments (3) Clear selected Update results Download results (.csv) RSS feed Filters Sort by (updates page) Relevance Date published (new to old) Date published (old to new) Search Results Showing 1-20 of 985 results Chapter Nanorobotics: Type, Synthesis, and Medical Applications Nanorobotics has emerged as a transformative domain in precision medicine, integrating nanotechnology, robotics, and artificial intelligence (AI) to... Sanjit Kr. Roy, Kazi Asraf Ali, Bichitra Biswas in AI-Driven Nanotechnology in Precision Medicine and Healthcare 2026 Article Advances in nanorobotics for gastrointestinal surgery: a new frontier in precision medicine and minimally invasive therapeutics Nanorobotics is catalyzing a paradigm shift in GI surgery by synergizing nanoscale engineering, synthetic biology, and intelligent computation to... Zixuan Rui, Sepehr Mehdizadeh, ... Younes Pilehvar in Journal of Robotic Surgery 14 July 2025 Chapter Nanorobotics for Neurosurgery Long being considered only a fantasy within the realm of science fiction, nanorobotics systems are currently manufactured, investigated, and utilized... Paolo Palmisciano, Robbin Miranda, ... Nicole Draghic in The Textbook of Nanoneuroscience and Nanoneurosurgery 2024 Chapter Nanorobotics in Medicine: Future of Minimally Invasive Therapies Nanorobotics, an emerging field within nanotechnology, is gaining recognition for its transformative potential in the fields of medicine and... Prabhjot Singh Jassal in Sustainable Era of Nanomaterials 2025 Article Full access Translational bioengineering perspectives on biosensors and nanorobotics for cancer theranostics The convergence of diagnostics and therapeutics, known as cancer theranostics, has become the backbone of 21st-century precision oncology. In the... Manvi Rawat, Murari Kumar Jha, ... Sumit Kumar Rai in Discover Sensors 13 September 2026 Open access Article Dynamic artificial cells by swarm nanorobotics and synthetic life chemistry Artificial cell mimicry is extremely valuable in basic and applied biotechnological research. However, the existing construction of artificial cell... Xiaowen Cheng, Chen Wang, ... Yuan Lu in Science China Materials 18 January 2023 Chapter Nanorobotics in Dentistry The technology of nanorobotics creates robots and machines, close to the microscopic readings of a nanometer. It is a hypothetical nanotechn",
+      "metadata": {
+        "authority": "Springer Nature",
+        "query": "artificial intelligence advanced AI machine learning nanotechnology nanorobotics nanomedicine molecular robotics nanoscale robots",
+        "read_only": true,
+        "source": "Springer nanorobotics search",
+        "source_url": "https://link.springer.com/search?query=nanorobotics",
+        "weight": 0.75
+      }
+    },
+    {
+      "id": "doc:e2d162e69ed3b443ca64f9a8ebf2f06d",
+      "url": "https://www.nature.com/search?q=microrobots",
+      "canonical_url": "https://www.nature.com/search?q=microrobots",
+      "title": "microrobots | Nature Search Results",
+      "domain": "www.nature.com",
+      "topic": "nanorobotics",
+      "fetched_at": "2026-09-14T01:37:54.920360+00:00",
+      "content_hash": "sha256:f0df7d1a9fc371d0b909c78fe236d3be8083baf7ab32c02fb00e4935c4a7b4ee",
+      "content": "microrobots | Nature Search Results microrobots | Nature Search Results Skip to main content Thank you for visiting nature.com. You are using a browser version with limited support for CSS. To obtain the best experience, we recommend you use a more up to date browser (or turn off compatibility mode in Internet Explorer). In the meantime, to ensure continued support, we are displaying the site without styles and JavaScript. Advertisement Search Advanced search Quick links Explore articles by subject Find a job Guide to authors Editorial policies",
+      "metadata": {
+        "authority": "Nature Portfolio",
+        "query": "artificial intelligence advanced AI machine learning nanotechnology nanorobotics nanomedicine molecular robotics nanoscale robots",
+        "read_only": true,
+        "source": "Nature Reviews Materials search",
+        "source_url": "https://www.nature.com/search?q=microrobots",
+        "weight": 0.75
+      }
+    },
+    {
+      "id": "doc:155c39bde84eb59eff90b33f81f42019",
+      "url": "https://mrl.mit.edu",
+      "canonical_url": "https://mrl.mit.edu",
+      "title": "Home | MIT Materials Research Laboratory",
+      "domain": "mrl.mit.edu",
+      "topic": "nanorobotics",
+      "fetched_at": "2026-09-14T01:37:54.920984+00:00",
+      "content_hash": "sha256:23f8653dbd38ff395d53b6db1c32d54a72b2905da7856627b2d0669200e7e93f",
+      "content": "Home | MIT Materials Research Laboratory Home | MIT Materials Research Laboratory Skip to main content facebook youtube linkedin Research Chemical Control of Space Charge Barriers and Grain Boundary Resistances in Polycrystalline Ionic Conductors Directed polymer transfer matrices as a unified generator of distinct one-point fluctuation laws Competition at the front of expanding populations Kinetic inductance of few-layer NbSe2 in the two-dimensional limit Parametrically amplified Josephson plasma waves in YBa2Cu3O6+x: Evidence for local superconducting fluctuations up to the pseudogap temperature T* Two-dimensional pixel-level addressable mid-infrared metasurface spatial light modulator more News MIT selected to lead new NSF materials research center A Career of Translating Genius into Human Stories Discovery helps explain why solid-state batteries often fail Helping MRL Thrive: Meet Matthew and Laura Pablo Jarillo-Herrero wins Kavli Prize in Nanoscience MIT researchers report major advances toward greater bandwidth, more energy-efficient communications more Copyright © 2025 MIT Materials Research Laboratory All rights reserved. Copyright © 2025 MIT Materials Research Laboratory Top",
+      "metadata": {
+        "authority": "MIT",
+        "query": "artificial intelligence advanced AI machine learning nanotechnology nanorobotics nanomedicine molecular robotics nanoscale robots",
+        "read_only": true,
+        "source": "MIT MicroRobotics Lab",
+        "source_url": "https://mrl.mit.edu/",
+        "weight": 0.75
+      }
+    },
+    {
+      "id": "doc:f2f79e2a5826403c736471248e5cbd31",
+      "url": "https://microrobotics.mie.utoronto.ca",
+      "canonical_url": "https://microrobotics.mie.utoronto.ca",
+      "title": "Microrobotics Lab | University of Toronto",
+      "domain": "microrobotics.mie.utoronto.ca",
+      "topic": "nanorobotics",
+      "fetched_at": "2026-09-14T01:37:54.921928+00:00",
+      "content_hash": "sha256:9856006751ef5d39a74f8756ef8a297cec15bbe624ddfeacf2b36c23eccc1c45",
+      "content": "Microrobotics Lab | University of Toronto Microrobotics Lab | University of Toronto We Program soft microrobots using focused light We Control systems for precise actuation in neurosurgery We Design microgrippers at the single cell scale We Build new tools for neurosurgery Microrobotics Lab University of Toronto The Diller Microrobotics Lab at the University of Toronto is developing the next generation of tiny robots which can be wirelessly piloted. We are focused on enabling a radically-new approach to non-invasive medical procedures, micro-factories and new scientific tools. To achieve this we are shrinking the mechanical and electrical components of robots to centimeter, millimeter or even micrometer size. Based on an understanding of the scaling of physical forces and our development of novel microfabrication and control techniques, we use magnetic fields and other smart-material actuation methods to make mobile functional devices. We envision a future where drug delivery and surgery can be done in a fast, painless and focused way, and where new materials and devices can be manufactured using swarms of tiny gripping, cutting, and sensing wireless robots. Check out our Research and Publications pages for a few examples of what we are working on to make these ideas reality! Below is a recent talk given by Prof. Diller highlighting some of our recent work. Recent News Summer Lab BBQ July 16, 2026 Haley’s research featured in new articles! December 3, 2025 Congratulations to Haley, Ann, and Larissa November 3, 2025 Summer Lab BBQ June 23, 2025 New Paper in Science Robotics March 26, 2025 Our current lab group is shown below, with details on the People page. We in the Microrobotics Lab are devoted to providing an inclusive research training environment for a diverse group of researchers. Fall 2025 F rom left to right : (Top row) Daniel Sieben, Erik Fredin, Eric Diller (lab leader), Stephen Yang, Jake Blimkie; (Middle row) Ella Walsh, Gabriel Vieira; (Front row) Chloe Pogue, Anastasia Aubeeluck Previous Lab Group Photos Fall 2024 F rom left to right : (Top row) Daniel Sieben, Eric Diller (lab leader), Stephen Yang; (Middle row) Ella Walsh, Haley Mayer, Taeyoung Lee, Erik Fredin, Majid Roshanfar; (Front row) Alex Zhang, Chloe Pogue, Larissa Jin, Anastasia Aubeeluck, Ann Ping Summer 2024 From left to right: (Top row) Christopher Knight, Erik Fredin, Majid Roshanfar, Vincent Gu, Gediyon Girma, Edward Yang; (Second row) Chloe Pogue, Haley Mayer, Daniel Sieben, Eric Diller (lab leader); (Third row) Taeyoung Lee, Alex Zhang, Anastasia Aubeeluck; (Fourth row) Nirmal Pol, Larissa Jin, Ann Ping Fall 2023 From left to right: (Top row) Zhaoxin (Jason) Li, Anastasia Aubeeluck, Erik Fredin, Daniel Sieben, Eric Diller (lab leader), Taeyoung Lee ; (Middle row) Yuanzhe (Felix) Deng, Chloe Pogue, Ann Ping, Majid Roshanfar; (Bottom row) Larissa Jin, Haley Mayer, Xiaoyun Liu Summer 2023 From left to right: (Top row) Changyan He, Zhaoxin (Jason) Li, Yuanzhe (Felix) Deng, Shreesh Mahapatra, Daniel Sieben, Taeyoung Lee, Nirmal Pol, Nayaab Ali, Ardavan Alaei Fard; (Bottom row) Erik Fredin, Chloe Pogue, Anastasia Aubeeluck, Haley Mayer, Eric Diller (lab leader), Xiaoyun Liu . Fall 2022 From left to right: (Top row) Eric Diller (lab leader), Chenqi Li, Zhaoxin (Jason) Li; (Second row) Haley Mayer, Chloe Pogue, Changyan He; (Bottom row) Christopher Knight, Cameron Forbrigger, Erik Fredin, Daniel Sieben. Summer 2020 From left to right: (Top row) Xiaoyun Liu, Cameron Forbrigger, Alexi Tracey, Zhaoxin (Jason) Li, Robin Liu; (Second row) Mohammad Salehizadeh, Monisha Naik, Eric Diller (lab leader), Mihai Nica, Youyang Li; (Third row) Priscilla Lai, Adam Schonewille, Chloe Pogue, Jaekwang Nam, Lyle Gauthier; (Bottom row) Svet Leniuk, Daniel Esser, Nancy Wu. Fall 2019 From left to right: (Front row) Sajad Salmanipour, Priscilla Lai, Chloe Pogue; (Second row) Monisha Naik, Nancy Wu, Onaizah Onaizah; (Third row) Jaekwang Nam, Xiaoyun Liu, Mihai Nica; (Fourth row) Lyle Gauthier, Andrew Lim, Eric Diller (lab leader); (Back row) Zhaoxin (Jason) Li, Cameron Forbigger, Mohammad Salehizadeh, Adam Schonewille. Summer 2019 From left to right: (Front row) Shenrui Pan; (Middle row) Jaekwang Nam, Tianqi Xu, Sumanth Kandala, Eric Diller (lab leader), Onaizah Onaizah, Priscilla Lai; (Back row) Zhaoxin (Jason) Li, Mihai Nica, Mohammad Salehizadeh, Lyle Gauthier, Adam Schonewille, Cameron Forbigger, Peyman Shokrollahi. Not shown: Sajad Salmanipour Fall 2018 From left to right: (Bottom row) Sajad Salmanipour, Onaizah Onaizah, Priscilla Lai, Omid Youssefi; (2nd row) Tianqi Xu, Omar Ismail, Shenrui Pan, Mohammad Salehizadeh, Peyman Shokrollahi; (3rd row) Mihai Nica, Eric Diller (lab leader), Cameron Forbigger; (Upper row) Adam Schonewille, Zhaoxin (Jason) Li, Sagar Jaiswal. Summer 2018 From left to right: (1st row) Cameron Forbigger, Sajad Salmanipour, Ernest Lau, Priscilla Lai, Onaizah Onaizah, Omid Youssefi; (2nd row) Jiachen Zhang, Gurtej Bhasin, Alexandre Poersch, Peyman Shokrollahi, Eric Diller (",
+      "metadata": {
+        "authority": "University of Toronto",
+        "query": "artificial intelligence advanced AI machine learning nanotechnology nanorobotics nanomedicine molecular robotics nanoscale robots",
+        "read_only": true,
+        "source": "University of Toronto Microrobotics Lab",
+        "source_url": "https://microrobotics.mie.utoronto.ca/",
+        "weight": 0.75
+      }
+    },
+    {
+      "id": "doc:a895972f3e5b0f89a996ced886f72930",
+      "url": "https://www.ri.cmu.edu",
+      "canonical_url": "https://www.ri.cmu.edu",
+      "title": "Robotics Institute Carnegie Mellon University : Robotics Education and Research Leader",
+      "domain": "www.ri.cmu.edu",
+      "topic": "nanorobotics",
+      "fetched_at": "2026-09-14T01:37:54.923468+00:00",
+      "content_hash": "sha256:1e4a4dc8dd3b430b035535e53c76d269572a6c5e2c037e1d57464b4b2bcafec1",
+      "content": "Robotics Institute Carnegie Mellon University : Robotics Education and Research Leader Warning: You are viewing this site with an outdated/unsupported browser. Please update your browser or consider using a different one in order to view this site without issue. For a list of browsers that this site supports, see our Supported Browsers page. Robotics Institute Carnegie Mellon University : Robotics Education and Research Leader Skip to content Happening at RI Making is Decision Making Event Category: Special Events Speaker: Maneesh Agrawala Event Time: Tuesday, September 15th - 3:30 PM RI PhD Thesis Defense – Ingrid Navarro Anaya Event Category: PhD Thesis Defense Speaker: Ingrid Navarro Event Time: Friday, September 18th - 10:00 AM Decision-Making in a World of Latent Particles Event Category: VASC Seminar Speaker: Tal Daniel Event Time: Monday, September 21st - 3:30 PM Bringing Images to Life Through Touch The Breakdown Researchers used generative AI to turn text prompts into 3D-printed tactile graphics. Text2TactileGraphics creates raised shapes and textures to help convey visual information to users who are blind or have low vision. The research team tested the tool with participants fr... PAIR Helps Students Find Their Place in AI Research Research is central to life in Carnegie Mellon University's School of Computer Science. Faculty and graduate students continually define new questions, develop new approaches and expand the boundaries of their fields. Kaess Named to Inaugural Chief of Naval Research Fellows Program Michael Kaess, a professor in Carnegie Mellon University's Robotics Institute, has been named an inaugural fellow in the Office of Naval Research's (ONR) Chief of Naval Research Fellows program. + Making is Decision Making Learn More Home Alex Krause 2026-04-01T09:41:30-04:00 Upcoming September 15 Tue Special Events Maneesh Agrawala Stanford University Making is Decision Making September 18 Fri PhD Thesis Defense Ingrid Navarro Robotics Institute, Carnegie Mellon University RI PhD Thesis Defense – Ingrid Navarro Anaya September 21 Mon VASC Seminar Tal Daniel Robotics Institute, Carnegie Mellon University Decision-Making in a World of Latent Particles View All Events Latest News Bringing Images to Life Through Touch Mallory Lindahl 2026-09-03T14:46:51-04:00 September 3rd, 2026 | PAIR Helps Students Find Their Place in AI Research Mallory Lindahl 2026-09-02T16:04:06-04:00 September 2nd, 2026 | Kaess Named to Inaugural Chief of Naval Research Fellows Program Mallory Lindahl 2026-09-01T15:45:55-04:00 September 1st, 2026 | RI Alum Damion Shelton Named Associate VP and Executive Director of the Swartz Center for Entrepreneurship Mallory Lindahl 2026-08-17T11:50:39-04:00 August 17th, 2026 | Erickson Earns NSF CAREER Award Mallory Lindahl 2026-08-10T15:46:47-04:00 August 11th, 2026 | Connecting Autonomous Laboratories to Speed Scientific Advancement Mallory Lindahl 2026-07-30T13:47:35-04:00 August 3rd, 2026 | View All News",
+      "metadata": {
+        "authority": "Carnegie Mellon University",
+        "query": "artificial intelligence advanced AI machine learning nanotechnology nanorobotics nanomedicine molecular robotics nanoscale robots",
+        "read_only": true,
+        "source": "Carnegie Mellon Robotics Institute nanorobotics",
+        "source_url": "https://www.ri.cmu.edu/",
+        "weight": 0.75
+      }
+    }
+  ]
+}

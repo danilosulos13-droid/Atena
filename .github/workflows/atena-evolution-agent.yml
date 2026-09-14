@@ -96,6 +96,10 @@ jobs:
         run: |
           python scripts/fetch_research_sources.py --query "${ATENA_FOCUS_QUERY}" --max-sources 100 --limit-per-source 10 --max-pages 1000 --workers 16 --timeout 12 | tee /tmp/atena-research.json
 
+      - name: Importar documentos IA e nanotecnologia recém-coletados
+        run: |
+          python scripts/import_ai_nanotech_documents.py | tee /tmp/atena-ai-nanotech-import.json
+
       - name: Coletar experiências e montar datasets
         run: |
           git fetch origin atena/autoevolution || true
