@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Any
 
 from core.knowledge_base import KnowledgeBase
-from core.memory_retrieval import retrieve_context
+from core.memory_retrieval import retrieve_hybrid_context
 
 
 class MemorySearchExecutor:
@@ -23,9 +23,9 @@ class MemorySearchExecutor:
         requested_limit = int(arguments.get("limit", 5))
         limit = max(1, min(requested_limit, self.max_limit))
 
-        episodes = retrieve_context(self.db_path, query, limit=limit)
-        with KnowledgeBase(self.db_path) as knowledge:
-            documents = knowledge.search(query, limit=limit)
+        hybrid = retrieve_hybrid_context(self.db_path, query, limit=limit)
+        episodes = hybrid["episodes"]
+        documents = hybrid["knowledge_documents"]
 
         # O executor retorna somente dados serializáveis e limita o contexto
         # antes que ele seja incorporado ao prompt do modelo.
@@ -35,6 +35,10 @@ class MemorySearchExecutor:
             "knowledge_documents": documents,
             "source": "sqlite",
             "read_only": True,
+            "context_policy": {
+                "ranking": hybrid["ranking"],
+                "provenance_required": hybrid["provenance_required"],
+            },
         }
         serialized = str(result)
         if len(serialized) > self.max_chars:

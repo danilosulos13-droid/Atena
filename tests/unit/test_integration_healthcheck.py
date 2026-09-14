@@ -40,3 +40,9 @@ def test_report_can_be_serialized(tmp_path: Path):
     output.write_text(json.dumps(report, ensure_ascii=False), encoding="utf-8")
     loaded = json.loads(output.read_text(encoding="utf-8"))
     assert loaded["decision"] in {"healthy", "degraded", "failed"}
+
+
+def test_healthcheck_module_imports_resolve_from_script_root():
+    core_checks = [item for item in run_healthcheck()["checks"] if item["layer"] == "core"]
+    assert core_checks
+    assert all(item["status"] == "healthy" for item in core_checks)
