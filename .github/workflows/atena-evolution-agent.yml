@@ -139,6 +139,34 @@ jobs:
           python scripts/atena_autonomous_learning.py cycle --train | tee /tmp/atena-training.json
           python -m json.tool /tmp/atena-training.json >/dev/null
 
+      - name: Benchmark de generalização em cinco tarefas inéditas
+        if: always()
+        continue-on-error: true
+        env:
+          OLLAMA_HOST: ${{ secrets.ATENA_BENCHMARK_OLLAMA_HOST }}
+          ATENA_BENCHMARK_BASELINE_MODEL: ${{ secrets.ATENA_BENCHMARK_BASELINE_MODEL }}
+          ATENA_BENCHMARK_CANDIDATE_MODEL: ${{ secrets.ATENA_BENCHMARK_CANDIDATE_MODEL }}
+        run: |
+          set -o pipefail
+          python scripts/novel_generalization_cases.py --output /tmp/atena-novel-cases.json
+          if [ -z "${OLLAMA_HOST:-}" ] || [ -z "${ATENA_BENCHMARK_BASELINE_MODEL:-}" ] || [ -z "${ATENA_BENCHMARK_CANDIDATE_MODEL:-}" ]; then
+            python - <<'PY'
+          import json
+          from pathlib import Path
+          payload = {
+              "benchmark": "atena-novel-generalization-v1",
+              "status": "blocked",
+              "reason": "configure ATENA_BENCHMARK_OLLAMA_HOST, ATENA_BENCHMARK_BASELINE_MODEL and ATENA_BENCHMARK_CANDIDATE_MODEL",
+          }
+          Path("/tmp/atena-novel-generalization.json").write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+          print(json.dumps(payload, ensure_ascii=False))
+          PY
+            exit 0
+          fi
+          python scripts/run_rotating_benchmark_ollama.py --cases /tmp/atena-novel-cases.json --output /tmp/atena-novel-baseline.jsonl --model "$ATENA_BENCHMARK_BASELINE_MODEL" --url "$OLLAMA_HOST" --concurrency 1
+          python scripts/run_rotating_benchmark_ollama.py --cases /tmp/atena-novel-cases.json --output /tmp/atena-novel-candidate.jsonl --model "$ATENA_BENCHMARK_CANDIDATE_MODEL" --url "$OLLAMA_HOST" --concurrency 1
+          python scripts/evaluate_novel_generalization.py --cases /tmp/atena-novel-cases.json --baseline /tmp/atena-novel-baseline.jsonl --candidate /tmp/atena-novel-candidate.jsonl --output /tmp/atena-novel-generalization.json || true
+
       - name: Versionar adapter promovido
         if: always()
         env:
@@ -275,6 +303,7 @@ jobs:
             atena_evolution/training/
             atena_evolution/models/
             /tmp/atena-performance-evaluation.json
+            /tmp/atena-novel-generalization.json
           if-no-files-found: ignore
           retention-days: 14
 
