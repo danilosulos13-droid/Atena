@@ -6,7 +6,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-**ATENA Ω** é um sistema de IA autônomo avançado para execução de assistentes de terminal, missões autônomas e gates de qualidade com evolução segura de sistemas. Combinando arquitetura moderna de agentes, a ATENA integra execução local com capacidades avançadas de orquestração multi-LLM.
+**ATENA Ω** é uma IA autônoma avançado para, missões autônomas e gates de qualidade com evolução segura. Combinando arquitetura moderna de agentes, a ATENA integra execução com capacidades avançadas de orquestração multi-LLM.
 
 ---
 
