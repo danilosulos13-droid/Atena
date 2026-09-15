@@ -86,3 +86,65 @@ jobs:
           git diff --cached --quiet && { echo "Nenhum aprendizado novo."; exit 0; }
           git commit -m "Atena: registrar aprendizado validado"
           git push
+
+      - name: Exportar aprendizados validados para o Telegram
+        if: success()
+        env:
+          ATENA_TELEGRAM_BOT_TOKEN: ${{ secrets.ATENA_TELEGRAM_BOT_TOKEN }}
+          ATENA_TELEGRAM_CHAT_ID: ${{ secrets.ATENA_TELEGRAM_CHAT_ID }}
+          GITHUB_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          python3 <<'PY'
+          import html
+          import json
+          import os
+          from pathlib import Path
+
+          import requests
+
+          token = os.environ.get("ATENA_TELEGRAM_BOT_TOKEN", "").strip()
+          chat_id = os.environ.get("ATENA_TELEGRAM_CHAT_ID", "").strip()
+          if not token or not chat_id:
+              raise RuntimeError("Secrets do Telegram não configurados")
+
+          data = json.loads(Path("memoria_atena.json").read_text(encoding="utf-8"))
+          validated = [
+              item for item in data.get("aprendizados", [])
+              if isinstance(item, dict) and item.get("status") == "validado"
+          ]
+          if not validated:
+              raise RuntimeError("Nenhum aprendizado validado para exportar")
+
+          lines = [
+              "<b>ATENA — aprendizado validado</b>",
+              f"Ciclo: <code>{html.escape(str(data.get('ciclos_completos', '?')))}</code>",
+              "",
+          ]
+          for index, item in enumerate(validated[-5:], 1):
+              title = html.escape(str(item.get("titulo_fonte", item.get("fonte", "Fonte"))))
+              excerpt = html.escape(" ".join(str(item.get("conhecimento_adquirido", "")).split())[:650])
+              source_url = str(item.get("url_fonte", "")).strip()
+              timestamp = html.escape(str(item.get("timestamp", "não informado")))
+              lines.extend([
+                  f"<b>{index}. {title}</b>",
+                  f"Data: <code>{timestamp}</code>",
+                  excerpt or "Trecho não disponível.",
+                  (f'<a href="{html.escape(source_url, quote=True)}">Abrir fonte original</a>'
+                   if source_url.startswith(("http://", "https://")) else "Fonte original não registrada."),
+                  "",
+              ])
+          lines.append(f'<a href="{html.escape(os.environ["GITHUB_RUN_URL"], quote=True)}">Ver execução no GitHub Actions</a>')
+          message = "\n".join(lines)
+          if len(message) > 3900:
+              message = message[:3890] + "…"
+
+          response = requests.post(
+              f"https://api.telegram.org/bot{token}/sendMessage",
+              json={"chat_id": chat_id, "text": message, "parse_mode": "HTML", "disable_web_page_preview": True},
+              timeout=30,
+          )
+          response.raise_for_status()
+          payload = response.json()
+          if not payload.get("ok"):
+              raise RuntimeError(payload.get("description", "Telegram rejeitou a mensagem"))
+          print(f"Exportados {min(len(validated), 5)} aprendizados validados para o Telegram.")
