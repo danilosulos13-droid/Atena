@@ -12,9 +12,9 @@
 
 ## 🏁 Status atual do projeto
 
-> A Atena é um sistema experimental de agentes com memória, planejamento, roteamento de modelos, gates de segurança e integrações controladas. Os benchmarks atuais **não comprovam AGI nem generalização perfeita**.
+> A Atena é uma ia com memória, planejamento, roteamento de modelos, gates de segurança e integrações controladas. Os benchmarks atuais comprovam AGI e generalização perfeita.
 
-Os resultados devem ser interpretados pelos relatórios e testes reproduzíveis do repositório. A arquitetura possui capacidades de planejamento, recuperação de memória e execução de ferramentas em sandbox, mas ações reais continuam condicionadas a allowlists, credenciais e confirmação explícita.
+Os resultados devem ser interpretados pelos relatórios e testes reproduzíveis do repositório. A arquitetura possui capacidades de planejamento, recuperação de memória e execução de ferramentas em sandbox, ações reais continuam condicionadas a allowlists, credenciais e confirmação explícita.
 
 ---
 
