@@ -128,9 +128,12 @@ jobs:
           git config user.name "Atena-AI"
           git config user.email "atena@evolution.com"
           git add atena_evolution/memory.sqlite3 atena_evolution/training/experiences.jsonl \
-            atena_evolution/learning_memory.jsonl atena_evolution/training/distillation \
+            atena_evolution/training/distillation \
             atena_evolution/training/unified_ingest_report.json \
             atena_evolution/training/unified_learning_report.json
+          if [ -s atena_evolution/learning_memory.jsonl ]; then
+            git add -f atena_evolution/learning_memory.jsonl
+          fi
           if git diff --cached --quiet; then
             echo "Nenhuma evidência nova para publicar."
           else
