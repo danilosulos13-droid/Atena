@@ -1,0 +1,25 @@
+{
+  "status": "ok",
+  "pipeline_version": "unified-learning-pipeline-v1",
+  "input": "atena_evolution/learning_memory.jsonl",
+  "episodes_created": 2,
+  "episodes_existing": 0,
+  "examples_created": 2,
+  "rejected": 0,
+  "memory_ids": [
+    "mem-20260915233802-9cdaf8c6a808",
+    "mem-20260915233802-7349ab20e60f"
+  ],
+  "sources": [
+    {
+      "title": "Agencies seek comment on proposed third-party risk management guidance and issue statement on community bank engagement with core service providers",
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases/bcreg20260911a.htm",
+      "memory_id": "mem-20260915233802-9cdaf8c6a808"
+    },
+    {
+      "title": "Agencies reduce regulatory burden for community banks, increase eligibility for 18-month exam cycle",
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases/bcreg20260910a.htm",
+      "memory_id": "mem-20260915233802-7349ab20e60f"
+    }
+  ]
+}

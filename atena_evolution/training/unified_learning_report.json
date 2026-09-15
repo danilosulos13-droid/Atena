@@ -1,0 +1,92 @@
+{
+  "provider": "unified-learning-pipeline",
+  "model": "pending-training-gate",
+  "timestamp": "2026-09-15T23:38:02.814367+00:00",
+  "observations": {
+    "insights": [
+      {
+        "text": "Agencies seek comment on proposed third-party risk management guidance and issue statement on community bank engagement with core service providers: evidência registrada na memória episódica.",
+        "evidence_refs": [
+          "https://www.federalreserve.gov/newsevents/pressreleases/bcreg20260911a.htm"
+        ]
+      },
+      {
+        "text": "Agencies reduce regulatory burden for community banks, increase eligibility for 18-month exam cycle: evidência registrada na memória episódica.",
+        "evidence_refs": [
+          "https://www.federalreserve.gov/newsevents/pressreleases/bcreg20260910a.htm"
+        ]
+      }
+    ],
+    "risks": [],
+    "proposed_changes": [],
+    "next_cycle": [
+      "validar o candidato no holdout antes de promover"
+    ]
+  },
+  "research": {
+    "sources": [
+      {
+        "title": "Agencies seek comment on proposed third-party risk management guidance and issue statement on community bank engagement with core service providers",
+        "url": "https://www.federalreserve.gov/newsevents/pressreleases/bcreg20260911a.htm",
+        "memory_id": "mem-20260915233802-9cdaf8c6a808"
+      },
+      {
+        "title": "Agencies reduce regulatory burden for community banks, increase eligibility for 18-month exam cycle",
+        "url": "https://www.federalreserve.gov/newsevents/pressreleases/bcreg20260910a.htm",
+        "memory_id": "mem-20260915233802-7349ab20e60f"
+      }
+    ]
+  },
+  "research_links": [
+    {
+      "title": "Agencies seek comment on proposed third-party risk management guidance and issue statement on community bank engagement with core service providers",
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases/bcreg20260911a.htm",
+      "memory_id": "mem-20260915233802-9cdaf8c6a808"
+    },
+    {
+      "title": "Agencies reduce regulatory burden for community banks, increase eligibility for 18-month exam cycle",
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases/bcreg20260910a.htm",
+      "memory_id": "mem-20260915233802-7349ab20e60f"
+    }
+  ],
+  "dataset": {
+    "status": "ok",
+    "total": 18,
+    "splits": {
+      "train": 12,
+      "validation": 1,
+      "holdout": 5
+    },
+    "domains": {
+      "cibersegurança": 1,
+      "ciência": 1,
+      "direito administrativo": 1,
+      "direito civil": 1,
+      "direito constitucional": 1,
+      "direito do consumidor": 1,
+      "direito do trabalho": 1,
+      "direito e proteção de dados": 1,
+      "direito internacional": 1,
+      "direito penal": 1,
+      "educação": 1,
+      "finanças": 1,
+      "história": 1,
+      "medicina": 1,
+      "programação": 1,
+      "web-research": 2,
+      "ética e IA": 1
+    },
+    "sources": 18,
+    "curated": 16,
+    "web": 2,
+    "inputs": [
+      "atena_evolution/training/sft.jsonl",
+      "atena_evolution/training/experiences.jsonl",
+      "atena_evolution/learning_memory.jsonl"
+    ]
+  },
+  "training": {
+    "status": "pending",
+    "mode": "none"
+  }
+}
