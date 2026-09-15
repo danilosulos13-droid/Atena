@@ -1,0 +1,268 @@
+name: ATENA Unified Learning Pipeline
+
+on:
+  workflow_dispatch:
+    inputs:
+      training_mode:
+        description: "Treinamento a executar após os gates de dados"
+        required: true
+        default: "none"
+        type: choice
+        options:
+          - none
+          - lora
+          - qlora
+      query:
+        description: "Tema da pesquisa web"
+        required: true
+        default: "avanços recentes em agentes de inteligência artificial"
+        type: string
+      max_pages:
+        description: "Máximo de páginas completas a coletar"
+        required: false
+        default: "20"
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: atena-unified-learning
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    name: Pesquisa, memória e dataset auditável
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    outputs:
+      training_mode: ${{ inputs.training_mode }}
+      report_path: ${{ steps.report.outputs.path }}
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: setup/requirements-pinned.txt
+
+      - name: Instalar dependências de pesquisa e memória
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r setup/requirements-pinned.txt
+
+      - name: Pesquisar fontes públicas e persistir evidências
+        env:
+          PYTHONPATH: ${{ github.workspace }}
+        run: |
+          python scripts/fetch_research_sources.py \
+            --max-sources 20 \
+            --limit-per-source 5 \
+            --max-pages "${{ inputs.max_pages || '20' }}" \
+            --workers 8 \
+            --timeout 20 \
+            | tee /tmp/atena-research.json
+
+      - name: Registrar evidências na memória episódica e no dataset
+        env:
+          PYTHONPATH: ${{ github.workspace }}
+        run: |
+          python scripts/unified_learning_pipeline.py ingest \
+            --input atena_evolution/learning_memory.jsonl \
+            --db atena_evolution/memory.sqlite3 \
+            --experiences atena_evolution/training/experiences.jsonl \
+            --report atena_evolution/training/unified_ingest_report.json
+          python scripts/migrate_memory_store.py \
+            --db atena_evolution/memory.sqlite3 \
+            --report /tmp/atena-memory-migration.json
+          python - <<'PY'
+          from core.memory_store import MemoryStore
+          with MemoryStore('atena_evolution/memory.sqlite3') as store:
+              store.verify_integrity()
+              print('memória episódica íntegra; episódios:', store.count())
+          PY
+
+      - name: Construir dataset determinístico com holdout
+        env:
+          PYTHONPATH: ${{ github.workspace }}
+        run: |
+          python scripts/build_distillation_dataset.py \
+            --output-dir atena_evolution/training/distillation \
+            --min-holdout 5
+
+      - name: Gerar relatório do ciclo
+        id: report
+        env:
+          PYTHONPATH: ${{ github.workspace }}
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          ingest = json.loads(Path('atena_evolution/training/unified_ingest_report.json').read_text())
+          manifest = json.loads(Path('atena_evolution/training/distillation/manifest.json').read_text())
+          links = ingest.get('sources', [])
+          insights = [{"text": f"{item.get('title')}: evidência registrada na memória episódica.", "evidence_refs": [item.get('url', '')]} for item in links[:5]]
+          report = {
+              "provider": "unified-learning-pipeline",
+              "model": "pending-training-gate",
+              "timestamp": __import__('datetime').datetime.now(__import__('datetime').timezone.utc).isoformat(),
+              "observations": {"insights": insights, "risks": [], "proposed_changes": [], "next_cycle": ["validar o candidato no holdout antes de promover"]},
+              "research": {"sources": links},
+              "research_links": links,
+              "dataset": manifest,
+              "training": {"status": "pending", "mode": "${{ inputs.training_mode }}"},
+          }
+          path = Path('atena_evolution/training/unified_learning_report.json')
+          path.write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n')
+          print(json.dumps(report, ensure_ascii=False, indent=2))
+          PY
+          echo "path=atena_evolution/training/unified_learning_report.json" >> "$GITHUB_OUTPUT"
+
+      - name: Commit memória e dataset auditável
+        run: |
+          git config user.name "Atena-AI"
+          git config user.email "atena@evolution.com"
+          git add atena_evolution/memory.sqlite3 atena_evolution/training/experiences.jsonl \
+            atena_evolution/learning_memory.jsonl atena_evolution/training/distillation \
+            atena_evolution/training/unified_ingest_report.json \
+            atena_evolution/training/unified_learning_report.json
+          if git diff --cached --quiet; then
+            echo "Nenhuma evidência nova para publicar."
+          else
+            git commit -m "chore(atena): persist unified learning evidence"
+            git push
+          fi
+
+      - name: Publicar pacote auditável do ciclo
+        uses: actions/upload-artifact@v4
+        with:
+          name: atena-unified-learning-${{ github.run_id }}
+          retention-days: 30
+          path: |
+            atena_evolution/memory.sqlite3
+            atena_evolution/training/experiences.jsonl
+            atena_evolution/training/distillation/
+            atena_evolution/training/unified_ingest_report.json
+            atena_evolution/training/unified_learning_report.json
+            /tmp/atena-research.json
+            /tmp/atena-memory-migration.json
+          if-no-files-found: warn
+
+  lora:
+    name: Treino LoRA, avaliação e promoção condicional
+    needs: prepare
+    if: needs.prepare.outputs.training_mode == 'lora'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    permissions:
+      contents: write
+    env:
+      ATENA_ROOT: ${{ github.workspace }}
+      PYTHONPATH: ${{ github.workspace }}
+      ATENA_TRAIN_MODEL: ${{ vars.ATENA_TRAIN_MODEL || 'Qwen/Qwen2.5-0.5B-Instruct' }}
+      ATENA_AUTOTRAIN: "1"
+      ATENA_ROBOT_DRY_RUN: "1"
+    steps:
+      - name: Checkout main após persistência
+        uses: actions/checkout@v4
+      - name: Instalar dependências LoRA
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r setup/requirements-pinned.txt -r setup/requirements-autonomous-learning.txt
+      - name: Treinar e avaliar candidato LoRA
+        run: |
+          python scripts/atena_autonomous_learning.py cycle --train | tee /tmp/atena-lora-result.json
+          python -m json.tool /tmp/atena-lora-result.json >/dev/null
+      - name: Atualizar relatório do treino
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          path=Path('atena_evolution/training/unified_learning_report.json')
+          report=json.loads(path.read_text())
+          result=json.loads(Path('/tmp/atena-lora-result.json').read_text())
+          report['training']=result.get('training', result)
+          report['evaluation']=result.get('evaluation', {})
+          path.write_text(json.dumps(report, ensure_ascii=False, indent=2)+'\n')
+          PY
+          git add atena_evolution/training/unified_learning_report.json atena_evolution/training atena_evolution/model_promotion_state.json 2>/dev/null || true
+          git diff --cached --quiet || { git config user.name Atena-AI; git config user.email atena@evolution.com; git commit -m "feat(atena): record unified LoRA evaluation"; git push; }
+      - name: Notificar ciclo LoRA no Telegram
+        if: always()
+        continue-on-error: true
+        env:
+          ATENA_TELEGRAM_BOT_TOKEN: ${{ secrets.ATENA_TELEGRAM_BOT_TOKEN }}
+          ATENA_TELEGRAM_CHAT_ID: ${{ secrets.ATENA_TELEGRAM_CHAT_ID }}
+          PYTHONPATH: ${{ github.workspace }}
+        run: python scripts/notify_telegram_learning.py --proposal atena_evolution/training/unified_learning_report.json --allow-missing
+
+  qlora:
+    name: Treino QLoRA GPU, holdout e artefato
+    needs: prepare
+    if: needs.prepare.outputs.training_mode == 'qlora'
+    runs-on: [self-hosted, linux, x64, gpu, nvidia]
+    timeout-minutes: 360
+    permissions:
+      contents: write
+    env:
+      ATENA_QLORA_MODEL: ${{ vars.ATENA_QLORA_MODEL || 'Qwen/Qwen2.5-1.5B-Instruct' }}
+      ATENA_QLORA_EPOCHS: "1"
+      ATENA_QLORA_MAX_LENGTH: "512"
+      ATENA_QLORA_BATCH_SIZE: "1"
+      ATENA_QLORA_GRADIENT_ACCUMULATION: "8"
+      TOKENIZERS_PARALLELISM: "false"
+    steps:
+      - name: Checkout main após persistência
+        uses: actions/checkout@v4
+      - name: Verificar GPU e instalar treino
+        run: |
+          nvidia-smi
+          python -m pip install --upgrade pip
+          python -m pip install -r setup/requirements-pinned.txt -r setup/requirements-autonomous-learning.txt
+          python -m pip install bitsandbytes accelerate peft datasets transformers safetensors
+          python - <<'PY'
+          import torch
+          assert torch.cuda.is_available(), 'GPU CUDA obrigatória para QLoRA'
+          print(torch.cuda.get_device_name(0))
+          PY
+      - name: Validar dataset unificado
+        run: |
+          test -s atena_evolution/training/distillation/train.jsonl
+          test -s atena_evolution/training/distillation/holdout.jsonl
+      - name: Treinar adaptador QLoRA
+        run: |
+          python scripts/train_qlora.py \
+            --model "$ATENA_QLORA_MODEL" \
+            --train atena_evolution/training/distillation/train.jsonl \
+            --output atena_evolution/models/qlora-1.5b-candidate \
+            --max-length "$ATENA_QLORA_MAX_LENGTH" \
+            --epochs "$ATENA_QLORA_EPOCHS" \
+            --batch-size "$ATENA_QLORA_BATCH_SIZE" \
+            --gradient-accumulation "$ATENA_QLORA_GRADIENT_ACCUMULATION" \
+            | tee /tmp/atena-qlora-training.json
+      - name: Gate de pesos e holdout
+        run: |
+          test -s atena_evolution/models/qlora-1.5b-candidate/adapter_model.safetensors
+          test -s atena_evolution/models/qlora-1.5b-candidate/adapter_config.json
+          python scripts/validate_qlora_holdout.py \
+            --base-model "$ATENA_QLORA_MODEL" \
+            --adapter atena_evolution/models/qlora-1.5b-candidate \
+            --holdout atena_evolution/training/distillation/holdout.jsonl \
+            --report /tmp/atena-qlora-holdout.json \
+            --max-length "$ATENA_QLORA_MAX_LENGTH" \
+            --min-improvement 0.02
+      - name: Publicar candidato somente após holdout verde
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: atena-unified-qlora-${{ github.run_id }}
+          retention-days: 30
+          path: |
+            atena_evolution/models/qlora-1.5b-candidate/
+            /tmp/atena-qlora-training.json
+            /tmp/atena-qlora-holdout.json
