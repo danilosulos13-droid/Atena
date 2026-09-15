@@ -1,1 +1,8 @@
-{"aprendizados": [], "ciclos_completos": 23}
+{
+  "aprendizados": [
+    {
+      "erro": "'NoneType' object has no attribute 'text'"
+    }
+  ],
+  "ciclos_completos": 24
+}
