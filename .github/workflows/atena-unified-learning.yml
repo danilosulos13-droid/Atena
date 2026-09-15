@@ -259,6 +259,45 @@ jobs:
             --report /tmp/atena-qlora-holdout.json \
             --max-length "$ATENA_QLORA_MAX_LENGTH" \
             --min-improvement 0.02
+      - name: Promover GGUF aprovado no servidor da Atena
+        if: success()
+        env:
+          ATENA_DEPLOY_SSH_KEY: ${{ secrets.ATENA_DEPLOY_SSH_KEY }}
+          ATENA_DEPLOY_KNOWN_HOSTS: ${{ secrets.ATENA_DEPLOY_KNOWN_HOSTS }}
+          ATENA_DEPLOY_HOST: ${{ secrets.ATENA_DEPLOY_HOST }}
+          ATENA_DEPLOY_USER: ${{ secrets.ATENA_DEPLOY_USER }}
+          ATENA_DEPLOY_SSH_PORT: ${{ secrets.ATENA_DEPLOY_SSH_PORT || '22' }}
+          ATENA_DEPLOY_REMOTE_DIR: ${{ secrets.ATENA_DEPLOY_REMOTE_DIR || '/opt/atena/models' }}
+          ATENA_DEPLOY_SERVICE: ${{ secrets.ATENA_DEPLOY_SERVICE || 'atena-telegram' }}
+          ATENA_DEPLOY_OLLAMA_MODEL: ${{ secrets.ATENA_DEPLOY_OLLAMA_MODEL || 'atena-1.5b' }}
+        run: |
+          set -euo pipefail
+          for value in ATENA_DEPLOY_SSH_KEY ATENA_DEPLOY_KNOWN_HOSTS ATENA_DEPLOY_HOST ATENA_DEPLOY_USER; do
+            test -n "${!value}" || { echo "Secret obrigatório ausente: $value"; exit 1; }
+          done
+          install -d -m 0700 "$HOME/.ssh"
+          printf '%s\n' "$ATENA_DEPLOY_SSH_KEY" > "$HOME/.ssh/id_ed25519"
+          printf '%s\n' "$ATENA_DEPLOY_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
+          chmod 600 "$HOME/.ssh/id_ed25519" "$HOME/.ssh/known_hosts"
+          LLAMA_CPP="$RUNNER_TEMP/llama.cpp"
+          git clone --depth 1 https://github.com/ggerganov/llama.cpp.git "$LLAMA_CPP"
+          cmake -S "$LLAMA_CPP" -B "$LLAMA_CPP/build" -DGGML_CUDA=OFF
+          cmake --build "$LLAMA_CPP/build" --config Release -j2
+          python scripts/merge_qlora_to_gguf.py \
+            --base-model "$ATENA_QLORA_MODEL" \
+            --adapter atena_evolution/models/qlora-1.5b-candidate \
+            --merged-dir "$RUNNER_TEMP/atena-merged-1.5b" \
+            --gguf "$RUNNER_TEMP/atena-1.5b-f16.gguf" \
+            --llama-cpp "$LLAMA_CPP" \
+            --quantize Q4_K_M \
+            --quantized-gguf "$RUNNER_TEMP/atena-1.5b-Q4_K_M.gguf"
+          python scripts/deploy_gguf.py \
+            --gguf "$RUNNER_TEMP/atena-1.5b-Q4_K_M.gguf" \
+            --holdout-report /tmp/atena-qlora-holdout.json \
+            --release "$GITHUB_RUN_ID" \
+            --ollama-model "$ATENA_DEPLOY_OLLAMA_MODEL" \
+            --configure-systemd \
+            --restart-service
       - name: Publicar candidato somente após holdout verde
         if: success()
         uses: actions/upload-artifact@v4
