@@ -16,7 +16,21 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup dependencies
-        run: python -m pip install --disable-pip-version-check requests beautifulsoup4
+        run: python -m pip install --disable-pip-version-check requests beautifulsoup4 piper-tts
+
+      - name: Preparar voz pt-BR do Piper
+        run: |
+          set -euo pipefail
+          piper_dir="$RUNNER_TEMP/piper"
+          mkdir -p "$piper_dir"
+          curl --fail --location --retry 3 --retry-delay 2 \
+            "https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/pt/pt_BR/faber/medium/pt_BR-faber-medium.onnx?download=true" \
+            --output "$piper_dir/pt_BR-faber-medium.onnx"
+          curl --fail --location --retry 3 --retry-delay 2 \
+            "https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/pt/pt_BR/faber/medium/pt_BR-faber-medium.onnx.json?download=true" \
+            --output "$piper_dir/pt_BR-faber-medium.onnx.json"
+          test -s "$piper_dir/pt_BR-faber-medium.onnx"
+          test -s "$piper_dir/pt_BR-faber-medium.onnx.json"
 
       - name: Run ATENA evolution
         env:
@@ -148,3 +162,41 @@ jobs:
           if not payload.get("ok"):
               raise RuntimeError(payload.get("description", "Telegram rejeitou a mensagem"))
           print(f"Exportados {min(len(validated), 5)} aprendizados validados para o Telegram.")
+
+      - name: Exportar aprendizado em voz para o Telegram
+        if: success()
+        continue-on-error: true
+        env:
+          ATENA_TELEGRAM_BOT_TOKEN: ${{ secrets.ATENA_TELEGRAM_BOT_TOKEN }}
+          ATENA_TELEGRAM_CHAT_ID: ${{ secrets.ATENA_TELEGRAM_CHAT_ID }}
+          ATENA_PIPER_BIN: piper
+          ATENA_PIPER_MODEL: ${{ runner.temp }}/piper/pt_BR-faber-medium.onnx
+          ATENA_PIPER_CONFIG: ${{ runner.temp }}/piper/pt_BR-faber-medium.onnx.json
+          PYTHONPATH: ${{ github.workspace }}
+        run: |
+          python3 <<'PY'
+          import json
+          from pathlib import Path
+
+          data = json.loads(Path("memoria_atena.json").read_text(encoding="utf-8"))
+          validated = [
+              item for item in data.get("aprendizados", [])
+              if isinstance(item, dict) and item.get("status") == "validado"
+          ]
+          if not validated:
+              raise RuntimeError("Nenhum aprendizado validado para sintetizar")
+          latest = validated[-1]
+          report = {
+              "observations": {
+                  "research_plan": {"topic": latest.get("titulo_fonte", "pesquisa")},
+                  "insights": [{"text": latest.get("conhecimento_adquirido", "")}],
+              },
+              "research_links": [latest.get("url_fonte", "")],
+              "training": {"status": "validado"},
+          }
+          Path("/tmp/atena-learning-audio-report.json").write_text(
+              json.dumps(report, ensure_ascii=False), encoding="utf-8"
+          )
+          PY
+          python scripts/notify_telegram_learning_audio.py \
+            --report /tmp/atena-learning-audio-report.json
