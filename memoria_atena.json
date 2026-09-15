@@ -2,7 +2,15 @@
   "aprendizados": [
     {
       "erro": "'NoneType' object has no attribute 'text'"
+    },
+    {
+      "timestamp": "2026-09-15T23:12:18.490593+00:00",
+      "fonte": "Wikipedia",
+      "titulo_fonte": "Inteligência artificial",
+      "url_fonte": "https://pt.wikipedia.org/wiki/Intelig%C3%AAncia_artificial",
+      "conhecimento_adquirido": "Inteligência artificial (frequentemente abreviada por IA ou AI , do inglês artificial intelligence ) é, de forma genérica, a capacidade de máquinas demonstrarem inteligência , raciocínio e aprendizado de forma semelhante ao pensamento humano. [ 1 ] [ 2 ] O campo busca desenvolver máquinas autónomas ou sistemas especialistas capazes de simular o comportamento humano e realizar tarefas complexas de forma independente. [ 3 ] Trata-se de um sistema que permite aos computadores executar funções avançadas, como a análise de dados em grande escala e a formulação de previsões ou recomendações. [ 1 ] [ 4 ] Como campo de pesquisa na ciência da computação , dedica-se ao estudo e desenvolvimento de métodos e softwares que capacitam as máquinas a perceberem o seu ambiente e a utilizarem o aprendizado para tomar ações que maximizem as hipóteses de atingir objetivos definidos. [ 5 ]",
+      "status": "validado"
     }
   ],
-  "ciclos_completos": 24
+  "ciclos_completos": 25
 }
