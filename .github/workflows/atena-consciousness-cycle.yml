@@ -1,19 +1,8 @@
 name: ATENA Consciousness Cycle
 
-# DESATIVADO em 2026-06-19: rodava de hora em hora sem nenhuma conexao
-# com o sistema real (nao roda no Render, ninguem le memoria_atena.json,
-# "Processamento de alta complexidade concluido" era texto fixo, e os
-# ultimos 22/23 ciclos vinham falhando com erro silencioso). Decisao
-# consciente: focar energia no /api/chat real (roteador de LLM) e no
-# /api/learning-stats (acumulo real de conversas) em vez disso.
-#
-# Pra reativar manualmente (ex: depois de corrigir o User-Agent que
-# fazia a Wikipedia bloquear a requisicao), use o botao "Run workflow"
-# na aba Actions do GitHub (workflow_dispatch continua disponivel),
-# ou descomente o bloco "schedule" abaixo.
+# Ciclo manual de coleta de conhecimento com fonte e conteúdo verificáveis.
+# O agendamento permanece desativado até que exista um consumidor real do arquivo.
 on:
-  # schedule:
-  #   - cron: '30 * * * *'
   workflow_dispatch:
 
 jobs:
@@ -23,58 +12,77 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: 📥 Checkout repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: 🛠️ Setup Dependencies
-        run: pip install requests beautifulsoup4
+      - name: Setup dependencies
+        run: python -m pip install --disable-pip-version-check requests beautifulsoup4
 
-      - name: 🧠 Run ATENA Evolution
+      - name: Run ATENA evolution
+        env:
+          PYTHONUNBUFFERED: "1"
         run: |
-          python3 << 'EOF'
-          import json, datetime, os, time, random, requests
+          python3 <<'PY'
+          import datetime as dt
+          import json
+          from pathlib import Path
+
+          import requests
           from bs4 import BeautifulSoup
 
-          mem_file = "memoria_atena.json"
-          if os.path.exists(mem_file):
-              with open(mem_file, "r") as f:
-                  data = json.load(f)
+          mem_file = Path("memoria_atena.json")
+          url = "https://pt.wikipedia.org/wiki/Intelig%C3%AAncia_artificial"
+          headers = {
+              "User-Agent": "Atena-IA/1.0 (research; +https://github.com/danilosulos13-droid/Atena)"
+          }
+
+          response = requests.get(url, headers=headers, timeout=20)
+          response.raise_for_status()
+          soup = BeautifulSoup(response.content, "html.parser")
+
+          paragraphs = [
+              node.get_text(" ", strip=True)
+              for node in soup.select("main p, .mw-parser-output > p, p")
+          ]
+          content = next((text for text in paragraphs if len(text) >= 80), "")
+          if not content:
+              raise RuntimeError("A fonte não contém um parágrafo de conteúdo utilizável")
+
+          title_node = soup.select_one("h1#firstHeading, h1")
+          title = title_node.get_text(" ", strip=True) if title_node else "Inteligência artificial"
+          now = dt.datetime.now(dt.timezone.utc).isoformat()
+
+          if mem_file.exists():
+              data = json.loads(mem_file.read_text(encoding="utf-8"))
           else:
               data = {"aprendizados": [], "ciclos_completos": 0}
+          if not isinstance(data, dict):
+              raise RuntimeError("memoria_atena.json não contém um objeto JSON")
+          if not isinstance(data.get("aprendizados", []), list):
+              raise RuntimeError("o campo aprendizados não é uma lista")
 
-          # Simulação de tempo de "pensamento"
-          time.sleep(random.uniform(5, 10))
+          aprendizado = {
+              "timestamp": now,
+              "fonte": "Wikipedia",
+              "titulo_fonte": title,
+              "url_fonte": url,
+              "conhecimento_adquirido": content[:1000],
+              "status": "validado",
+          }
+          data["aprendizados"].append(aprendizado)
+          data["ciclos_completos"] = int(data.get("ciclos_completos", 0)) + 1
+          mem_file.write_text(
+              json.dumps(data, ensure_ascii=False, indent=2) + "\n",
+              encoding="utf-8",
+          )
+          print(json.dumps({"status": "ok", "ciclo": data["ciclos_completos"], "fonte": url}, ensure_ascii=False))
+          PY
 
-          # Pesquisa real na web
-          try:
-              # Atena pesquisa sobre o futuro da IA
-              url = "https://pt.wikipedia.org/wiki/Intelig%C3%AAncia_artificial"
-              response = requests.get(url, timeout=10)
-              soup = BeautifulSoup(response.content, 'html.parser')
-              conteudo = soup.find('p').text[:300].replace('\n', ' ')
-              
-              novo_aprendizado = {
-                  "timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat(),
-                  "fonte": "Wikipedia",
-                  "conhecimento_adquirido": conteudo,
-                  "status": "Processamento de alta complexidade concluído"
-              }
-              data["aprendizados"].append(novo_aprendizado)
-          except Exception as e:
-              data["aprendizados"].append({"erro": str(e)})
-
-          data["ciclos_completos"] += 1
-          
-          with open(mem_file, "w") as f:
-              json.dump(data, f, indent=2)
-          print(f"✅ Atena evoluiu. Ciclo atual: {data['ciclos_completos']}")
-          EOF
-
-      - name: 💾 Commit novos conhecimentos
+      - name: Commit novos conhecimentos
         run: |
-          git config --global user.name "Atena-AI"
-          git config --global user.email "atena@evolution.com"
+          git config user.name "Atena-AI"
+          git config user.email "atena@evolution.com"
           git add memoria_atena.json
-          git commit -m "Atena: Atualização de conhecimentos - Ciclo $(date +%s)" || echo "Sem mudanças"
+          git diff --cached --quiet && { echo "Nenhum aprendizado novo."; exit 0; }
+          git commit -m "Atena: registrar aprendizado validado"
           git push
-          
