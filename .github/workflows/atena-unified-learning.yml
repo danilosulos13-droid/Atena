@@ -136,7 +136,7 @@ jobs:
         run: |
           git config user.name "Atena-AI"
           git config user.email "atena@evolution.com"
-          git add atena_evolution/memory.sqlite3 atena_evolution/training/experiences.jsonl \
+          git add atena_evolution/training/experiences.jsonl \
             atena_evolution/training/distillation \
             atena_evolution/training/unified_ingest_report.json \
             atena_evolution/training/unified_learning_report.json
@@ -186,10 +186,37 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r setup/requirements-pinned.txt -r setup/requirements-autonomous-learning.txt
+      - name: Validar stack Hugging Face
+        run: |
+          python - <<'PY'
+          import accelerate
+          import peft
+          import transformers
+          import torch
+          from transformers import AutoModel, AutoModelForCausalLM, AutoTokenizer
+          print('torch:', torch.__version__)
+          print('transformers:', transformers.__version__)
+          print('peft:', peft.__version__)
+          print('accelerate:', accelerate.__version__)
+          print('AutoModel:', AutoModel)
+          print('AutoModelForCausalLM:', AutoModelForCausalLM)
+          print('AutoTokenizer:', AutoTokenizer)
+          PY
       - name: Treinar e avaliar candidato LoRA
         run: |
           python scripts/atena_autonomous_learning.py cycle --train | tee /tmp/atena-lora-result.json
           python -m json.tool /tmp/atena-lora-result.json >/dev/null
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          result = json.loads(Path('/tmp/atena-lora-result.json').read_text())
+          training = result.get('training', {})
+          if training.get('status') != 'candidate':
+              raise SystemExit(f"Treino LoRA não produziu candidato: {training}")
+          evaluation = result.get('evaluation', {})
+          if evaluation.get('decision') != 'promote':
+              raise SystemExit(f"Candidato LoRA reprovado no gate de holdout: {evaluation}")
+          PY
       - name: Atualizar relatório do treino
         run: |
           python - <<'PY'
@@ -236,7 +263,7 @@ jobs:
           nvidia-smi
           python -m pip install --upgrade pip
           python -m pip install -r setup/requirements-pinned.txt -r setup/requirements-autonomous-learning.txt
-          python -m pip install bitsandbytes accelerate peft datasets transformers safetensors
+          python -m pip install bitsandbytes
           python - <<'PY'
           import torch
           assert torch.cuda.is_available(), 'GPU CUDA obrigatória para QLoRA'

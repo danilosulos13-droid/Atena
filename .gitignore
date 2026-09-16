@@ -8,6 +8,8 @@ venv_*/
 .env
 atena_evolution/provider_quota.sqlite3
 atena_evolution/provider_quota.sqlite3-*
+atena_evolution/memory.sqlite3
+atena_evolution/memory.sqlite3-*
 
 # Local production-center runtime state; regenerate with scripts/bootstrap_production_readiness.py
 atena_evolution/production_center/

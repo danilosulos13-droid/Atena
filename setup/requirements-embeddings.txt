@@ -1,0 +1,2 @@
+# Runtime de embeddings compatível com transformers==4.55.4
+sentence-transformers==3.4.1

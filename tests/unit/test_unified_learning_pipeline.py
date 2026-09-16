@@ -16,6 +16,14 @@ def test_unified_ingest_records_provenance_and_is_idempotent(tmp_path, monkeypat
                 "title": "Fonte de teste",
                 "source_url": "https://example.test/article",
                 "payload": {"full_text": "Texto de evidência suficientemente longo para criar um episódio auditável, preservar a proveniência e formar um exemplo de treinamento válido."},
+                "analysis_status": "analyzed",
+                "analysis": {
+                    "claim": "A fonte de teste contém evidência auditável.",
+                    "summary": "Resumo da evidência de teste.",
+                    "confidence": 0.8,
+                    "related_evidence": [],
+                    "method": "unit-test-analysis",
+                },
             },
             ensure_ascii=False,
         )

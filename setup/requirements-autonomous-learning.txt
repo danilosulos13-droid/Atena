@@ -1,13 +1,12 @@
-# ATENA — stack opcional de aprendizagem autônoma / fine-tuning LoRA
-# Instale depois do core: python -m pip install -r setup/requirements-autonomous-learning.txt
-# CPU funciona, mas treino local de LLM é muito mais rápido com GPU compatível.
-datasets>=2.18,<4
-accelerate>=0.27,<2
-safetensors>=0.4,<1
-peft>=0.10,<1
-transformers>=4.40,<6
+# ATENA — stack de aprendizagem autônoma / fine-tuning LoRA
+# Versões exatas para evitar regressões do import lazy do Transformers.
+datasets==3.6.0
+transformers==4.55.4
+peft==0.17.1
+accelerate==1.10.1
+safetensors==0.5.3
 torch>=2.2,<3
-sentencepiece>=0.1.99,<1
+sentencepiece==0.2.0
 
 autoflake>=2.2,<3
 ruff>=0.4,<1
