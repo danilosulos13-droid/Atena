@@ -36,7 +36,11 @@ jobs:
           set -euo pipefail
           test -n "$SUPABASE_URL" || { echo 'Missing ATENA_SUPABASE_URL'; exit 1; }
           test -n "$SUPABASE_SERVICE_ROLE_KEY" || { echo 'Missing ATENA_SUPABASE_SERVICE_ROLE_KEY'; exit 1; }
-          SUPABASE_URL="$(printf '%s' "$SUPABASE_URL" | tr -d '\r\n' | sed -e 's/^"//' -e 's/"$//' -e "s#/*$##")"
+          SUPABASE_URL="${SUPABASE_URL//$'\r'/}"
+          SUPABASE_URL="${SUPABASE_URL//$'\n'/}"
+          SUPABASE_URL="${SUPABASE_URL#\"}"
+          SUPABASE_URL="${SUPABASE_URL%\"}"
+          SUPABASE_URL="${SUPABASE_URL%/}"
           case "$SUPABASE_URL" in https://*.supabase.co) ;; *) echo 'Invalid Supabase URL: use https://<project-ref>.supabase.co'; exit 1;; esac
           echo "SUPABASE_URL=$SUPABASE_URL" >> "$GITHUB_ENV"
 
