@@ -36,18 +36,9 @@ jobs:
           set -euo pipefail
           test -n "$SUPABASE_URL" || { echo 'Missing ATENA_SUPABASE_URL'; exit 1; }
           test -n "$SUPABASE_SERVICE_ROLE_KEY" || { echo 'Missing ATENA_SUPABASE_SERVICE_ROLE_KEY'; exit 1; }
-          SUPABASE_URL="${SUPABASE_URL//$'\r'/}"
-          SUPABASE_URL="${SUPABASE_URL//$'\n'/}"
-          SUPABASE_URL="${SUPABASE_URL#\"}"
-          SUPABASE_URL="${SUPABASE_URL%\"}"
-          SUPABASE_URL="${SUPABASE_URL%/}"
-          case "$SUPABASE_URL" in
-            *bhtgmvnxqffnckqnljsq*)
-              echo "::notice::Link do projeto Supabase reconhecido; usando a URL oficial da API."
-              SUPABASE_URL="https://bhtgmvnxqffnckqnljsq.supabase.co"
-              ;;
-          esac
-          case "$SUPABASE_URL" in https://*.supabase.co) ;; *) echo 'Invalid Supabase URL: use https://<project-ref>.supabase.co'; exit 1;; esac
+          # URL canônica do projeto atena-memory-production; não depende de
+          # texto colado no secret e evita hostname inválido ou link de painel.
+          SUPABASE_URL="https://bhtgmvnxqffnckqnljsq.supabase.co"
           echo "SUPABASE_URL=$SUPABASE_URL" >> "$GITHUB_ENV"
 
       - name: Sync SQLite memory to Supabase
