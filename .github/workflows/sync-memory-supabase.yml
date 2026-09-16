@@ -41,6 +41,11 @@ jobs:
           SUPABASE_URL="https://bhtgmvnxqffnckqnljsq.supabase.co"
           echo "SUPABASE_URL=$SUPABASE_URL" >> "$GITHUB_ENV"
 
+      - name: Install embedding runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install sentence-transformers
+
       - name: Sync SQLite memory to Supabase
         env:
           SYNC_LIMIT: ${{ github.event_name == 'workflow_dispatch' && inputs.limit || '0' }}

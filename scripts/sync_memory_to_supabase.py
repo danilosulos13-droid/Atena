@@ -16,16 +16,26 @@ def main():
              from episodes e left join provenance p on p.episode_id=e.id
              order by e.sequence""" + (' limit ?' if args.limit else '')
     rows=con.execute(sql,(args.limit,) if args.limit else ()).fetchall(); con.close()
+    try:
+        from sentence_transformers import SentenceTransformer
+    except ImportError as exc:
+        raise SystemExit('Instale sentence-transformers para gerar embeddings.') from exc
+    embedding_model_name = os.environ.get('ATENA_EMBEDDING_MODEL', 'sentence-transformers/all-MiniLM-L6-v2')
+    encoder = SentenceTransformer(embedding_model_name)
+    texts = [row[9] or '' for row in rows]
+    vectors = encoder.encode(texts, normalize_embeddings=True, show_progress_bar=False)
+    if getattr(vectors, 'shape', (0, 0))[1] != 384:
+        raise SystemExit(f'Embedding com dimensão inesperada: {getattr(vectors, "shape", None)}; esperado 384.')
     total=0
     for start in range(0,len(rows),args.batch_size):
         payload=[]
-        for row in rows[start:start+args.batch_size]:
+        for offset, row in enumerate(rows[start:start+args.batch_size]):
             (memory_id,sequence,record_type,task_id,domain,created_at,content_hash,status,confidence,record_json,
              source_type,source_id,source_url,model,model_digest,system_version,workflow_run_id,verification_method)=row
             payload.append({'content_hash':content_hash,'source_path':source_url or source_id or 'atena://episodic-memory',
                             'source_sha256':content_hash,'chunk_no':0,'content':record_json,
                             'tenant_id':'atena-programming','approved':status == 'supported',
-                            'embedding_model':None,'embedding':None,
+                            'embedding_model':embedding_model_name,'embedding':vectors[start+offset].tolist(),
                             'metadata':{'memory_id':memory_id,'sequence':sequence,'record_type':record_type,
                                         'task_id':task_id,'domain':domain,'status':status,'confidence':confidence,
                                         'source_type':source_type,'model':model,'model_digest':model_digest,
