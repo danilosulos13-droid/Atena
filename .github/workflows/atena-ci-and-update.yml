@@ -408,7 +408,9 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add atena_evolution/llm_learning_memory.json atena_evolution/proposals atena_evolution/memory.sqlite3 atena_evolution/consolidation-latest.json
+          # O SQLite cresce durante o ciclo e deve ser entregue como artefato;
+          # versioná-lo pode ultrapassar o limite de 100 MB do GitHub.
+          git add atena_evolution/llm_learning_memory.json atena_evolution/proposals atena_evolution/consolidation-latest.json
           if git diff --cached --quiet; then
             echo "Nenhuma atualização de memória ou proposta."
             exit 0

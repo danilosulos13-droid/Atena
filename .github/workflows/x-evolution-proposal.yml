@@ -54,8 +54,19 @@ jobs:
           fi
           git commit -m "research(atena): proposal from X signals"
           git push --set-upstream origin "$branch"
-          gh pr create \
+          set +e
+          pr_output="$(gh pr create \
             --base main \
             --head "$branch" \
             --title "research(atena): proposta baseada em sinais do X" \
-            --body "## Escopo\n\nEste PR contém apenas evidências e candidatos para análise. Nenhum código externo foi executado ou injetado.\n\n## Próxima etapa\n\nRevisar licença, fixar commit, executar sandbox e comparar benchmarks antes de qualquer alteração de código."
+            --body "## Escopo\n\nEste PR contém apenas evidências e candidatos para análise. Nenhum código externo foi executado ou injetado.\n\n## Próxima etapa\n\nRevisar licença, fixar commit, executar sandbox e comparar benchmarks antes de qualquer alteração de código." 2>&1)"
+          pr_status=$?
+          set -e
+          if [ "$pr_status" -eq 0 ]; then
+            printf '%s\n' "$pr_output"
+          elif printf '%s' "$pr_output" | grep -qi 'not permitted to create or approve pull requests'; then
+            echo "::warning title=PR X não criado::A branch $branch foi publicada, mas a política do repositório bloqueia PRs pelo GITHUB_TOKEN."
+          else
+            printf '%s\n' "$pr_output"
+            exit "$pr_status"
+          fi
