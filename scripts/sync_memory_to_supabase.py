@@ -33,7 +33,8 @@ def main():
                                         'verification_method':verification_method},
                             'created_at':created_at})
         body=json.dumps(payload,ensure_ascii=False).encode()
-        req=Request(f'{url}/rest/v1/{args.table}?on_conflict=memory_id',data=body,method='POST',headers={'apikey':key,'Authorization':f'Bearer {key}','Content-Type':'application/json','Prefer':'resolution=merge-duplicates,return=minimal'})
+        conflict_key = 'content_hash' if args.table == 'atena_memory_chunks' else 'memory_id'
+        req=Request(f'{url}/rest/v1/{args.table}?on_conflict={conflict_key}',data=body,method='POST',headers={'apikey':key,'Authorization':f'Bearer {key}','Content-Type':'application/json','Prefer':'resolution=merge-duplicates,return=minimal'})
         with urlopen(req,timeout=60) as response:
             if response.status not in (200,201,204): raise RuntimeError(f'Supabase HTTP {response.status}')
         total+=len(payload); print(json.dumps({'synced':total,'batch_size':len(payload)}),flush=True)
