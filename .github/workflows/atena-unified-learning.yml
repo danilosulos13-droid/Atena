@@ -20,7 +20,7 @@ on:
       max_pages:
         description: "Máximo de páginas completas a coletar"
         required: false
-        default: "20"
+        default: "40"
         type: string
 
 permissions:
@@ -61,9 +61,9 @@ jobs:
           PYTHONPATH: ${{ github.workspace }}
         run: |
           python scripts/fetch_research_sources.py \
-            --max-sources 20 \
+            --max-sources 40 \
             --limit-per-source 5 \
-            --max-pages "${{ inputs.max_pages || '20' }}" \
+            --max-pages "${{ inputs.max_pages || '40' }}" \
             --workers 8 \
             --timeout 20 \
             | tee /tmp/atena-research.json
