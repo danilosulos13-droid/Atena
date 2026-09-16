@@ -1,7 +1,7 @@
 {
   "provider": "unified-learning-pipeline",
   "model": "pending-training-gate",
-  "timestamp": "2026-09-15T23:38:02.814367+00:00",
+  "timestamp": "2026-09-16T18:34:00.258478+00:00",
   "observations": {
     "insights": [
       {
@@ -14,6 +14,18 @@
         "text": "Agencies reduce regulatory burden for community banks, increase eligibility for 18-month exam cycle: evidência registrada na memória episódica.",
         "evidence_refs": [
           "https://www.federalreserve.gov/newsevents/pressreleases/bcreg20260910a.htm"
+        ]
+      },
+      {
+        "text": "Federal Reserve issues FOMC statement: evidência registrada na memória episódica.",
+        "evidence_refs": [
+          "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm"
+        ]
+      },
+      {
+        "text": "Federal Reserve Board and Federal Open Market Committee release economic projections from the September 15-16 FOMC meeting: evidência registrada na memória episódica.",
+        "evidence_refs": [
+          "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916b.htm"
         ]
       }
     ],
@@ -34,6 +46,16 @@
         "title": "Agencies reduce regulatory burden for community banks, increase eligibility for 18-month exam cycle",
         "url": "https://www.federalreserve.gov/newsevents/pressreleases/bcreg20260910a.htm",
         "memory_id": "mem-20260915233802-7349ab20e60f"
+      },
+      {
+        "title": "Federal Reserve issues FOMC statement",
+        "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm",
+        "memory_id": "mem-20260916183359-c09b433da446"
+      },
+      {
+        "title": "Federal Reserve Board and Federal Open Market Committee release economic projections from the September 15-16 FOMC meeting",
+        "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916b.htm",
+        "memory_id": "mem-20260916183359-a2eb83f9cd66"
       }
     ]
   },
@@ -47,13 +69,23 @@
       "title": "Agencies reduce regulatory burden for community banks, increase eligibility for 18-month exam cycle",
       "url": "https://www.federalreserve.gov/newsevents/pressreleases/bcreg20260910a.htm",
       "memory_id": "mem-20260915233802-7349ab20e60f"
+    },
+    {
+      "title": "Federal Reserve issues FOMC statement",
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm",
+      "memory_id": "mem-20260916183359-c09b433da446"
+    },
+    {
+      "title": "Federal Reserve Board and Federal Open Market Committee release economic projections from the September 15-16 FOMC meeting",
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916b.htm",
+      "memory_id": "mem-20260916183359-a2eb83f9cd66"
     }
   ],
   "dataset": {
     "status": "ok",
-    "total": 18,
+    "total": 20,
     "splits": {
-      "train": 12,
+      "train": 14,
       "validation": 1,
       "holdout": 5
     },
@@ -73,12 +105,12 @@
       "história": 1,
       "medicina": 1,
       "programação": 1,
-      "web-research": 2,
+      "web-research": 4,
       "ética e IA": 1
     },
-    "sources": 18,
+    "sources": 20,
     "curated": 16,
-    "web": 2,
+    "web": 4,
     "inputs": [
       "atena_evolution/training/sft.jsonl",
       "atena_evolution/training/experiences.jsonl",
@@ -87,6 +119,6 @@
   },
   "training": {
     "status": "pending",
-    "mode": "none"
+    "mode": "lora"
   }
 }

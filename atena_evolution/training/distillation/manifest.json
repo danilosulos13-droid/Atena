@@ -1,8 +1,8 @@
 {
   "status": "ok",
-  "total": 18,
+  "total": 20,
   "splits": {
-    "train": 12,
+    "train": 14,
     "validation": 1,
     "holdout": 5
   },
@@ -22,12 +22,12 @@
     "história": 1,
     "medicina": 1,
     "programação": 1,
-    "web-research": 2,
+    "web-research": 4,
     "ética e IA": 1
   },
-  "sources": 18,
+  "sources": 20,
   "curated": 16,
-  "web": 2,
+  "web": 4,
   "inputs": [
     "atena_evolution/training/sft.jsonl",
     "atena_evolution/training/experiences.jsonl",
