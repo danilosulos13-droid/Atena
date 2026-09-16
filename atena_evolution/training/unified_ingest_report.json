@@ -2,9 +2,9 @@
   "status": "ok",
   "pipeline_version": "unified-learning-pipeline-v2-analysis",
   "input": "atena_evolution/learning_memory.jsonl",
-  "episodes_created": 1,
-  "episodes_existing": 33,
-  "examples_created": 1,
+  "episodes_created": 0,
+  "episodes_existing": 34,
+  "examples_created": 0,
   "rejected": 0,
   "memory_ids": [
     "mem-20260915233802-9cdaf8c6a808",
