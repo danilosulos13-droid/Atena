@@ -41,6 +41,12 @@ jobs:
           SUPABASE_URL="${SUPABASE_URL#\"}"
           SUPABASE_URL="${SUPABASE_URL%\"}"
           SUPABASE_URL="${SUPABASE_URL%/}"
+          case "$SUPABASE_URL" in
+            *bhtgmvnxqffnckqnljsq*)
+              echo "::notice::Link do projeto Supabase reconhecido; usando a URL oficial da API."
+              SUPABASE_URL="https://bhtgmvnxqffnckqnljsq.supabase.co"
+              ;;
+          esac
           case "$SUPABASE_URL" in https://*.supabase.co) ;; *) echo 'Invalid Supabase URL: use https://<project-ref>.supabase.co'; exit 1;; esac
           echo "SUPABASE_URL=$SUPABASE_URL" >> "$GITHUB_ENV"
 
