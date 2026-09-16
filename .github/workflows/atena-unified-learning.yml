@@ -68,6 +68,15 @@ jobs:
             --timeout 20 \
             | tee /tmp/atena-research.json
 
+      - name: Analisar evidências e comparar fontes
+        env:
+          PYTHONPATH: ${{ github.workspace }}
+        run: |
+          python scripts/analyze_research_evidence.py \
+            --input atena_evolution/learning_memory.jsonl \
+            --output /tmp/atena-analyzed-research.jsonl
+          cp /tmp/atena-analyzed-research.jsonl atena_evolution/learning_memory.jsonl
+
       - name: Registrar evidências na memória episódica e no dataset
         env:
           PYTHONPATH: ${{ github.workspace }}
@@ -106,12 +115,12 @@ jobs:
           ingest = json.loads(Path('atena_evolution/training/unified_ingest_report.json').read_text())
           manifest = json.loads(Path('atena_evolution/training/distillation/manifest.json').read_text())
           links = ingest.get('sources', [])
-          insights = [{"text": f"{item.get('title')}: evidência registrada na memória episódica.", "evidence_refs": [item.get('url', '')]} for item in links[:5]]
+          insights = [{"type": "scientific_analysis", "text": f"{item.get('title')}: análise concluída com confiança {item.get('confidence', 0):.2f}.", "confidence": item.get('confidence', 0), "evidence_refs": [item.get('url', '')] + item.get('limitations', [])} for item in links[:5]]
           report = {
               "provider": "unified-learning-pipeline",
-              "model": "pending-training-gate",
+              "model": "deterministic-evidence-analysis-v2",
               "timestamp": __import__('datetime').datetime.now(__import__('datetime').timezone.utc).isoformat(),
-              "observations": {"insights": insights, "risks": [], "proposed_changes": [], "next_cycle": ["validar o candidato no holdout antes de promover"]},
+              "observations": {"insights": insights, "risks": ["Confiança baseada em heurística e sobreposição textual; revisão humana continua recomendada."], "proposed_changes": [], "next_cycle": ["comparar contra fontes independentes antes de promover"]},
               "research": {"sources": links},
               "research_links": links,
               "dataset": manifest,

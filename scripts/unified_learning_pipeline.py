@@ -21,7 +21,7 @@ if str(ROOT) not in sys.path:
 
 from core.memory_store import MemoryStore
 
-SYSTEM_VERSION = "unified-learning-pipeline-v1"
+SYSTEM_VERSION = "unified-learning-pipeline-v2-analysis"
 
 
 def clean(value: Any, limit: int = 12000) -> str:
@@ -82,6 +82,12 @@ def ingest(args: argparse.Namespace) -> int:
                 continue
             content_hash = clean(item.get("content_hash"), 128) or hashlib.sha256(text.encode()).hexdigest()
             title = clean(item.get("title") or item.get("topic") or url, 240)
+            analysis = item.get("analysis") if isinstance(item.get("analysis"), dict) else {}
+            if item.get("analysis_status") != "analyzed" or not analysis.get("claim"):
+                report["rejected"] += 1
+                continue
+            confidence = float(analysis.get("confidence", 0.2) or 0.2)
+            evidence_refs = list(dict.fromkeys([url] + [str(x) for x in analysis.get("related_evidence", []) if str(x)]))[:5]
             source_id = f"web:{content_hash}"
             found = store.connection.execute(
                 "SELECT episode_id FROM provenance WHERE source_id=? AND source_url=? LIMIT 1",
@@ -102,10 +108,10 @@ def ingest(args: argparse.Namespace) -> int:
                     "subject": {"task_id": "unified-research", "domain": clean(item.get("topic") or "general", 160),
                                 "benchmark_version": None, "capability": None},
                     "event": {"input_digest": hashlib.sha256(url.encode()).hexdigest(),
-                              "output": f"{title}: {text}", "output_redacted": False, "environment": {},
-                              "source_title": title},
-                    "evidence": {"status": "supported", "confidence": 0.65, "refs": [url],
-                                 "counterevidence_refs": [], "verification_method": "http_fetch"},
+                              "output": clean(analysis.get("summary") or f"{title}: {text}"), "output_redacted": False, "environment": {},
+                              "source_title": title, "analysis": analysis},
+                    "evidence": {"status": "supported" if confidence >= 0.6 else "unverified", "confidence": confidence, "refs": evidence_refs,
+                                 "counterevidence_refs": [], "verification_method": analysis.get("method", "scientific_analysis")},
                     "lifecycle": {"state": "active", "retention_class": "raw", "supersedes": None},
                     "privacy": {"redactions": [], "contains_secret": False},
                 }
@@ -113,21 +119,24 @@ def ingest(args: argparse.Namespace) -> int:
                 record = build_episode(record_type=record["record_type"], task_id=record["subject"]["task_id"],
                                        domain=record["subject"]["domain"], output=record["event"]["output"],
                                        source_type="external_source", source_id=source_id, system_version=SYSTEM_VERSION,
-                                       source_url=url, confidence=0.65, status="supported",
-                                       evidence_refs=[url], event_extra={"source_title": title})
+                                       source_url=url, confidence=confidence, status="supported" if confidence >= 0.6 else "unverified",
+                                       evidence_refs=evidence_refs, event_extra={"source_title": title, "analysis": analysis})
                 memory_id = store.append(record)
                 report["episodes_created"] += 1
             example_id = hashlib.sha256((url + "\n" + text).encode()).hexdigest()[:24]
-            example = {"example_id": example_id, "prompt": f"Resuma a evidência sobre: {title}",
-                       "response": text, "evidence": [url], "source_url": url,
+            example = {"example_id": example_id, "prompt": f"Analise criticamente a evidência sobre: {title}",
+                       "response": analysis.get("summary", text), "evidence": evidence_refs, "source_url": url,
                        "topic": clean(item.get("topic") or title, 160), "domain": "web-research",
-                       "memory_id": memory_id}
+                       "memory_id": memory_id, "analysis": analysis}
             before = len(load_jsonl(args.experiences))
             append_experience(args.experiences, example)
             if len(load_jsonl(args.experiences)) > before:
                 report["examples_created"] += 1
             report["memory_ids"].append(memory_id)
-            report["sources"].append({"title": title, "url": url, "memory_id": memory_id})
+            report["sources"].append({"title": title, "url": url, "memory_id": memory_id,
+                                       "analysis_status": "analyzed", "confidence": confidence,
+                                       "corroborating_sources": analysis.get("corroborating_sources", 0),
+                                       "limitations": analysis.get("limitations", [])})
         if not args.dry_run:
             store.verify_integrity()
     args.report.parent.mkdir(parents=True, exist_ok=True)
