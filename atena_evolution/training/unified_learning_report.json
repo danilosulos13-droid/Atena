@@ -1,7 +1,7 @@
 {
   "provider": "unified-learning-pipeline",
   "model": "deterministic-evidence-analysis-v2",
-  "timestamp": "2026-09-16T20:43:39.027129+00:00",
+  "timestamp": "2026-09-16T20:50:26.285347+00:00",
   "observations": {
     "insights": [
       {
@@ -63,7 +63,7 @@
       {
         "title": "Agencies seek comment on proposed third-party risk management guidance and issue statement on community bank engagement with core service providers",
         "url": "https://www.federalreserve.gov/newsevents/pressreleases/bcreg20260911a.htm",
-        "memory_id": "mem-20260916204338-f498f452d2ef",
+        "memory_id": "mem-20260916205025-f498f452d2ef",
         "analysis_status": "analyzed",
         "confidence": 0.67,
         "corroborating_sources": 1,
@@ -74,7 +74,7 @@
       {
         "title": "Agencies reduce regulatory burden for community banks, increase eligibility for 18-month exam cycle",
         "url": "https://www.federalreserve.gov/newsevents/pressreleases/bcreg20260910a.htm",
-        "memory_id": "mem-20260916204338-0b4fc68dc7f7",
+        "memory_id": "mem-20260916205025-0b4fc68dc7f7",
         "analysis_status": "analyzed",
         "confidence": 0.67,
         "corroborating_sources": 1,
@@ -85,7 +85,7 @@
       {
         "title": "Federal Reserve issues FOMC statement",
         "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm",
-        "memory_id": "mem-20260916204338-97f6ff9436a5",
+        "memory_id": "mem-20260916205025-97f6ff9436a5",
         "analysis_status": "analyzed",
         "confidence": 0.67,
         "corroborating_sources": 1,
@@ -96,7 +96,7 @@
       {
         "title": "Federal Reserve Board and Federal Open Market Committee release economic projections from the September 15-16 FOMC meeting",
         "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916b.htm",
-        "memory_id": "mem-20260916204338-96d83894dd05",
+        "memory_id": "mem-20260916205025-96d83894dd05",
         "analysis_status": "analyzed",
         "confidence": 0.67,
         "corroborating_sources": 1,
@@ -107,7 +107,7 @@
       {
         "title": "Using Codebooks to Detect Cybercrime Topics in Text Narratives",
         "url": "https://arxiv.org/abs/2609.16000",
-        "memory_id": "mem-20260916204338-47cecfff8641",
+        "memory_id": "mem-20260916205025-47cecfff8641",
         "analysis_status": "analyzed",
         "confidence": 0.59,
         "corroborating_sources": 0,
@@ -118,7 +118,7 @@
       {
         "title": "Measuring AI harms with multidimensional Lorenz Zonoids",
         "url": "https://arxiv.org/abs/2609.16004",
-        "memory_id": "mem-20260916204338-96d31c5886c2",
+        "memory_id": "mem-20260916205025-96d31c5886c2",
         "analysis_status": "analyzed",
         "confidence": 0.59,
         "corroborating_sources": 0,
@@ -129,7 +129,7 @@
       {
         "title": "Beyond Cultural Knowledge: Evaluating Arabic Cultural Appropriateness of Large Language Models",
         "url": "https://arxiv.org/abs/2609.16006",
-        "memory_id": "mem-20260916204338-b84e9f47381f",
+        "memory_id": "mem-20260916205025-b84e9f47381f",
         "analysis_status": "analyzed",
         "confidence": 0.59,
         "corroborating_sources": 0,
@@ -140,7 +140,7 @@
       {
         "title": "AI-Driven Feedback Systems, Digital Labour, and Silent Quitting: Transforming African Workplaces",
         "url": "https://arxiv.org/abs/2609.16192",
-        "memory_id": "mem-20260916204338-c49beaf4f2a1",
+        "memory_id": "mem-20260916205025-c49beaf4f2a1",
         "analysis_status": "analyzed",
         "confidence": 0.59,
         "corroborating_sources": 0,
@@ -151,7 +151,7 @@
       {
         "title": "Mapping U.S. Federal AI Governance Against Sector Vulnerability",
         "url": "https://arxiv.org/abs/2609.16260",
-        "memory_id": "mem-20260916204338-cbe9d5c7d55a",
+        "memory_id": "mem-20260916205025-cbe9d5c7d55a",
         "analysis_status": "analyzed",
         "confidence": 0.59,
         "corroborating_sources": 0,
@@ -162,7 +162,7 @@
       {
         "title": "Moral Missions: Surfacing Moral Decision-Making Strategies for Responsible Data Science Practice",
         "url": "https://arxiv.org/abs/2609.16166",
-        "memory_id": "mem-20260916204338-79f6fd6d8469",
+        "memory_id": "mem-20260916205025-79f6fd6d8469",
         "analysis_status": "analyzed",
         "confidence": 0.59,
         "corroborating_sources": 0,
@@ -173,7 +173,7 @@
       {
         "title": "When AI Says \"I Am Unable to Answer\": Understanding User Responses to AI Refusals",
         "url": "https://arxiv.org/abs/2609.16191",
-        "memory_id": "mem-20260916204338-52c57afa608a",
+        "memory_id": "mem-20260916205025-52c57afa608a",
         "analysis_status": "analyzed",
         "confidence": 0.59,
         "corroborating_sources": 0,
@@ -184,7 +184,7 @@
       {
         "title": "SuperSenseDoctor: A Multimodal and Contactless Agent for Health Tracking",
         "url": "https://arxiv.org/abs/2609.16257",
-        "memory_id": "mem-20260916204338-b1368787a81e",
+        "memory_id": "mem-20260916205025-b1368787a81e",
         "analysis_status": "analyzed",
         "confidence": 0.59,
         "corroborating_sources": 0,
@@ -195,7 +195,7 @@
       {
         "title": "Intelligent Interaction Techniques (IIxT) - Proposal",
         "url": "https://arxiv.org/abs/2609.16295",
-        "memory_id": "mem-20260916204338-bed1c7e99c36",
+        "memory_id": "mem-20260916205025-bed1c7e99c36",
         "analysis_status": "analyzed",
         "confidence": 0.59,
         "corroborating_sources": 0,
@@ -206,7 +206,7 @@
       {
         "title": "From Momentary Emotion Inference to Sustained Emotion Support: Evaluating a Companion Agent in a Longitudinal Study",
         "url": "https://arxiv.org/abs/2609.16344",
-        "memory_id": "mem-20260916204338-bf411b5b3533",
+        "memory_id": "mem-20260916205025-bf411b5b3533",
         "analysis_status": "analyzed",
         "confidence": 0.59,
         "corroborating_sources": 0,
@@ -217,7 +217,7 @@
       {
         "title": "Optical microelectrode arrays for differential readout of electrical and mechanical signals in cardiac cells",
         "url": "https://arxiv.org/abs/2609.16101",
-        "memory_id": "mem-20260916204338-7898ffed893f",
+        "memory_id": "mem-20260916205025-7898ffed893f",
         "analysis_status": "analyzed",
         "confidence": 0.59,
         "corroborating_sources": 0,
@@ -228,7 +228,7 @@
       {
         "title": "A neural-astrocyte architecture implements a hybrid automaton for evidence accumulation",
         "url": "https://arxiv.org/abs/2609.16217",
-        "memory_id": "mem-20260916204338-9ea34a40309b",
+        "memory_id": "mem-20260916205025-9ea34a40309b",
         "analysis_status": "analyzed",
         "confidence": 0.59,
         "corroborating_sources": 0,
@@ -239,7 +239,7 @@
       {
         "title": "Recovery Rates Are Not Comparable Across Transcription Factors: Chance Correction for Attribution Evaluation",
         "url": "https://arxiv.org/abs/2609.16271",
-        "memory_id": "mem-20260916204338-ee1d0f8564e1",
+        "memory_id": "mem-20260916205025-ee1d0f8564e1",
         "analysis_status": "analyzed",
         "confidence": 0.59,
         "corroborating_sources": 0,
@@ -250,7 +250,7 @@
       {
         "title": "Navigating the Delicate Geometry of Beehive Mite Infestation with Optimal Control",
         "url": "https://arxiv.org/abs/2609.16316",
-        "memory_id": "mem-20260916204338-17ff6ddc473e",
+        "memory_id": "mem-20260916205025-17ff6ddc473e",
         "analysis_status": "analyzed",
         "confidence": 0.59,
         "corroborating_sources": 0,
@@ -261,7 +261,7 @@
       {
         "title": "Exploring Optimal Parameters for Ligand-Based Virtual Screening in Early Drug Discovery",
         "url": "https://arxiv.org/abs/2609.16356",
-        "memory_id": "mem-20260916204338-171844da23f6",
+        "memory_id": "mem-20260916205025-171844da23f6",
         "analysis_status": "analyzed",
         "confidence": 0.59,
         "corroborating_sources": 0,
@@ -272,7 +272,7 @@
       {
         "title": "Living Structure + AI: A New Episteme for Liberal Arts and Whole-Person Education in the Era of Artificial Intelligence",
         "url": "https://arxiv.org/abs/2609.16002",
-        "memory_id": "mem-20260916204338-36aa8752fb75",
+        "memory_id": "mem-20260916205025-36aa8752fb75",
         "analysis_status": "analyzed",
         "confidence": 0.59,
         "corroborating_sources": 0,
@@ -283,7 +283,7 @@
       {
         "title": "A Non-Singular Cyclic Universe from Modified Gravity",
         "url": "https://arxiv.org/abs/2609.16015",
-        "memory_id": "mem-20260916204338-5d2dd13510ea",
+        "memory_id": "mem-20260916205025-5d2dd13510ea",
         "analysis_status": "analyzed",
         "confidence": 0.59,
         "corroborating_sources": 0,
@@ -294,7 +294,7 @@
       {
         "title": "Constraining a model supported in Moir\\'e gravity with a recent data release",
         "url": "https://arxiv.org/abs/2609.16021",
-        "memory_id": "mem-20260916204338-80000f237e4c",
+        "memory_id": "mem-20260916205025-80000f237e4c",
         "analysis_status": "analyzed",
         "confidence": 0.59,
         "corroborating_sources": 0,
@@ -305,7 +305,7 @@
       {
         "title": "Molecular representation shapes the balance between target fidelity and exploration in flow based polymer generation",
         "url": "https://arxiv.org/abs/2609.16028",
-        "memory_id": "mem-20260916204338-f47954bc6b63",
+        "memory_id": "mem-20260916205025-f47954bc6b63",
         "analysis_status": "analyzed",
         "confidence": 0.59,
         "corroborating_sources": 0,
@@ -316,7 +316,7 @@
       {
         "title": "Observational Constraints and Cosmic Growth Index of Realistic $f(G)$ Gravity Frameworks using MCMC Analysis",
         "url": "https://arxiv.org/abs/2609.16037",
-        "memory_id": "mem-20260916204338-0e29473021a8",
+        "memory_id": "mem-20260916205025-0e29473021a8",
         "analysis_status": "analyzed",
         "confidence": 0.59,
         "corroborating_sources": 0,
@@ -327,7 +327,7 @@
       {
         "title": "Asthma: Postcode lottery for tests for children in England, survey suggests",
         "url": "http://www.bmj.com/content/394/bmj-2026-100884.short?rss=1",
-        "memory_id": "mem-20260916204338-d569ca8adb21",
+        "memory_id": "mem-20260916205025-d569ca8adb21",
         "analysis_status": "analyzed",
         "confidence": 0.59,
         "corroborating_sources": 0,
@@ -338,7 +338,7 @@
       {
         "title": "NICE recommends single saliva test to speed up diagnosis of endometriosis in primary care",
         "url": "http://www.bmj.com/content/394/bmj-2026-100876.short?rss=1",
-        "memory_id": "mem-20260916204338-e27120de8113",
+        "memory_id": "mem-20260916205025-e27120de8113",
         "analysis_status": "analyzed",
         "confidence": 0.59,
         "corroborating_sources": 0,
@@ -349,7 +349,7 @@
       {
         "title": "US measles deaths: Pennsylvania reports third and fourth fatalities",
         "url": "http://www.bmj.com/content/394/bmj-2026-100879.short?rss=1",
-        "memory_id": "mem-20260916204338-d0b3e86dd0ac",
+        "memory_id": "mem-20260916205025-d0b3e86dd0ac",
         "analysis_status": "analyzed",
         "confidence": 0.59,
         "corroborating_sources": 0,
@@ -360,7 +360,7 @@
       {
         "title": "Letby and Thirlwall: Doctors&#x2019; fears were dismissed and other key findings from the inquiry",
         "url": "http://www.bmj.com/content/394/bmj-2026-100878.short?rss=1",
-        "memory_id": "mem-20260916204338-6d409bd156bd",
+        "memory_id": "mem-20260916205025-6d409bd156bd",
         "analysis_status": "analyzed",
         "confidence": 0.59,
         "corroborating_sources": 0,
@@ -371,7 +371,7 @@
       {
         "title": "EPA repeals major greenhouse gas emission limits for US fossil fuel power plants",
         "url": "http://www.bmj.com/content/394/bmj-2026-100874.short?rss=1",
-        "memory_id": "mem-20260916204338-bc22f227ed5c",
+        "memory_id": "mem-20260916205025-bc22f227ed5c",
         "analysis_status": "analyzed",
         "confidence": 0.59,
         "corroborating_sources": 0,
@@ -382,7 +382,7 @@
       {
         "title": "NIST Finalizes Guidelines on Protecting Online Identity and Access Tokens From Misuse",
         "url": "https://www.nist.gov/news-events/news/2026/09/nist-finalizes-guidelines-protecting-online-identity-and-access-tokens",
-        "memory_id": "mem-20260916204338-b269a202845e",
+        "memory_id": "mem-20260916205025-b269a202845e",
         "analysis_status": "analyzed",
         "confidence": 0.59,
         "corroborating_sources": 0,
@@ -393,7 +393,7 @@
       {
         "title": "NIST-Developed Quantum Sensors Improve Nuclear Monitoring",
         "url": "https://www.nist.gov/news-events/news/2026/09/nist-developed-quantum-sensors-improve-nuclear-monitoring",
-        "memory_id": "mem-20260916204338-88c14c1d02ce",
+        "memory_id": "mem-20260916205025-88c14c1d02ce",
         "analysis_status": "analyzed",
         "confidence": 0.59,
         "corroborating_sources": 0,
@@ -404,7 +404,7 @@
       {
         "title": "NIST Researchers Supersize Quantum Technology to Help Detect Faint Photons",
         "url": "https://www.nist.gov/news-events/news/2026/08/nist-researchers-supersize-quantum-technology-help-detect-faint-photons",
-        "memory_id": "mem-20260916204338-6befd928db2b",
+        "memory_id": "mem-20260916205025-6befd928db2b",
         "analysis_status": "analyzed",
         "confidence": 0.67,
         "corroborating_sources": 1,
@@ -415,7 +415,7 @@
       {
         "title": "NIST National Construction Safety Team Advisory Committee Meeting Scheduled for Sept. 23 and 24, 2026",
         "url": "https://www.nist.gov/news-events/news/2026/08/nist-national-construction-safety-team-advisory-committee-meeting-scheduled",
-        "memory_id": "mem-20260916204338-f867901d5aa3",
+        "memory_id": "mem-20260916205026-f867901d5aa3",
         "analysis_status": "analyzed",
         "confidence": 0.59,
         "corroborating_sources": 0,
@@ -426,7 +426,7 @@
       {
         "title": "Federal Reserve Board announces termination of enforcement actions with United Texas Bank, Quontic Bank Acquisition Corp., and Quontic Bank Holdings Corp.",
         "url": "https://www.federalreserve.gov/newsevents/pressreleases/enforcement20260904a.htm",
-        "memory_id": "mem-20260916204338-cb41fe0031fa",
+        "memory_id": "mem-20260916205026-cb41fe0031fa",
         "analysis_status": "analyzed",
         "confidence": 0.59,
         "corroborating_sources": 0,
@@ -440,7 +440,7 @@
     {
       "title": "Agencies seek comment on proposed third-party risk management guidance and issue statement on community bank engagement with core service providers",
       "url": "https://www.federalreserve.gov/newsevents/pressreleases/bcreg20260911a.htm",
-      "memory_id": "mem-20260916204338-f498f452d2ef",
+      "memory_id": "mem-20260916205025-f498f452d2ef",
       "analysis_status": "analyzed",
       "confidence": 0.67,
       "corroborating_sources": 1,
@@ -451,7 +451,7 @@
     {
       "title": "Agencies reduce regulatory burden for community banks, increase eligibility for 18-month exam cycle",
       "url": "https://www.federalreserve.gov/newsevents/pressreleases/bcreg20260910a.htm",
-      "memory_id": "mem-20260916204338-0b4fc68dc7f7",
+      "memory_id": "mem-20260916205025-0b4fc68dc7f7",
       "analysis_status": "analyzed",
       "confidence": 0.67,
       "corroborating_sources": 1,
@@ -462,7 +462,7 @@
     {
       "title": "Federal Reserve issues FOMC statement",
       "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm",
-      "memory_id": "mem-20260916204338-97f6ff9436a5",
+      "memory_id": "mem-20260916205025-97f6ff9436a5",
       "analysis_status": "analyzed",
       "confidence": 0.67,
       "corroborating_sources": 1,
@@ -473,7 +473,7 @@
     {
       "title": "Federal Reserve Board and Federal Open Market Committee release economic projections from the September 15-16 FOMC meeting",
       "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916b.htm",
-      "memory_id": "mem-20260916204338-96d83894dd05",
+      "memory_id": "mem-20260916205025-96d83894dd05",
       "analysis_status": "analyzed",
       "confidence": 0.67,
       "corroborating_sources": 1,
@@ -484,7 +484,7 @@
     {
       "title": "Using Codebooks to Detect Cybercrime Topics in Text Narratives",
       "url": "https://arxiv.org/abs/2609.16000",
-      "memory_id": "mem-20260916204338-47cecfff8641",
+      "memory_id": "mem-20260916205025-47cecfff8641",
       "analysis_status": "analyzed",
       "confidence": 0.59,
       "corroborating_sources": 0,
@@ -495,7 +495,7 @@
     {
       "title": "Measuring AI harms with multidimensional Lorenz Zonoids",
       "url": "https://arxiv.org/abs/2609.16004",
-      "memory_id": "mem-20260916204338-96d31c5886c2",
+      "memory_id": "mem-20260916205025-96d31c5886c2",
       "analysis_status": "analyzed",
       "confidence": 0.59,
       "corroborating_sources": 0,
@@ -506,7 +506,7 @@
     {
       "title": "Beyond Cultural Knowledge: Evaluating Arabic Cultural Appropriateness of Large Language Models",
       "url": "https://arxiv.org/abs/2609.16006",
-      "memory_id": "mem-20260916204338-b84e9f47381f",
+      "memory_id": "mem-20260916205025-b84e9f47381f",
       "analysis_status": "analyzed",
       "confidence": 0.59,
       "corroborating_sources": 0,
@@ -517,7 +517,7 @@
     {
       "title": "AI-Driven Feedback Systems, Digital Labour, and Silent Quitting: Transforming African Workplaces",
       "url": "https://arxiv.org/abs/2609.16192",
-      "memory_id": "mem-20260916204338-c49beaf4f2a1",
+      "memory_id": "mem-20260916205025-c49beaf4f2a1",
       "analysis_status": "analyzed",
       "confidence": 0.59,
       "corroborating_sources": 0,
@@ -528,7 +528,7 @@
     {
       "title": "Mapping U.S. Federal AI Governance Against Sector Vulnerability",
       "url": "https://arxiv.org/abs/2609.16260",
-      "memory_id": "mem-20260916204338-cbe9d5c7d55a",
+      "memory_id": "mem-20260916205025-cbe9d5c7d55a",
       "analysis_status": "analyzed",
       "confidence": 0.59,
       "corroborating_sources": 0,
@@ -539,7 +539,7 @@
     {
       "title": "Moral Missions: Surfacing Moral Decision-Making Strategies for Responsible Data Science Practice",
       "url": "https://arxiv.org/abs/2609.16166",
-      "memory_id": "mem-20260916204338-79f6fd6d8469",
+      "memory_id": "mem-20260916205025-79f6fd6d8469",
       "analysis_status": "analyzed",
       "confidence": 0.59,
       "corroborating_sources": 0,
@@ -550,7 +550,7 @@
     {
       "title": "When AI Says \"I Am Unable to Answer\": Understanding User Responses to AI Refusals",
       "url": "https://arxiv.org/abs/2609.16191",
-      "memory_id": "mem-20260916204338-52c57afa608a",
+      "memory_id": "mem-20260916205025-52c57afa608a",
       "analysis_status": "analyzed",
       "confidence": 0.59,
       "corroborating_sources": 0,
@@ -561,7 +561,7 @@
     {
       "title": "SuperSenseDoctor: A Multimodal and Contactless Agent for Health Tracking",
       "url": "https://arxiv.org/abs/2609.16257",
-      "memory_id": "mem-20260916204338-b1368787a81e",
+      "memory_id": "mem-20260916205025-b1368787a81e",
       "analysis_status": "analyzed",
       "confidence": 0.59,
       "corroborating_sources": 0,
@@ -572,7 +572,7 @@
     {
       "title": "Intelligent Interaction Techniques (IIxT) - Proposal",
       "url": "https://arxiv.org/abs/2609.16295",
-      "memory_id": "mem-20260916204338-bed1c7e99c36",
+      "memory_id": "mem-20260916205025-bed1c7e99c36",
       "analysis_status": "analyzed",
       "confidence": 0.59,
       "corroborating_sources": 0,
@@ -583,7 +583,7 @@
     {
       "title": "From Momentary Emotion Inference to Sustained Emotion Support: Evaluating a Companion Agent in a Longitudinal Study",
       "url": "https://arxiv.org/abs/2609.16344",
-      "memory_id": "mem-20260916204338-bf411b5b3533",
+      "memory_id": "mem-20260916205025-bf411b5b3533",
       "analysis_status": "analyzed",
       "confidence": 0.59,
       "corroborating_sources": 0,
@@ -594,7 +594,7 @@
     {
       "title": "Optical microelectrode arrays for differential readout of electrical and mechanical signals in cardiac cells",
       "url": "https://arxiv.org/abs/2609.16101",
-      "memory_id": "mem-20260916204338-7898ffed893f",
+      "memory_id": "mem-20260916205025-7898ffed893f",
       "analysis_status": "analyzed",
       "confidence": 0.59,
       "corroborating_sources": 0,
@@ -605,7 +605,7 @@
     {
       "title": "A neural-astrocyte architecture implements a hybrid automaton for evidence accumulation",
       "url": "https://arxiv.org/abs/2609.16217",
-      "memory_id": "mem-20260916204338-9ea34a40309b",
+      "memory_id": "mem-20260916205025-9ea34a40309b",
       "analysis_status": "analyzed",
       "confidence": 0.59,
       "corroborating_sources": 0,
@@ -616,7 +616,7 @@
     {
       "title": "Recovery Rates Are Not Comparable Across Transcription Factors: Chance Correction for Attribution Evaluation",
       "url": "https://arxiv.org/abs/2609.16271",
-      "memory_id": "mem-20260916204338-ee1d0f8564e1",
+      "memory_id": "mem-20260916205025-ee1d0f8564e1",
       "analysis_status": "analyzed",
       "confidence": 0.59,
       "corroborating_sources": 0,
@@ -627,7 +627,7 @@
     {
       "title": "Navigating the Delicate Geometry of Beehive Mite Infestation with Optimal Control",
       "url": "https://arxiv.org/abs/2609.16316",
-      "memory_id": "mem-20260916204338-17ff6ddc473e",
+      "memory_id": "mem-20260916205025-17ff6ddc473e",
       "analysis_status": "analyzed",
       "confidence": 0.59,
       "corroborating_sources": 0,
@@ -638,7 +638,7 @@
     {
       "title": "Exploring Optimal Parameters for Ligand-Based Virtual Screening in Early Drug Discovery",
       "url": "https://arxiv.org/abs/2609.16356",
-      "memory_id": "mem-20260916204338-171844da23f6",
+      "memory_id": "mem-20260916205025-171844da23f6",
       "analysis_status": "analyzed",
       "confidence": 0.59,
       "corroborating_sources": 0,
@@ -649,7 +649,7 @@
     {
       "title": "Living Structure + AI: A New Episteme for Liberal Arts and Whole-Person Education in the Era of Artificial Intelligence",
       "url": "https://arxiv.org/abs/2609.16002",
-      "memory_id": "mem-20260916204338-36aa8752fb75",
+      "memory_id": "mem-20260916205025-36aa8752fb75",
       "analysis_status": "analyzed",
       "confidence": 0.59,
       "corroborating_sources": 0,
@@ -660,7 +660,7 @@
     {
       "title": "A Non-Singular Cyclic Universe from Modified Gravity",
       "url": "https://arxiv.org/abs/2609.16015",
-      "memory_id": "mem-20260916204338-5d2dd13510ea",
+      "memory_id": "mem-20260916205025-5d2dd13510ea",
       "analysis_status": "analyzed",
       "confidence": 0.59,
       "corroborating_sources": 0,
@@ -671,7 +671,7 @@
     {
       "title": "Constraining a model supported in Moir\\'e gravity with a recent data release",
       "url": "https://arxiv.org/abs/2609.16021",
-      "memory_id": "mem-20260916204338-80000f237e4c",
+      "memory_id": "mem-20260916205025-80000f237e4c",
       "analysis_status": "analyzed",
       "confidence": 0.59,
       "corroborating_sources": 0,
@@ -682,7 +682,7 @@
     {
       "title": "Molecular representation shapes the balance between target fidelity and exploration in flow based polymer generation",
       "url": "https://arxiv.org/abs/2609.16028",
-      "memory_id": "mem-20260916204338-f47954bc6b63",
+      "memory_id": "mem-20260916205025-f47954bc6b63",
       "analysis_status": "analyzed",
       "confidence": 0.59,
       "corroborating_sources": 0,
@@ -693,7 +693,7 @@
     {
       "title": "Observational Constraints and Cosmic Growth Index of Realistic $f(G)$ Gravity Frameworks using MCMC Analysis",
       "url": "https://arxiv.org/abs/2609.16037",
-      "memory_id": "mem-20260916204338-0e29473021a8",
+      "memory_id": "mem-20260916205025-0e29473021a8",
       "analysis_status": "analyzed",
       "confidence": 0.59,
       "corroborating_sources": 0,
@@ -704,7 +704,7 @@
     {
       "title": "Asthma: Postcode lottery for tests for children in England, survey suggests",
       "url": "http://www.bmj.com/content/394/bmj-2026-100884.short?rss=1",
-      "memory_id": "mem-20260916204338-d569ca8adb21",
+      "memory_id": "mem-20260916205025-d569ca8adb21",
       "analysis_status": "analyzed",
       "confidence": 0.59,
       "corroborating_sources": 0,
@@ -715,7 +715,7 @@
     {
       "title": "NICE recommends single saliva test to speed up diagnosis of endometriosis in primary care",
       "url": "http://www.bmj.com/content/394/bmj-2026-100876.short?rss=1",
-      "memory_id": "mem-20260916204338-e27120de8113",
+      "memory_id": "mem-20260916205025-e27120de8113",
       "analysis_status": "analyzed",
       "confidence": 0.59,
       "corroborating_sources": 0,
@@ -726,7 +726,7 @@
     {
       "title": "US measles deaths: Pennsylvania reports third and fourth fatalities",
       "url": "http://www.bmj.com/content/394/bmj-2026-100879.short?rss=1",
-      "memory_id": "mem-20260916204338-d0b3e86dd0ac",
+      "memory_id": "mem-20260916205025-d0b3e86dd0ac",
       "analysis_status": "analyzed",
       "confidence": 0.59,
       "corroborating_sources": 0,
@@ -737,7 +737,7 @@
     {
       "title": "Letby and Thirlwall: Doctors&#x2019; fears were dismissed and other key findings from the inquiry",
       "url": "http://www.bmj.com/content/394/bmj-2026-100878.short?rss=1",
-      "memory_id": "mem-20260916204338-6d409bd156bd",
+      "memory_id": "mem-20260916205025-6d409bd156bd",
       "analysis_status": "analyzed",
       "confidence": 0.59,
       "corroborating_sources": 0,
@@ -748,7 +748,7 @@
     {
       "title": "EPA repeals major greenhouse gas emission limits for US fossil fuel power plants",
       "url": "http://www.bmj.com/content/394/bmj-2026-100874.short?rss=1",
-      "memory_id": "mem-20260916204338-bc22f227ed5c",
+      "memory_id": "mem-20260916205025-bc22f227ed5c",
       "analysis_status": "analyzed",
       "confidence": 0.59,
       "corroborating_sources": 0,
@@ -759,7 +759,7 @@
     {
       "title": "NIST Finalizes Guidelines on Protecting Online Identity and Access Tokens From Misuse",
       "url": "https://www.nist.gov/news-events/news/2026/09/nist-finalizes-guidelines-protecting-online-identity-and-access-tokens",
-      "memory_id": "mem-20260916204338-b269a202845e",
+      "memory_id": "mem-20260916205025-b269a202845e",
       "analysis_status": "analyzed",
       "confidence": 0.59,
       "corroborating_sources": 0,
@@ -770,7 +770,7 @@
     {
       "title": "NIST-Developed Quantum Sensors Improve Nuclear Monitoring",
       "url": "https://www.nist.gov/news-events/news/2026/09/nist-developed-quantum-sensors-improve-nuclear-monitoring",
-      "memory_id": "mem-20260916204338-88c14c1d02ce",
+      "memory_id": "mem-20260916205025-88c14c1d02ce",
       "analysis_status": "analyzed",
       "confidence": 0.59,
       "corroborating_sources": 0,
@@ -781,7 +781,7 @@
     {
       "title": "NIST Researchers Supersize Quantum Technology to Help Detect Faint Photons",
       "url": "https://www.nist.gov/news-events/news/2026/08/nist-researchers-supersize-quantum-technology-help-detect-faint-photons",
-      "memory_id": "mem-20260916204338-6befd928db2b",
+      "memory_id": "mem-20260916205025-6befd928db2b",
       "analysis_status": "analyzed",
       "confidence": 0.67,
       "corroborating_sources": 1,
@@ -792,7 +792,7 @@
     {
       "title": "NIST National Construction Safety Team Advisory Committee Meeting Scheduled for Sept. 23 and 24, 2026",
       "url": "https://www.nist.gov/news-events/news/2026/08/nist-national-construction-safety-team-advisory-committee-meeting-scheduled",
-      "memory_id": "mem-20260916204338-f867901d5aa3",
+      "memory_id": "mem-20260916205026-f867901d5aa3",
       "analysis_status": "analyzed",
       "confidence": 0.59,
       "corroborating_sources": 0,
@@ -803,7 +803,7 @@
     {
       "title": "Federal Reserve Board announces termination of enforcement actions with United Texas Bank, Quontic Bank Acquisition Corp., and Quontic Bank Holdings Corp.",
       "url": "https://www.federalreserve.gov/newsevents/pressreleases/enforcement20260904a.htm",
-      "memory_id": "mem-20260916204338-cb41fe0031fa",
+      "memory_id": "mem-20260916205026-cb41fe0031fa",
       "analysis_status": "analyzed",
       "confidence": 0.59,
       "corroborating_sources": 0,
