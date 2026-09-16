@@ -1,0 +1,60 @@
+{
+  "version": 1,
+  "topic": "earth_observation",
+  "sources": [
+    {
+      "name": "NASA Earthdata CMR",
+      "type": "api",
+      "url": "https://cmr.earthdata.nasa.gov/search/granules.json",
+      "authority": "NASA",
+      "weight": 0.98,
+      "enabled": true,
+      "read_only": true
+    },
+    {
+      "name": "Earth Search STAC",
+      "type": "stac",
+      "url": "https://earth-search.aws.element84.com/v1",
+      "authority": "Element 84/AWS public catalog",
+      "weight": 0.90,
+      "enabled": true,
+      "read_only": true
+    },
+    {
+      "name": "Copernicus Data Space",
+      "type": "stac",
+      "url": "https://catalogue.dataspace.copernicus.eu/stac",
+      "authority": "European Commission Copernicus",
+      "weight": 0.98,
+      "enabled": true,
+      "read_only": true
+    },
+    {
+      "name": "NASA GIBS",
+      "type": "tiles",
+      "url": "https://www.earthdata.nasa.gov/data/tools/gibs",
+      "authority": "NASA",
+      "weight": 0.98,
+      "enabled": true,
+      "read_only": true
+    },
+    {
+      "name": "awesome-earthobservation-code",
+      "type": "github_catalog",
+      "url": "https://github.com/acgeospatial/awesome-earthobservation-code",
+      "authority": "Community catalog; requires project-level review",
+      "weight": 0.70,
+      "enabled": true,
+      "read_only": true
+    },
+    {
+      "name": "satellite-image-deep-learning techniques",
+      "type": "github_catalog",
+      "url": "https://github.com/satellite-image-deep-learning/techniques",
+      "authority": "Community catalog; methods require validation",
+      "weight": 0.70,
+      "enabled": true,
+      "read_only": true
+    }
+  ]
+}

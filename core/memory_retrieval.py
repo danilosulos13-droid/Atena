@@ -70,3 +70,55 @@ def format_context(items: list[dict[str, Any]], max_chars: int = 9000) -> str:
         if used + len(chunk) > max_chars: break
         chunks.append(chunk); used += len(chunk)
     return "\n".join(chunks) if chunks else "(nenhum episódio SQLite relevante recuperado)"
+
+
+def retrieve_hybrid_context(
+    db_path: str | Path,
+    query: str,
+    *,
+    limit: int = 12,
+    knowledge_limit: int | None = None,
+) -> dict[str, Any]:
+    """Recupera memória episódica e evidência documental em um pacote auditável.
+
+    A função mantém a recuperação somente leitura e não substitui os contratos
+    antigos de ``retrieve_context``. Documentos da base de conhecimento recebem
+    proveniência explícita e um score lexical normalizado; episódios continuam
+    disponíveis separadamente para o agente comparar experiência com evidência.
+    """
+    from core.knowledge_base import KnowledgeBase
+
+    safe_limit = max(1, min(int(limit), 50))
+    document_limit = max(1, min(int(knowledge_limit or safe_limit), 100))
+    wanted = _tokens(query)
+    episodes = retrieve_context(db_path, query, limit=safe_limit)
+    with KnowledgeBase(db_path) as knowledge:
+        documents = knowledge.search(query, limit=document_limit)
+
+    ranked_documents: list[dict[str, Any]] = []
+    for document in documents:
+        text = " ".join(
+            str(document.get(key, ""))
+            for key in ("title", "topic", "domain", "text")
+        )
+        tokens = _tokens(text)
+        overlap = len(wanted & tokens)
+        lexical = overlap / math.sqrt(max(1, len(wanted) * len(tokens))) if wanted else 0.0
+        item = dict(document)
+        item["provenance"] = {
+            "source_url": document.get("url"),
+            "domain": document.get("domain"),
+            "fetched_at": document.get("fetched_at"),
+            "source_type": "knowledge_document",
+        }
+        item["evidence_score"] = round(lexical, 5)
+        ranked_documents.append(item)
+    ranked_documents.sort(key=lambda item: (item["evidence_score"], item.get("fetched_at", "")), reverse=True)
+    return {
+        "query": query,
+        "episodes": episodes,
+        "knowledge_documents": ranked_documents[:document_limit],
+        "read_only": True,
+        "ranking": "lexical_overlap_plus_recency",
+        "provenance_required": True,
+    }

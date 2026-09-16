@@ -6,9 +6,12 @@ import importlib
 import json
 import os
 import py_compile
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 MODULES = [
     "core.episodic_memory", "core.memory_store", "core.memory_retrieval",
     "core.memory_consolidation", "core.identity_state", "core.sensemaking",

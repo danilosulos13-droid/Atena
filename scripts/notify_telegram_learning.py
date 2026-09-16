@@ -157,6 +157,23 @@ def build_speech(proposal: dict) -> str:
     return " ".join(" ".join(parts).split())[:3499]
 
 
+def append_nanorobotics_summary(message: str, report_path: Path | None) -> str:
+    """Anexa apenas contagens auditáveis do relatório temático, sem conteúdo remoto."""
+    if report_path is None or not report_path.exists():
+        return message
+    try:
+        report = json.loads(report_path.read_text(encoding="utf-8"))
+        summary = (
+            "\n\n<b>Nanorrobótica</b>\n"
+            f"• Fontes consultadas: <code>{int(report.get('source_count', 0))}</code>\n"
+            f"• Evidências coletadas: <code>{len(report.get('evidence', []) or [])}</code>\n"
+            f"• Documentos novos na memória: <code>{int(report.get('documents_added', 0))}</code>"
+        )
+        return (message + summary)[:3900]
+    except (OSError, ValueError, TypeError):
+        return message
+
+
 def _telegram_request(endpoint: str, payload: dict[str, str], timeout: int) -> dict:
     encoded = urllib.parse.urlencode(payload).encode("utf-8")
     request = urllib.request.Request(endpoint, data=encoded, method="POST")
@@ -218,6 +235,7 @@ def main() -> int:
     parser.add_argument("--proposal", type=Path, required=True)
     parser.add_argument("--run-url", default=os.getenv("GITHUB_SERVER_URL", "") + "/" + os.getenv("GITHUB_REPOSITORY", "") + "/actions/runs/" + os.getenv("GITHUB_RUN_ID", ""))
     parser.add_argument("--allow-missing", action="store_true")
+    parser.add_argument("--nanorobotics-report", type=Path, help="relatório JSON do ciclo temático de nanorrobótica")
     parser.add_argument("--voice", action="store_true", help="envia o resumo como áudio WAV via Telegram")
     args = parser.parse_args()
 
@@ -246,6 +264,7 @@ def main() -> int:
                 gateway.remove_file(audio_path)
         else:
             message = build_message(proposal, args.run_url or None)
+            message = append_nanorobotics_summary(message, args.nanorobotics_report)
             send(token, chat_id, message)
     except Exception as exc:
         print(f"::error::Falha ao enviar notificação Telegram: {type(exc).__name__}: {exc}")

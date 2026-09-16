@@ -1,0 +1,916 @@
+{
+  "version": 2,
+  "topic": "nanorobotics",
+  "description": "Fontes públicas para aprendizagem baseada em evidências sobre nanorrobôs, microrrobótica, nanomedicina, fabricação, controle e segurança. Catálogo curado ampliado; novas fontes descobertas automaticamente são registradas como candidatas e validadas antes de ativação.",
+  "default_query": "nanorobotics nanorobots nanomedicine microrobots",
+  "sources": [
+    {
+      "name": "PubMed",
+      "kind": "api",
+      "adapter": "pubmed",
+      "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "authority": "U.S. National Library of Medicine / NIH",
+      "scope": "literatura biomédica indexada",
+      "access": "gratuito, sem chave para uso moderado",
+      "weight": 0.98,
+      "enabled": true,
+      "keywords": [
+        "nanorobotics",
+        "nanorobots",
+        "nanomedicine",
+        "drug delivery",
+        "biomedical"
+      ]
+    },
+    {
+      "name": "Europe PMC",
+      "kind": "api",
+      "adapter": "europepmc",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search",
+      "authority": "EMBL-EBI",
+      "scope": "literatura biomédica, preprints e texto aberto",
+      "access": "gratuito",
+      "weight": 0.97,
+      "enabled": true,
+      "keywords": [
+        "nanorobotics",
+        "nanorobots",
+        "nanomedicine",
+        "biomedical",
+        "preprint"
+      ]
+    },
+    {
+      "name": "Crossref",
+      "kind": "api",
+      "adapter": "crossref",
+      "url": "https://api.crossref.org/works",
+      "authority": "Crossref",
+      "scope": "metadados DOI de artigos, livros e conferências",
+      "access": "gratuito",
+      "weight": 0.94,
+      "enabled": true,
+      "keywords": [
+        "doi",
+        "journal",
+        "conference",
+        "nanorobotics"
+      ]
+    },
+    {
+      "name": "OpenAlex",
+      "kind": "api",
+      "adapter": "openalex",
+      "url": "https://api.openalex.org/works",
+      "authority": "OurResearch / OpenAlex",
+      "scope": "grafo aberto de produção científica e citações",
+      "access": "gratuito",
+      "weight": 0.93,
+      "enabled": true,
+      "keywords": [
+        "works",
+        "citations",
+        "nanorobotics",
+        "robotics"
+      ]
+    },
+    {
+      "name": "Semantic Scholar",
+      "kind": "api",
+      "adapter": "semantic_scholar",
+      "url": "https://api.semanticscholar.org/graph/v1/paper/search",
+      "authority": "Allen Institute for AI",
+      "scope": "busca semântica e citações de artigos",
+      "access": "gratuito; sujeito a limite de requisições",
+      "weight": 0.92,
+      "enabled": true,
+      "keywords": [
+        "paper",
+        "citations",
+        "nanorobotics",
+        "micro robotics"
+      ]
+    },
+    {
+      "name": "arXiv",
+      "kind": "api",
+      "adapter": "arxiv",
+      "url": "https://export.arxiv.org/api/query",
+      "authority": "arXiv",
+      "scope": "preprints de robótica, física, bioengenharia e controle",
+      "access": "gratuito",
+      "weight": 0.91,
+      "enabled": true,
+      "keywords": [
+        "nanorobotics",
+        "microrobotics",
+        "robotics",
+        "biomedical robotics"
+      ]
+    },
+    {
+      "name": "DOAJ",
+      "kind": "api",
+      "adapter": "doaj",
+      "url": "https://doaj.org/api/search/articles",
+      "authority": "Directory of Open Access Journals",
+      "scope": "artigos de acesso aberto",
+      "access": "gratuito",
+      "weight": 0.9,
+      "enabled": true,
+      "keywords": [
+        "open access",
+        "nanotechnology",
+        "robotics",
+        "nanomedicine"
+      ]
+    },
+    {
+      "name": "Zenodo",
+      "kind": "api",
+      "adapter": "zenodo",
+      "url": "https://zenodo.org/api/records",
+      "authority": "CERN / OpenAIRE",
+      "scope": "datasets, software, artigos e materiais suplementares",
+      "access": "gratuito",
+      "weight": 0.89,
+      "enabled": true,
+      "keywords": [
+        "dataset",
+        "software",
+        "nanorobotics",
+        "microrobotics"
+      ]
+    },
+    {
+      "name": "bioRxiv",
+      "kind": "api",
+      "adapter": "biorxiv",
+      "url": "https://api.biorxiv.org/details/biorxiv",
+      "authority": "bioRxiv",
+      "scope": "preprints de biologia e biomedicina",
+      "access": "gratuito",
+      "weight": 0.86,
+      "enabled": true,
+      "keywords": [
+        "biomedical",
+        "nanomedicine",
+        "drug delivery",
+        "bioengineering"
+      ]
+    },
+    {
+      "name": "medRxiv",
+      "kind": "api",
+      "adapter": "medrxiv",
+      "url": "https://api.biorxiv.org/details/medrxiv",
+      "authority": "medRxiv",
+      "scope": "preprints de medicina e saúde",
+      "access": "gratuito",
+      "weight": 0.84,
+      "enabled": true,
+      "keywords": [
+        "medicine",
+        "nanomedicine",
+        "clinical",
+        "drug delivery"
+      ]
+    },
+    {
+      "name": "NIH NCBI Bookshelf",
+      "kind": "html",
+      "url": "https://www.ncbi.nlm.nih.gov/books/?term=nanorobotics",
+      "authority": "National Center for Biotechnology Information / NIH",
+      "scope": "livros e capítulos biomédicos",
+      "access": "gratuito",
+      "weight": 0.95,
+      "enabled": true,
+      "keywords": [
+        "textbook",
+        "biomedical",
+        "nanomedicine",
+        "nanotechnology"
+      ]
+    },
+    {
+      "name": "NCI Nanotechnology Characterization Laboratory",
+      "kind": "html",
+      "url": "https://nanolab.cancer.gov/",
+      "authority": "National Cancer Institute / NIH",
+      "scope": "caracterização, segurança e nanomedicina oncológica",
+      "access": "gratuito",
+      "weight": 0.96,
+      "enabled": true,
+      "keywords": [
+        "nanomedicine",
+        "safety",
+        "characterization",
+        "cancer"
+      ]
+    },
+    {
+      "name": "FDA Nanotechnology",
+      "kind": "html",
+      "url": "https://www.fda.gov/science-research/nanotechnology-programs-fda",
+      "authority": "U.S. Food and Drug Administration",
+      "scope": "orientação regulatória e avaliação de produtos nanotecnológicos",
+      "access": "gratuito",
+      "weight": 0.97,
+      "enabled": true,
+      "keywords": [
+        "regulation",
+        "safety",
+        "nanotechnology",
+        "medical device"
+      ]
+    },
+    {
+      "name": "ISO TC 229 Nanotechnologies",
+      "kind": "html",
+      "url": "https://www.iso.org/committee/381983.html",
+      "authority": "International Organization for Standardization",
+      "scope": "normas e terminologia de nanotecnologia",
+      "access": "páginas públicas; normas podem exigir compra",
+      "weight": 0.95,
+      "enabled": true,
+      "keywords": [
+        "standards",
+        "terminology",
+        "risk",
+        "nanotechnology"
+      ]
+    },
+    {
+      "name": "IEEE Xplore Nanorobotics",
+      "kind": "html",
+      "url": "https://ieeexplore.ieee.org/search/searchresult.jsp?newsearch=true&queryText=nanorobotics",
+      "authority": "IEEE",
+      "scope": "robótica, controle, sensores e conferências técnicas",
+      "access": "metadados públicos; textos podem exigir acesso institucional",
+      "weight": 0.93,
+      "enabled": true,
+      "keywords": [
+        "robotics",
+        "control",
+        "sensors",
+        "nanorobotics"
+      ]
+    },
+    {
+      "name": "Royal Society of Chemistry Nanorobotics",
+      "kind": "html",
+      "url": "https://pubs.rsc.org/en/results?searchtext=nanorobotics",
+      "authority": "Royal Society of Chemistry",
+      "scope": "química, materiais, nanoestruturas e catálise",
+      "access": "metadados e resumos públicos quando disponíveis",
+      "weight": 0.92,
+      "enabled": true,
+      "keywords": [
+        "chemistry",
+        "materials",
+        "nanorobotics",
+        "nanomaterials"
+      ]
+    },
+    {
+      "name": "ACS Publications Nanorobotics",
+      "kind": "html",
+      "url": "https://pubs.acs.org/action/doSearch?AllField=nanorobotics",
+      "authority": "American Chemical Society",
+      "scope": "nanomateriais, química e engenharia biomolecular",
+      "access": "metadados e resumos públicos quando disponíveis",
+      "weight": 0.92,
+      "enabled": true,
+      "keywords": [
+        "chemistry",
+        "nanomaterials",
+        "nanomedicine",
+        "nanorobotics"
+      ]
+    },
+    {
+      "name": "Nature Search Nanorobotics",
+      "kind": "html",
+      "url": "https://www.nature.com/search?q=nanorobotics",
+      "authority": "Nature Portfolio",
+      "scope": "pesquisa revisada por pares em ciência e engenharia",
+      "access": "resumos e metadados públicos quando disponíveis",
+      "weight": 0.94,
+      "enabled": true,
+      "keywords": [
+        "science",
+        "robotics",
+        "nanomedicine",
+        "review"
+      ]
+    },
+    {
+      "name": "ETH Multi-Scale Robotics Lab",
+      "kind": "html",
+      "url": "https://www.msrl.ethz.ch/",
+      "authority": "ETH Zurich",
+      "scope": "microrrobótica, robótica em escala micro e aplicações biomédicas",
+      "access": "gratuito",
+      "weight": 0.91,
+      "enabled": true,
+      "keywords": [
+        "microrobotics",
+        "biomedical robotics",
+        "laboratory",
+        "control"
+      ]
+    },
+    {
+      "name": "PubMed Central nanorobotics",
+      "kind": "html",
+      "url": "https://www.ncbi.nlm.nih.gov/pmc/?term=nanorobotics",
+      "authority": "NIH / NCBI",
+      "scope": "biomedical open-access articles",
+      "access": "public page or metadata; access and license may vary",
+      "weight": 0.75,
+      "enabled": true,
+      "keywords": [
+        "nanorobotics",
+        "nanorobots",
+        "microrobotics",
+        "nanomedicine"
+      ]
+    },
+    {
+      "name": "NIH RePORTER nanotechnology",
+      "kind": "html",
+      "url": "https://reporter.nih.gov/search/nanotechnology",
+      "authority": "NIH",
+      "scope": "funded research projects",
+      "access": "public page or metadata; access and license may vary",
+      "weight": 0.75,
+      "enabled": true,
+      "keywords": [
+        "nanorobotics",
+        "nanorobots",
+        "microrobotics",
+        "nanomedicine"
+      ]
+    },
+    {
+      "name": "ClinicalTrials.gov nanorobots",
+      "kind": "html",
+      "url": "https://clinicaltrials.gov/search?term=nanorobots",
+      "authority": "U.S. National Library of Medicine",
+      "scope": "clinical trial registry",
+      "access": "public page or metadata; access and license may vary",
+      "weight": 0.75,
+      "enabled": true,
+      "keywords": [
+        "nanorobotics",
+        "nanorobots",
+        "microrobotics",
+        "nanomedicine"
+      ]
+    },
+    {
+      "name": "WHO nanotechnology",
+      "kind": "html",
+      "url": "https://www.who.int/teams/environment-climate-change-and-health/chemical-safety-and-health/nanotechnology",
+      "authority": "World Health Organization",
+      "scope": "health and safety context",
+      "access": "public page or metadata; access and license may vary",
+      "weight": 0.75,
+      "enabled": true,
+      "keywords": [
+        "nanorobotics",
+        "nanorobots",
+        "microrobotics",
+        "nanomedicine"
+      ]
+    },
+    {
+      "name": "FDA nanotechnology guidance",
+      "kind": "html",
+      "url": "https://www.fda.gov/regulatory-information/search-fda-guidance-documents/nanotechnology-guidance-documents",
+      "authority": "U.S. FDA",
+      "scope": "regulatory guidance",
+      "access": "public page or metadata; access and license may vary",
+      "weight": 0.75,
+      "enabled": true,
+      "keywords": [
+        "nanorobotics",
+        "nanorobots",
+        "microrobotics",
+        "nanomedicine"
+      ]
+    },
+    {
+      "name": "European Medicines Agency nanomedicine",
+      "kind": "html",
+      "url": "https://www.ema.europa.eu/en/search?search_api_fulltext=nanomedicine",
+      "authority": "European Medicines Agency",
+      "scope": "medicines regulation",
+      "access": "public page or metadata; access and license may vary",
+      "weight": 0.75,
+      "enabled": true,
+      "keywords": [
+        "nanorobotics",
+        "nanorobots",
+        "microrobotics",
+        "nanomedicine"
+      ]
+    },
+    {
+      "name": "European Commission nanomaterials",
+      "kind": "html",
+      "url": "https://single-market-economy.ec.europa.eu/sectors/chemicals/nanomaterials_en",
+      "authority": "European Commission",
+      "scope": "European nanomaterials policy",
+      "access": "public page or metadata; access and license may vary",
+      "weight": 0.75,
+      "enabled": true,
+      "keywords": [
+        "nanorobotics",
+        "nanorobots",
+        "microrobotics",
+        "nanomedicine"
+      ]
+    },
+    {
+      "name": "OECD nanomaterials safety",
+      "kind": "html",
+      "url": "https://www.oecd.org/chemicalsafety/nanomaterials/",
+      "authority": "OECD",
+      "scope": "risk assessment and safety",
+      "access": "public page or metadata; access and license may vary",
+      "weight": 0.75,
+      "enabled": true,
+      "keywords": [
+        "nanorobotics",
+        "nanorobots",
+        "microrobotics",
+        "nanomedicine"
+      ]
+    },
+    {
+      "name": "U.S. EPA nanotechnology",
+      "kind": "html",
+      "url": "https://www.epa.gov/chemical-research/research-and-nanotechnology",
+      "authority": "U.S. EPA",
+      "scope": "environmental safety",
+      "access": "public page or metadata; access and license may vary",
+      "weight": 0.75,
+      "enabled": true,
+      "keywords": [
+        "nanorobotics",
+        "nanorobots",
+        "microrobotics",
+        "nanomedicine"
+      ]
+    },
+    {
+      "name": "NIST nanotechnology",
+      "kind": "html",
+      "url": "https://www.nist.gov/topics/nanotechnology",
+      "authority": "National Institute of Standards and Technology",
+      "scope": "measurement and standards",
+      "access": "public page or metadata; access and license may vary",
+      "weight": 0.75,
+      "enabled": true,
+      "keywords": [
+        "nanorobotics",
+        "nanorobots",
+        "microrobotics",
+        "nanomedicine"
+      ]
+    },
+    {
+      "name": "NASA Technical Reports nanotechnology",
+      "kind": "html",
+      "url": "https://ntrs.nasa.gov/search?q=nanorobotics",
+      "authority": "NASA",
+      "scope": "aerospace technical reports",
+      "access": "public page or metadata; access and license may vary",
+      "weight": 0.75,
+      "enabled": true,
+      "keywords": [
+        "nanorobotics",
+        "nanorobots",
+        "microrobotics",
+        "nanomedicine"
+      ]
+    },
+    {
+      "name": "DOE OSTI nanotechnology",
+      "kind": "html",
+      "url": "https://www.osti.gov/search/semantic:nanorobotics",
+      "authority": "U.S. Department of Energy",
+      "scope": "energy research repository",
+      "access": "public page or metadata; access and license may vary",
+      "weight": 0.75,
+      "enabled": true,
+      "keywords": [
+        "nanorobotics",
+        "nanorobots",
+        "microrobotics",
+        "nanomedicine"
+      ]
+    },
+    {
+      "name": "NanoSafety Cluster",
+      "kind": "html",
+      "url": "https://www.nanosafetycluster.eu/",
+      "authority": "European NanoSafety Cluster",
+      "scope": "nanomaterial safety research",
+      "access": "public page or metadata; access and license may vary",
+      "weight": 0.75,
+      "enabled": true,
+      "keywords": [
+        "nanorobotics",
+        "nanorobots",
+        "microrobotics",
+        "nanomedicine"
+      ]
+    },
+    {
+      "name": "British Society for Nanomedicine",
+      "kind": "html",
+      "url": "https://www.britishsocietynanomedicine.org/",
+      "authority": "British Society for Nanomedicine",
+      "scope": "nanomedicine reviews and policy",
+      "access": "public page or metadata; access and license may vary",
+      "weight": 0.75,
+      "enabled": true,
+      "keywords": [
+        "nanorobotics",
+        "nanorobots",
+        "microrobotics",
+        "nanomedicine"
+      ]
+    },
+    {
+      "name": "Nanotechnology Perceptions",
+      "kind": "html",
+      "url": "https://nanotechnology.perceptions.co.uk/",
+      "authority": "Nanotechnology Perceptions",
+      "scope": "nanotechnology journal",
+      "access": "public page or metadata; access and license may vary",
+      "weight": 0.75,
+      "enabled": true,
+      "keywords": [
+        "nanorobotics",
+        "nanorobots",
+        "microrobotics",
+        "nanomedicine"
+      ]
+    },
+    {
+      "name": "International Journal of Nanomedicine",
+      "kind": "html",
+      "url": "https://www.dovepress.com/international-journal-of-nanomedicine-journal",
+      "authority": "Dove Medical Press",
+      "scope": "open-access nanomedicine",
+      "access": "public page or metadata; access and license may vary",
+      "weight": 0.75,
+      "enabled": true,
+      "keywords": [
+        "nanorobotics",
+        "nanorobots",
+        "microrobotics",
+        "nanomedicine"
+      ]
+    },
+    {
+      "name": "Micromachines micro nanorobots",
+      "kind": "html",
+      "url": "https://www.mdpi.com/journal/micromachines/search?q=nanorobots",
+      "authority": "MDPI",
+      "scope": "microfabrication and microrobotics",
+      "access": "public page or metadata; access and license may vary",
+      "weight": 0.75,
+      "enabled": true,
+      "keywords": [
+        "nanorobotics",
+        "nanorobots",
+        "microrobotics",
+        "nanomedicine"
+      ]
+    },
+    {
+      "name": "Nanomaterials nanomedicine",
+      "kind": "html",
+      "url": "https://www.mdpi.com/journal/nanomaterials/search?q=nanomedicine",
+      "authority": "MDPI",
+      "scope": "nanomaterials and nanomedicine",
+      "access": "public page or metadata; access and license may vary",
+      "weight": 0.75,
+      "enabled": true,
+      "keywords": [
+        "nanorobotics",
+        "nanorobots",
+        "microrobotics",
+        "nanomedicine"
+      ]
+    },
+    {
+      "name": "Journal of Micro-Bio Robotics",
+      "kind": "html",
+      "url": "https://link.springer.com/journal/12304",
+      "authority": "Springer Nature",
+      "scope": "micro-bio robotics",
+      "access": "public page or metadata; access and license may vary",
+      "weight": 0.75,
+      "enabled": true,
+      "keywords": [
+        "nanorobotics",
+        "nanorobots",
+        "microrobotics",
+        "nanomedicine"
+      ]
+    },
+    {
+      "name": "Springer nanorobotics search",
+      "kind": "html",
+      "url": "https://link.springer.com/search?query=nanorobotics",
+      "authority": "Springer Nature",
+      "scope": "books and articles",
+      "access": "public page or metadata; access and license may vary",
+      "weight": 0.75,
+      "enabled": true,
+      "keywords": [
+        "nanorobotics",
+        "nanorobots",
+        "microrobotics",
+        "nanomedicine"
+      ]
+    },
+    {
+      "name": "ScienceDirect nanorobotics search",
+      "kind": "html",
+      "url": "https://www.sciencedirect.com/search?qs=nanorobotics",
+      "authority": "Elsevier",
+      "scope": "articles and reviews",
+      "access": "public page or metadata; access and license may vary",
+      "weight": 0.75,
+      "enabled": true,
+      "keywords": [
+        "nanorobotics",
+        "nanorobots",
+        "microrobotics",
+        "nanomedicine"
+      ]
+    },
+    {
+      "name": "Taylor & Francis nanorobotics",
+      "kind": "html",
+      "url": "https://www.tandfonline.com/action/doSearch?AllField=nanorobotics",
+      "authority": "Taylor & Francis",
+      "scope": "robotics and nanomedicine",
+      "access": "public page or metadata; access and license may vary",
+      "weight": 0.75,
+      "enabled": true,
+      "keywords": [
+        "nanorobotics",
+        "nanorobots",
+        "microrobotics",
+        "nanomedicine"
+      ]
+    },
+    {
+      "name": "Wiley micro nanorobots",
+      "kind": "html",
+      "url": "https://onlinelibrary.wiley.com/action/doSearch?AllField=nanorobots",
+      "authority": "Wiley",
+      "scope": "materials and engineering",
+      "access": "public page or metadata; access and license may vary",
+      "weight": 0.75,
+      "enabled": true,
+      "keywords": [
+        "nanorobotics",
+        "nanorobots",
+        "microrobotics",
+        "nanomedicine"
+      ]
+    },
+    {
+      "name": "ACS Nano search",
+      "kind": "html",
+      "url": "https://pubs.acs.org/action/doSearch?AllField=nanorobots",
+      "authority": "American Chemical Society",
+      "scope": "nano science and engineering",
+      "access": "public page or metadata; access and license may vary",
+      "weight": 0.75,
+      "enabled": true,
+      "keywords": [
+        "nanorobotics",
+        "nanorobots",
+        "microrobotics",
+        "nanomedicine"
+      ]
+    },
+    {
+      "name": "Nature Reviews Materials search",
+      "kind": "html",
+      "url": "https://www.nature.com/search?q=microrobots",
+      "authority": "Nature Portfolio",
+      "scope": "materials reviews",
+      "access": "public page or metadata; access and license may vary",
+      "weight": 0.75,
+      "enabled": true,
+      "keywords": [
+        "nanorobotics",
+        "nanorobots",
+        "microrobotics",
+        "nanomedicine"
+      ]
+    },
+    {
+      "name": "Harvard Wyss microrobotics",
+      "kind": "html",
+      "url": "https://wyss.harvard.edu/technology/microrobotics/",
+      "authority": "Wyss Institute at Harvard",
+      "scope": "bioinspired microrobotics",
+      "access": "public page or metadata; access and license may vary",
+      "weight": 0.75,
+      "enabled": true,
+      "keywords": [
+        "nanorobotics",
+        "nanorobots",
+        "microrobotics",
+        "nanomedicine"
+      ]
+    },
+    {
+      "name": "MIT MicroRobotics Lab",
+      "kind": "html",
+      "url": "https://mrl.mit.edu/",
+      "authority": "MIT",
+      "scope": "micro robotics research",
+      "access": "public page or metadata; access and license may vary",
+      "weight": 0.75,
+      "enabled": true,
+      "keywords": [
+        "nanorobotics",
+        "nanorobots",
+        "microrobotics",
+        "nanomedicine"
+      ]
+    },
+    {
+      "name": "University of Toronto Microrobotics Lab",
+      "kind": "html",
+      "url": "https://microrobotics.mie.utoronto.ca/",
+      "authority": "University of Toronto",
+      "scope": "microrobotics laboratory",
+      "access": "public page or metadata; access and license may vary",
+      "weight": 0.75,
+      "enabled": true,
+      "keywords": [
+        "nanorobotics",
+        "nanorobots",
+        "microrobotics",
+        "nanomedicine"
+      ]
+    },
+    {
+      "name": "EPFL Laboratory of Microsystems",
+      "kind": "html",
+      "url": "https://www.epfl.ch/labs/lmh/",
+      "authority": "EPFL",
+      "scope": "microsystems and micro robotics",
+      "access": "public page or metadata; access and license may vary",
+      "weight": 0.75,
+      "enabled": true,
+      "keywords": [
+        "nanorobotics",
+        "nanorobots",
+        "microrobotics",
+        "nanomedicine"
+      ]
+    },
+    {
+      "name": "Carnegie Mellon Robotics Institute nanorobotics",
+      "kind": "html",
+      "url": "https://www.ri.cmu.edu/",
+      "authority": "Carnegie Mellon University",
+      "scope": "robotics research",
+      "access": "public page or metadata; access and license may vary",
+      "weight": 0.75,
+      "enabled": true,
+      "keywords": [
+        "nanorobotics",
+        "nanorobots",
+        "microrobotics",
+        "nanomedicine"
+      ]
+    },
+    {
+      "name": "Robotics Open Source Software",
+      "kind": "html",
+      "url": "https://index.ros.org/search/?q=microrobot",
+      "authority": "Open Robotics",
+      "scope": "robotics software discovery",
+      "access": "public page or metadata; access and license may vary",
+      "weight": 0.75,
+      "enabled": true,
+      "keywords": [
+        "nanorobotics",
+        "nanorobots",
+        "microrobotics",
+        "nanomedicine"
+      ]
+    },
+    {
+      "name": "CORDIS nanorobotics",
+      "kind": "html",
+      "url": "https://cordis.europa.eu/search/en?q=nanorobotics",
+      "authority": "European Commission",
+      "scope": "European research projects",
+      "access": "public page or metadata; access and license may vary",
+      "weight": 0.75,
+      "enabled": true,
+      "keywords": [
+        "nanorobotics",
+        "nanorobots",
+        "microrobotics",
+        "nanomedicine"
+      ]
+    },
+    {
+      "name": "Zenodo nanorobotics search",
+      "kind": "html",
+      "url": "https://zenodo.org/search?q=nanorobotics",
+      "authority": "CERN / OpenAIRE",
+      "scope": "datasets and research outputs",
+      "access": "public page or metadata; access and license may vary",
+      "weight": 0.75,
+      "enabled": true,
+      "keywords": [
+        "nanorobotics",
+        "nanorobots",
+        "microrobotics",
+        "nanomedicine"
+      ]
+    },
+    {
+      "name": "OpenAIRE nanorobotics",
+      "kind": "html",
+      "url": "https://explore.openaire.eu/search/find?keyword=nanorobotics",
+      "authority": "OpenAIRE",
+      "scope": "open research graph",
+      "access": "public page or metadata; access and license may vary",
+      "weight": 0.75,
+      "enabled": true,
+      "keywords": [
+        "nanorobotics",
+        "nanorobots",
+        "microrobotics",
+        "nanomedicine"
+      ]
+    },
+    {
+      "name": "CORE nanorobotics",
+      "kind": "html",
+      "url": "https://core.ac.uk/search?q=nanorobotics",
+      "authority": "CORE",
+      "scope": "open-access scholarly aggregator",
+      "access": "public page or metadata; access and license may vary",
+      "weight": 0.75,
+      "enabled": true,
+      "keywords": [
+        "nanorobotics",
+        "nanorobots",
+        "microrobotics",
+        "nanomedicine"
+      ]
+    },
+    {
+      "name": "BASE nanorobotics",
+      "kind": "html",
+      "url": "https://www.base-search.net/Search/Results?lookfor=nanorobotics",
+      "authority": "Bielefeld University Library",
+      "scope": "academic search index",
+      "access": "public page or metadata; access and license may vary",
+      "weight": 0.75,
+      "enabled": true,
+      "keywords": [
+        "nanorobotics",
+        "nanorobots",
+        "microrobotics",
+        "nanomedicine"
+      ]
+    },
+    {
+      "name": "Lens nanotechnology patents",
+      "kind": "html",
+      "url": "https://www.lens.org/lens/search?q=nanorobotics",
+      "authority": "The Lens",
+      "scope": "scholarly and patent discovery",
+      "access": "public page or metadata; access and license may vary",
+      "weight": 0.75,
+      "enabled": true,
+      "keywords": [
+        "nanorobotics",
+        "nanorobots",
+        "microrobotics",
+        "nanomedicine"
+      ]
+    }
+  ]
+}

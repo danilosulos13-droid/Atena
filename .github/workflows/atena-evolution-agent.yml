@@ -15,6 +15,11 @@ on:
         required: false
         default: "64"
         type: string
+      focus_query:
+        description: "Temas prioritários para a coleta de pesquisa do ciclo"
+        required: false
+        default: "artificial intelligence machine learning deep learning natural language processing NLP language models LLM agents reasoning alignment evaluation"
+        type: string
 
 permissions:
   contents: write
@@ -36,6 +41,7 @@ jobs:
       ATENA_TRAIN_MODEL: "Qwen/Qwen2.5-0.5B-Instruct"
       ATENA_MIN_TRAIN_EXAMPLES: ${{ inputs.min_train_examples || '64' }}
       ATENA_MAX_TRAIN_EXAMPLES: ${{ inputs.max_train_examples || '64' }}
+      ATENA_FOCUS_QUERY: ${{ inputs.focus_query || 'artificial intelligence machine learning deep learning natural language processing NLP language models LLM agents reasoning alignment evaluation' }}
       ATENA_AUTOTRAIN: "1"
       ATENA_TRAIN_EPOCHS: "1"
       ATENA_TRAIN_BATCH_SIZE: "1"
@@ -88,7 +94,11 @@ jobs:
 
       - name: Pesquisar fontes RSS autônomas e persistir links
         run: |
-          python scripts/fetch_research_sources.py --max-sources 100 --limit-per-source 10 --max-pages 1000 --workers 16 --timeout 12 | tee /tmp/atena-research.json
+          python scripts/fetch_research_sources.py --query "${ATENA_FOCUS_QUERY}" --max-sources 100 --limit-per-source 10 --max-pages 1000 --workers 16 --timeout 12 | tee /tmp/atena-research.json
+
+      - name: Importar documentos IA e nanotecnologia recém-coletados
+        run: |
+          python scripts/import_ai_nanotech_documents.py | tee /tmp/atena-ai-nanotech-import.json
 
       - name: Coletar experiências e montar datasets
         run: |
@@ -113,6 +123,19 @@ jobs:
           python scripts/atena_autonomous_learning.py collect | tee /tmp/atena-collection.json
           python scripts/index_long_term_memory.py
 
+      - name: Medir capacidade de conhecimento preservado
+        run: |
+          python scripts/report_knowledge_capacity.py --output /tmp/atena-knowledge-capacity.json
+          python -m json.tool /tmp/atena-knowledge-capacity.json >/dev/null
+          cat /tmp/atena-knowledge-capacity.json
+
+      - name: Publicar auditoria de capacidade
+        uses: actions/upload-artifact@v4
+        with:
+          name: atena-knowledge-capacity-${{ github.run_id }}
+          path: /tmp/atena-knowledge-capacity.json
+          if-no-files-found: error
+
       - name: Executar motor principal da Atena em ciclo único
         env:
           CI: "true"
@@ -128,6 +151,34 @@ jobs:
         run: |
           python scripts/atena_autonomous_learning.py cycle --train | tee /tmp/atena-training.json
           python -m json.tool /tmp/atena-training.json >/dev/null
+
+      - name: Benchmark de generalização em cinco tarefas inéditas
+        if: always()
+        continue-on-error: true
+        env:
+          OLLAMA_HOST: ${{ secrets.ATENA_BENCHMARK_OLLAMA_HOST }}
+          ATENA_BENCHMARK_BASELINE_MODEL: ${{ secrets.ATENA_BENCHMARK_BASELINE_MODEL }}
+          ATENA_BENCHMARK_CANDIDATE_MODEL: ${{ secrets.ATENA_BENCHMARK_CANDIDATE_MODEL }}
+        run: |
+          set -o pipefail
+          python scripts/novel_generalization_cases.py --output /tmp/atena-novel-cases.json
+          if [ -z "${OLLAMA_HOST:-}" ] || [ -z "${ATENA_BENCHMARK_BASELINE_MODEL:-}" ] || [ -z "${ATENA_BENCHMARK_CANDIDATE_MODEL:-}" ]; then
+            python - <<'PY'
+          import json
+          from pathlib import Path
+          payload = {
+              "benchmark": "atena-novel-generalization-v1",
+              "status": "blocked",
+              "reason": "configure ATENA_BENCHMARK_OLLAMA_HOST, ATENA_BENCHMARK_BASELINE_MODEL and ATENA_BENCHMARK_CANDIDATE_MODEL",
+          }
+          Path("/tmp/atena-novel-generalization.json").write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+          print(json.dumps(payload, ensure_ascii=False))
+          PY
+            exit 0
+          fi
+          python scripts/run_rotating_benchmark_ollama.py --cases /tmp/atena-novel-cases.json --output /tmp/atena-novel-baseline.jsonl --model "$ATENA_BENCHMARK_BASELINE_MODEL" --url "$OLLAMA_HOST" --concurrency 1
+          python scripts/run_rotating_benchmark_ollama.py --cases /tmp/atena-novel-cases.json --output /tmp/atena-novel-candidate.jsonl --model "$ATENA_BENCHMARK_CANDIDATE_MODEL" --url "$OLLAMA_HOST" --concurrency 1
+          python scripts/evaluate_novel_generalization.py --cases /tmp/atena-novel-cases.json --baseline /tmp/atena-novel-baseline.jsonl --candidate /tmp/atena-novel-candidate.jsonl --output /tmp/atena-novel-generalization.json || true
 
       - name: Versionar adapter promovido
         if: always()
@@ -265,6 +316,7 @@ jobs:
             atena_evolution/training/
             atena_evolution/models/
             /tmp/atena-performance-evaluation.json
+            /tmp/atena-novel-generalization.json
           if-no-files-found: ignore
           retention-days: 14
 
