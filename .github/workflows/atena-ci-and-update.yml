@@ -419,7 +419,7 @@ jobs:
           python scripts/sync_memory_to_supabase.py \
             --db atena_evolution/memory.sqlite3 \
             --batch-size 100 \
-            --table atena_memory_episodes
+            --table atena_memory_chunks
 
       - name: Publicar memória e propostas na branch própria
         run: |

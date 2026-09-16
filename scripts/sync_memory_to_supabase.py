@@ -7,7 +7,7 @@ from urllib.request import Request, urlopen
 
 
 def main():
-    p=argparse.ArgumentParser(); p.add_argument('--db',type=Path,default=Path('atena_evolution/memory.sqlite3')); p.add_argument('--batch-size',type=int,default=100); p.add_argument('--limit',type=int,default=0); p.add_argument('--table',default='atena_memory_episodes'); args=p.parse_args()
+    p=argparse.ArgumentParser(); p.add_argument('--db',type=Path,default=Path('atena_evolution/memory.sqlite3')); p.add_argument('--batch-size',type=int,default=100); p.add_argument('--limit',type=int,default=0); p.add_argument('--table',default='atena_memory_chunks'); args=p.parse_args()
     url=os.environ.get('SUPABASE_URL','').rstrip('/'); key=os.environ.get('SUPABASE_SERVICE_ROLE_KEY','')
     if not url or not key: raise SystemExit('Configure SUPABASE_URL e SUPABASE_SERVICE_ROLE_KEY; nunca use a chave service_role fora dos secrets.')
     con=sqlite3.connect(args.db)
@@ -22,12 +22,16 @@ def main():
         for row in rows[start:start+args.batch_size]:
             (memory_id,sequence,record_type,task_id,domain,created_at,content_hash,status,confidence,record_json,
              source_type,source_id,source_url,model,model_digest,system_version,workflow_run_id,verification_method)=row
-            payload.append({'memory_id':memory_id,'sequence':sequence,'record_type':record_type,'task_id':task_id,
-                            'domain':domain,'created_at':created_at,'content_hash':content_hash,'status':status,
-                            'confidence':confidence,'record':json.loads(record_json),'source_type':source_type,
-                            'source_id':source_id,'source_url':source_url,'model':model,'model_digest':model_digest,
-                            'system_version':system_version,'workflow_run_id':workflow_run_id,
-                            'verification_method':verification_method})
+            payload.append({'content_hash':content_hash,'source_path':source_url or source_id or 'atena://episodic-memory',
+                            'source_sha256':content_hash,'chunk_no':0,'content':record_json,
+                            'tenant_id':'atena-programming','approved':status == 'supported',
+                            'embedding_model':None,'embedding':None,
+                            'metadata':{'memory_id':memory_id,'sequence':sequence,'record_type':record_type,
+                                        'task_id':task_id,'domain':domain,'status':status,'confidence':confidence,
+                                        'source_type':source_type,'model':model,'model_digest':model_digest,
+                                        'system_version':system_version,'workflow_run_id':workflow_run_id,
+                                        'verification_method':verification_method},
+                            'created_at':created_at})
         body=json.dumps(payload,ensure_ascii=False).encode()
         req=Request(f'{url}/rest/v1/{args.table}?on_conflict=memory_id',data=body,method='POST',headers={'apikey':key,'Authorization':f'Bearer {key}','Content-Type':'application/json','Prefer':'resolution=merge-duplicates,return=minimal'})
         with urlopen(req,timeout=60) as response:
