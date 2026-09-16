@@ -347,6 +347,7 @@ jobs:
             scripts/migrate_memory_store.py
             scripts/rootless_sandbox_healthcheck.py
             scripts/notify_telegram_health.py
+            scripts/sync_memory_to_supabase.py
           )
           for path in "${runtime_files[@]}"; do
             mkdir -p "$(dirname "$path")"
@@ -401,8 +402,24 @@ jobs:
               --db atena_evolution/memory.sqlite3 \
               --report atena_evolution/consolidation-latest.json
           else
-            echo "Banco SQLite ainda não existe; consolidação será executada no próximo ciclo."
+              echo "Banco SQLite ainda não existe; consolidação será executada no próximo ciclo."
           fi
+
+      - name: Sincronizar memória episódica com Supabase
+        if: success()
+        continue-on-error: true
+        env:
+          SUPABASE_URL: ${{ secrets.ATENA_SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.ATENA_SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          if [ -z "${SUPABASE_URL:-}" ] || [ -z "${SUPABASE_SERVICE_ROLE_KEY:-}" ]; then
+            echo "::warning title=Supabase não configurado::Defina ATENA_SUPABASE_URL e ATENA_SUPABASE_SERVICE_ROLE_KEY nos secrets do repositório."
+            exit 0
+          fi
+          python scripts/sync_memory_to_supabase.py \
+            --db atena_evolution/memory.sqlite3 \
+            --batch-size 100 \
+            --table atena_memory_episodes
 
       - name: Publicar memória e propostas na branch própria
         run: |

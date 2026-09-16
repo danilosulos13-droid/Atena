@@ -46,4 +46,5 @@ jobs:
           python scripts/sync_memory_to_supabase.py \
             --db atena_evolution/memory.sqlite3 \
             --batch-size 100 \
-            --limit "$SYNC_LIMIT"
+            --limit "$SYNC_LIMIT" \
+            --table atena_memory_episodes
