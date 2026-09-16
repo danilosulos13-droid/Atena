@@ -2,15 +2,44 @@
   "status": "ok",
   "pipeline_version": "unified-learning-pipeline-v1",
   "input": "atena_evolution/learning_memory.jsonl",
-  "episodes_created": 2,
-  "episodes_existing": 2,
-  "examples_created": 2,
+  "episodes_created": 29,
+  "episodes_existing": 4,
+  "examples_created": 29,
   "rejected": 0,
   "memory_ids": [
     "mem-20260915233802-9cdaf8c6a808",
     "mem-20260915233802-7349ab20e60f",
     "mem-20260916183359-c09b433da446",
-    "mem-20260916183359-a2eb83f9cd66"
+    "mem-20260916183359-a2eb83f9cd66",
+    "mem-20260916190632-afd4d5fa52dd",
+    "mem-20260916190632-f5404d22701e",
+    "mem-20260916190632-4f80f0c1b7b9",
+    "mem-20260916190632-2804eaade188",
+    "mem-20260916190632-6eec4a6c6ccb",
+    "mem-20260916190632-1585c6a61e15",
+    "mem-20260916190632-7dbf47410055",
+    "mem-20260916190632-c7bbeafd5843",
+    "mem-20260916190632-4a24c0bfa2e5",
+    "mem-20260916190632-9bd1c30e71e7",
+    "mem-20260916190632-58c1e538f715",
+    "mem-20260916190632-38eb28f6bca6",
+    "mem-20260916190632-2d7f16489f67",
+    "mem-20260916190632-f4e5279b3334",
+    "mem-20260916190632-e340c6f5a473",
+    "mem-20260916190632-20b7d2b77a01",
+    "mem-20260916190632-2f249c8329fd",
+    "mem-20260916190632-8969b6017395",
+    "mem-20260916190632-895761b5bddc",
+    "mem-20260916190632-cc4da5b9cd3c",
+    "mem-20260916190632-1c4af4bf942a",
+    "mem-20260916190632-2803e5f92e74",
+    "mem-20260916190632-025a64868064",
+    "mem-20260916190632-a5c3f0bcf2f4",
+    "mem-20260916190632-9e6fdf40ed02",
+    "mem-20260916190632-568b4009e83e",
+    "mem-20260916190632-18f87cb0b470",
+    "mem-20260916190632-b7adc3cbaf70",
+    "mem-20260916190632-f2f9a5081a0d"
   ],
   "sources": [
     {
@@ -32,6 +61,151 @@
       "title": "Federal Reserve Board and Federal Open Market Committee release economic projections from the September 15-16 FOMC meeting",
       "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916b.htm",
       "memory_id": "mem-20260916183359-a2eb83f9cd66"
+    },
+    {
+      "title": "Using Codebooks to Detect Cybercrime Topics in Text Narratives",
+      "url": "https://arxiv.org/abs/2609.16000",
+      "memory_id": "mem-20260916190632-afd4d5fa52dd"
+    },
+    {
+      "title": "Measuring AI harms with multidimensional Lorenz Zonoids",
+      "url": "https://arxiv.org/abs/2609.16004",
+      "memory_id": "mem-20260916190632-f5404d22701e"
+    },
+    {
+      "title": "Beyond Cultural Knowledge: Evaluating Arabic Cultural Appropriateness of Large Language Models",
+      "url": "https://arxiv.org/abs/2609.16006",
+      "memory_id": "mem-20260916190632-4f80f0c1b7b9"
+    },
+    {
+      "title": "AI-Driven Feedback Systems, Digital Labour, and Silent Quitting: Transforming African Workplaces",
+      "url": "https://arxiv.org/abs/2609.16192",
+      "memory_id": "mem-20260916190632-2804eaade188"
+    },
+    {
+      "title": "Mapping U.S. Federal AI Governance Against Sector Vulnerability",
+      "url": "https://arxiv.org/abs/2609.16260",
+      "memory_id": "mem-20260916190632-6eec4a6c6ccb"
+    },
+    {
+      "title": "Moral Missions: Surfacing Moral Decision-Making Strategies for Responsible Data Science Practice",
+      "url": "https://arxiv.org/abs/2609.16166",
+      "memory_id": "mem-20260916190632-1585c6a61e15"
+    },
+    {
+      "title": "When AI Says \"I Am Unable to Answer\": Understanding User Responses to AI Refusals",
+      "url": "https://arxiv.org/abs/2609.16191",
+      "memory_id": "mem-20260916190632-7dbf47410055"
+    },
+    {
+      "title": "SuperSenseDoctor: A Multimodal and Contactless Agent for Health Tracking",
+      "url": "https://arxiv.org/abs/2609.16257",
+      "memory_id": "mem-20260916190632-c7bbeafd5843"
+    },
+    {
+      "title": "Intelligent Interaction Techniques (IIxT) - Proposal",
+      "url": "https://arxiv.org/abs/2609.16295",
+      "memory_id": "mem-20260916190632-4a24c0bfa2e5"
+    },
+    {
+      "title": "From Momentary Emotion Inference to Sustained Emotion Support: Evaluating a Companion Agent in a Longitudinal Study",
+      "url": "https://arxiv.org/abs/2609.16344",
+      "memory_id": "mem-20260916190632-9bd1c30e71e7"
+    },
+    {
+      "title": "Optical microelectrode arrays for differential readout of electrical and mechanical signals in cardiac cells",
+      "url": "https://arxiv.org/abs/2609.16101",
+      "memory_id": "mem-20260916190632-58c1e538f715"
+    },
+    {
+      "title": "A neural-astrocyte architecture implements a hybrid automaton for evidence accumulation",
+      "url": "https://arxiv.org/abs/2609.16217",
+      "memory_id": "mem-20260916190632-38eb28f6bca6"
+    },
+    {
+      "title": "Recovery Rates Are Not Comparable Across Transcription Factors: Chance Correction for Attribution Evaluation",
+      "url": "https://arxiv.org/abs/2609.16271",
+      "memory_id": "mem-20260916190632-2d7f16489f67"
+    },
+    {
+      "title": "Navigating the Delicate Geometry of Beehive Mite Infestation with Optimal Control",
+      "url": "https://arxiv.org/abs/2609.16316",
+      "memory_id": "mem-20260916190632-f4e5279b3334"
+    },
+    {
+      "title": "Exploring Optimal Parameters for Ligand-Based Virtual Screening in Early Drug Discovery",
+      "url": "https://arxiv.org/abs/2609.16356",
+      "memory_id": "mem-20260916190632-e340c6f5a473"
+    },
+    {
+      "title": "Living Structure + AI: A New Episteme for Liberal Arts and Whole-Person Education in the Era of Artificial Intelligence",
+      "url": "https://arxiv.org/abs/2609.16002",
+      "memory_id": "mem-20260916190632-20b7d2b77a01"
+    },
+    {
+      "title": "A Non-Singular Cyclic Universe from Modified Gravity",
+      "url": "https://arxiv.org/abs/2609.16015",
+      "memory_id": "mem-20260916190632-2f249c8329fd"
+    },
+    {
+      "title": "Constraining a model supported in Moir\\'e gravity with a recent data release",
+      "url": "https://arxiv.org/abs/2609.16021",
+      "memory_id": "mem-20260916190632-8969b6017395"
+    },
+    {
+      "title": "Molecular representation shapes the balance between target fidelity and exploration in flow based polymer generation",
+      "url": "https://arxiv.org/abs/2609.16028",
+      "memory_id": "mem-20260916190632-895761b5bddc"
+    },
+    {
+      "title": "Observational Constraints and Cosmic Growth Index of Realistic $f(G)$ Gravity Frameworks using MCMC Analysis",
+      "url": "https://arxiv.org/abs/2609.16037",
+      "memory_id": "mem-20260916190632-cc4da5b9cd3c"
+    },
+    {
+      "title": "Asthma: Postcode lottery for tests for children in England, survey suggests",
+      "url": "http://www.bmj.com/content/394/bmj-2026-100884.short?rss=1",
+      "memory_id": "mem-20260916190632-1c4af4bf942a"
+    },
+    {
+      "title": "NICE recommends single saliva test to speed up diagnosis of endometriosis in primary care",
+      "url": "http://www.bmj.com/content/394/bmj-2026-100876.short?rss=1",
+      "memory_id": "mem-20260916190632-2803e5f92e74"
+    },
+    {
+      "title": "US measles deaths: Pennsylvania reports third and fourth fatalities",
+      "url": "http://www.bmj.com/content/394/bmj-2026-100879.short?rss=1",
+      "memory_id": "mem-20260916190632-025a64868064"
+    },
+    {
+      "title": "Letby and Thirlwall: Doctors&#x2019; fears were dismissed and other key findings from the inquiry",
+      "url": "http://www.bmj.com/content/394/bmj-2026-100878.short?rss=1",
+      "memory_id": "mem-20260916190632-a5c3f0bcf2f4"
+    },
+    {
+      "title": "EPA repeals major greenhouse gas emission limits for US fossil fuel power plants",
+      "url": "http://www.bmj.com/content/394/bmj-2026-100874.short?rss=1",
+      "memory_id": "mem-20260916190632-9e6fdf40ed02"
+    },
+    {
+      "title": "NIST Finalizes Guidelines on Protecting Online Identity and Access Tokens From Misuse",
+      "url": "https://www.nist.gov/news-events/news/2026/09/nist-finalizes-guidelines-protecting-online-identity-and-access-tokens",
+      "memory_id": "mem-20260916190632-568b4009e83e"
+    },
+    {
+      "title": "NIST-Developed Quantum Sensors Improve Nuclear Monitoring",
+      "url": "https://www.nist.gov/news-events/news/2026/09/nist-developed-quantum-sensors-improve-nuclear-monitoring",
+      "memory_id": "mem-20260916190632-18f87cb0b470"
+    },
+    {
+      "title": "NIST Researchers Supersize Quantum Technology to Help Detect Faint Photons",
+      "url": "https://www.nist.gov/news-events/news/2026/08/nist-researchers-supersize-quantum-technology-help-detect-faint-photons",
+      "memory_id": "mem-20260916190632-b7adc3cbaf70"
+    },
+    {
+      "title": "NIST National Construction Safety Team Advisory Committee Meeting Scheduled for Sept. 23 and 24, 2026",
+      "url": "https://www.nist.gov/news-events/news/2026/08/nist-national-construction-safety-team-advisory-committee-meeting-scheduled",
+      "memory_id": "mem-20260916190632-f2f9a5081a0d"
     }
   ]
 }
