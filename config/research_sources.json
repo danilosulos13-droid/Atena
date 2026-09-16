@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "sources": [
     {
       "name": "ArXiv Quantum Physics",
@@ -1578,6 +1578,305 @@
         "ai safety",
         "open source",
         "internet"
+      ]
+    },
+    {
+      "type": "rss",
+      "mode": "autonomous",
+      "enabled": true,
+      "weight": 0.96,
+      "authority": "scientific",
+      "peer_reviewed_or_institutional": true,
+      "name": "ArXiv Security and Cryptography",
+      "url": "https://export.arxiv.org/rss/cs.CY",
+      "category": "cybersecurity_research",
+      "keywords": [
+        "security",
+        "cryptography",
+        "privacy",
+        "cybersecurity"
+      ]
+    },
+    {
+      "type": "rss",
+      "mode": "autonomous",
+      "enabled": true,
+      "weight": 0.96,
+      "authority": "scientific",
+      "peer_reviewed_or_institutional": true,
+      "name": "ArXiv Human Computer Interaction",
+      "url": "https://export.arxiv.org/rss/cs.HC",
+      "category": "human_computer_interaction",
+      "keywords": [
+        "hci",
+        "human computer interaction",
+        "usability"
+      ]
+    },
+    {
+      "type": "rss",
+      "mode": "autonomous",
+      "enabled": true,
+      "weight": 0.96,
+      "authority": "scientific",
+      "peer_reviewed_or_institutional": true,
+      "name": "ArXiv Quantitative Biology",
+      "url": "https://export.arxiv.org/rss/q-bio",
+      "category": "quantitative_biology",
+      "keywords": [
+        "biology",
+        "genomics",
+        "bioinformatics"
+      ]
+    },
+    {
+      "type": "rss",
+      "mode": "autonomous",
+      "enabled": true,
+      "weight": 0.96,
+      "authority": "scientific",
+      "peer_reviewed_or_institutional": true,
+      "name": "ArXiv Physics",
+      "url": "https://export.arxiv.org/rss/physics",
+      "category": "physics",
+      "keywords": [
+        "physics",
+        "quantum",
+        "materials"
+      ]
+    },
+    {
+      "type": "rss",
+      "mode": "autonomous",
+      "enabled": true,
+      "weight": 0.96,
+      "authority": "scientific",
+      "peer_reviewed_or_institutional": true,
+      "name": "PubMed Artificial Intelligence",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/rss/search/1/?term=artificial+intelligence&format=pubmed",
+      "category": "biomedical_ai",
+      "keywords": [
+        "artificial intelligence",
+        "machine learning",
+        "clinical"
+      ]
+    },
+    {
+      "type": "rss",
+      "mode": "autonomous",
+      "enabled": true,
+      "weight": 0.96,
+      "authority": "scientific",
+      "peer_reviewed_or_institutional": true,
+      "name": "PubMed Large Language Models",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/rss/search/1/?term=large+language+model&format=pubmed",
+      "category": "language_models_science",
+      "keywords": [
+        "llm",
+        "language model",
+        "nlp"
+      ]
+    },
+    {
+      "type": "rss",
+      "mode": "autonomous",
+      "enabled": true,
+      "weight": 0.96,
+      "authority": "scientific",
+      "peer_reviewed_or_institutional": true,
+      "name": "PubMed Climate Change",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/rss/search/1/?term=climate+change&format=pubmed",
+      "category": "climate_science",
+      "keywords": [
+        "climate",
+        "climate change",
+        "environment"
+      ]
+    },
+    {
+      "type": "rss",
+      "mode": "autonomous",
+      "enabled": true,
+      "weight": 0.96,
+      "authority": "scientific",
+      "peer_reviewed_or_institutional": true,
+      "name": "PubMed Quantum Computing",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/rss/search/1/?term=quantum+computing&format=pubmed",
+      "category": "quantum_science",
+      "keywords": [
+        "quantum",
+        "quantum computing",
+        "qubit"
+      ]
+    },
+    {
+      "type": "rss",
+      "mode": "autonomous",
+      "enabled": true,
+      "weight": 0.96,
+      "authority": "scientific",
+      "peer_reviewed_or_institutional": true,
+      "name": "PubMed Cancer Research",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/rss/search/1/?term=cancer+research&format=pubmed",
+      "category": "biomedical_research",
+      "keywords": [
+        "cancer",
+        "oncology",
+        "medicine"
+      ]
+    },
+    {
+      "type": "rss",
+      "mode": "autonomous",
+      "enabled": true,
+      "weight": 0.96,
+      "authority": "scientific",
+      "peer_reviewed_or_institutional": true,
+      "name": "PubMed Public Health",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/rss/search/1/?term=public+health&format=pubmed",
+      "category": "public_health",
+      "keywords": [
+        "public health",
+        "epidemiology",
+        "health"
+      ]
+    },
+    {
+      "type": "rss",
+      "mode": "autonomous",
+      "enabled": true,
+      "weight": 0.98,
+      "authority": "scientific",
+      "peer_reviewed_or_institutional": true,
+      "name": "Nature",
+      "url": "https://www.nature.com/nature.rss",
+      "category": "multidisciplinary_science",
+      "keywords": [
+        "science",
+        "research",
+        "biology",
+        "physics",
+        "medicine"
+      ]
+    },
+    {
+      "type": "rss",
+      "mode": "autonomous",
+      "enabled": true,
+      "weight": 0.98,
+      "authority": "scientific",
+      "peer_reviewed_or_institutional": true,
+      "name": "Science Magazine",
+      "url": "https://www.science.org/action/showFeed?type=etoc&feed=rss&jc=science",
+      "category": "multidisciplinary_science",
+      "keywords": [
+        "science",
+        "research",
+        "biology",
+        "physics",
+        "medicine"
+      ]
+    },
+    {
+      "type": "rss",
+      "mode": "autonomous",
+      "enabled": true,
+      "weight": 0.94,
+      "authority": "scientific",
+      "peer_reviewed_or_institutional": true,
+      "name": "PLOS ONE",
+      "url": "https://journals.plos.org/plosone/feed/atom",
+      "category": "open_science",
+      "keywords": [
+        "science",
+        "research",
+        "open access",
+        "biology"
+      ]
+    },
+    {
+      "type": "rss",
+      "mode": "autonomous",
+      "enabled": true,
+      "weight": 0.96,
+      "authority": "scientific",
+      "peer_reviewed_or_institutional": true,
+      "name": "BMJ Recent Research",
+      "url": "https://www.bmj.com/rss/recent.xml",
+      "category": "medical_research",
+      "keywords": [
+        "medicine",
+        "clinical",
+        "health",
+        "research"
+      ]
+    },
+    {
+      "type": "rss",
+      "mode": "autonomous",
+      "enabled": true,
+      "weight": 0.95,
+      "authority": "scientific",
+      "peer_reviewed_or_institutional": true,
+      "name": "NIST News",
+      "url": "https://www.nist.gov/news-events/news/rss.xml",
+      "category": "standards_science",
+      "keywords": [
+        "nist",
+        "standards",
+        "cybersecurity",
+        "measurement"
+      ]
+    },
+    {
+      "type": "rss",
+      "mode": "autonomous",
+      "enabled": true,
+      "weight": 0.95,
+      "authority": "scientific",
+      "peer_reviewed_or_institutional": true,
+      "name": "NOAA Research",
+      "url": "https://research.noaa.gov/feed/",
+      "category": "earth_science",
+      "keywords": [
+        "climate",
+        "ocean",
+        "weather",
+        "earth science"
+      ]
+    },
+    {
+      "type": "rss",
+      "mode": "autonomous",
+      "enabled": true,
+      "weight": 0.95,
+      "authority": "scientific",
+      "peer_reviewed_or_institutional": true,
+      "name": "ESA Space Science",
+      "url": "https://www.esa.int/rssfeed/Our_Activities/Space_Science",
+      "category": "space_science",
+      "keywords": [
+        "space",
+        "astronomy",
+        "esa",
+        "science"
+      ]
+    },
+    {
+      "type": "rss",
+      "mode": "autonomous",
+      "enabled": true,
+      "weight": 0.95,
+      "authority": "scientific",
+      "peer_reviewed_or_institutional": true,
+      "name": "CERN News",
+      "url": "https://home.cern/rss/news",
+      "category": "particle_physics",
+      "keywords": [
+        "cern",
+        "particle physics",
+        "physics",
+        "science"
       ]
     }
   ]
