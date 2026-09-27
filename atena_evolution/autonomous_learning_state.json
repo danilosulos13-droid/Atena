@@ -7,13 +7,13 @@
       "explicit_feedback": 0
     },
     "datasets": {
-      "experiences": 2389,
-      "sft": 2388,
+      "experiences": 2310,
+      "sft": 2309,
       "preferences": 0
     },
-    "duration_seconds": 0.903
+    "duration_seconds": 0.895
   },
-  "updated_at": "2026-09-26T05:39:56Z",
+  "updated_at": "2026-09-27T03:51:34Z",
   "last_cycle": {
     "collection": {
       "status": "ok",
@@ -23,45 +23,45 @@
         "explicit_feedback": 0
       },
       "datasets": {
-        "experiences": 2389,
-        "sft": 2388,
+        "experiences": 2310,
+        "sft": 2309,
         "preferences": 0
       },
-      "duration_seconds": 0.903
+      "duration_seconds": 0.895
     },
     "training": {
       "status": "candidate",
       "base_model": "Qwen/Qwen2.5-0.5B-Instruct",
-      "examples": 54,
-      "total_examples": 2388,
-      "holdout_examples": 10,
+      "examples": 55,
+      "total_examples": 2309,
+      "holdout_examples": 9,
       "path": "/home/runner/work/Atena/Atena/atena_evolution/models/candidate"
     },
     "evaluation": {
       "decision": "promote",
-      "reason": "melhoria no holdout: 42.59%",
+      "reason": "melhoria no holdout: 42.06%",
       "baseline": {
         "model": "Qwen/Qwen2.5-0.5B-Instruct",
-        "examples": 53,
-        "loss": 4.0088456891617685,
-        "perplexity": 55.08325065871476
+        "examples": 50,
+        "loss": 4.052595582008362,
+        "perplexity": 57.54663036432142
       },
       "candidate": {
         "model": "Qwen/Qwen2.5-0.5B-Instruct+/home/runner/work/Atena/Atena/atena_evolution/models/candidate",
-        "examples": 53,
-        "loss": 2.30129248691055,
-        "perplexity": 9.987082289719101
+        "examples": 50,
+        "loss": 2.347922990322113,
+        "perplexity": 10.463813696492988
       },
-      "improvement": 0.42594635330257874,
+      "improvement": 0.42063723290184735,
       "active_path": "/home/runner/work/Atena/Atena/atena_evolution/models/active"
     }
   },
   "last_training": {
     "status": "candidate",
     "base_model": "Qwen/Qwen2.5-0.5B-Instruct",
-    "examples": 54,
-    "total_examples": 2388,
-    "holdout_examples": 10,
+    "examples": 55,
+    "total_examples": 2309,
+    "holdout_examples": 9,
     "path": "/home/runner/work/Atena/Atena/atena_evolution/models/candidate"
   }
 }
