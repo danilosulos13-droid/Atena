@@ -1,6 +1,6 @@
 {
   "workflow": "atena-lora-training",
-  "run_id": "36665488648",
+  "run_id": "36811673460",
   "model": "Qwen/Qwen2.5-0.5B-Instruct",
   "training_status": "success",
   "research_links": [
@@ -94,11 +94,11 @@
         "explicit_feedback": 0
       },
       "datasets": {
-        "experiences": 3236,
-        "sft": 3235,
+        "experiences": 3630,
+        "sft": 3629,
         "preferences": 0
       },
-      "duration_seconds": 1.043
+      "duration_seconds": 1.093
     },
     "training": {
       "status": "skipped",
@@ -114,58 +114,58 @@
         "explicit_feedback": 0
       },
       "datasets": {
-        "experiences": 3236,
-        "sft": 3235,
+        "experiences": 3630,
+        "sft": 3629,
         "preferences": 0
       },
-      "duration_seconds": 1.148
+      "duration_seconds": 1.123
     },
     "training": {
       "status": "candidate",
       "base_model": "Qwen/Qwen2.5-0.5B-Instruct",
-      "examples": 49,
-      "total_examples": 3235,
-      "holdout_examples": 15,
+      "examples": 54,
+      "total_examples": 3629,
+      "holdout_examples": 10,
       "path": "/home/runner/work/Atena/Atena/atena_evolution/models/candidate"
     },
     "evaluation": {
       "decision": "promote",
-      "reason": "melhoria no holdout: 41.93%",
+      "reason": "melhoria no holdout: 37.38%",
       "baseline": {
         "model": "Qwen/Qwen2.5-0.5B-Instruct",
-        "examples": 45,
-        "loss": 4.096336714426676,
-        "perplexity": 60.11964827148805
+        "examples": 49,
+        "loss": 4.081374932308586,
+        "perplexity": 59.226846798363354
       },
       "candidate": {
         "model": "Qwen/Qwen2.5-0.5B-Instruct+/home/runner/work/Atena/Atena/atena_evolution/models/candidate",
-        "examples": 45,
-        "loss": 2.3789117839601306,
-        "perplexity": 10.793151190664878
+        "examples": 49,
+        "loss": 2.555883673989043,
+        "perplexity": 12.882678717183722
       },
-      "improvement": 0.41925873046960116,
+      "improvement": 0.3737689586525356,
       "active_path": "/home/runner/work/Atena/Atena/atena_evolution/models/active"
     }
   },
   "performance_evaluation": {
     "status": "pass",
-    "reason": "melhoria no holdout: 41.93%; mínimo: 2.00%",
+    "reason": "melhoria no holdout: 37.38%; mínimo: 2.00%",
     "model": "Qwen/Qwen2.5-0.5B-Instruct",
     "candidate_path": "/home/runner/work/Atena/Atena/atena_evolution/models/candidate",
-    "holdout_examples": 45,
+    "holdout_examples": 49,
     "baseline": {
       "model": "Qwen/Qwen2.5-0.5B-Instruct",
-      "examples": 45,
-      "loss": 4.096336714426676,
-      "perplexity": 60.11964827148805
+      "examples": 49,
+      "loss": 4.081374932308586,
+      "perplexity": 59.226846798363354
     },
     "candidate": {
       "model": "Qwen/Qwen2.5-0.5B-Instruct+/home/runner/work/Atena/Atena/atena_evolution/models/candidate",
-      "examples": 45,
-      "loss": 2.3789117839601306,
-      "perplexity": 10.793151190664878
+      "examples": 49,
+      "loss": 2.555883673989043,
+      "perplexity": 12.882678717183722
     },
-    "improvement": 0.41925873046960116,
+    "improvement": 0.3737689586525356,
     "min_improvement": 0.02
   }
 }
