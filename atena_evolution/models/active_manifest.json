@@ -1,10 +1,10 @@
 {
   "status": "active",
-  "release_id": "37180001017-dab3fded0722",
-  "created_at": "2026-10-04T07:31:14.767954+00:00",
+  "release_id": "37260545483-dab3fded0722",
+  "created_at": "2026-10-05T03:48:01.105261+00:00",
   "base_model": "Qwen/Qwen2.5-0.5B-Instruct",
   "active_path": "atena_evolution/models/active",
-  "release_path": "atena_evolution/models/releases/37180001017-dab3fded0722",
+  "release_path": "atena_evolution/models/releases/37260545483-dab3fded0722",
   "files": [
     {
       "path": "README.md",
@@ -14,12 +14,12 @@
     {
       "path": "adapter_config.json",
       "bytes": 889,
-      "sha256": "6586d464d9a2c9af3a57f2e493481c7cff104dfb3ff960507a01d7a1c19c4a3b"
+      "sha256": "d5364ff8bbd4bdc4461a4472c87a7f5688e7e3a7b7e9cdcc7c09e79a62f5fc26"
     },
     {
       "path": "adapter_model.safetensors",
       "bytes": 8676008,
-      "sha256": "40b10170390b4ad2fd6a4f0e69637e9965e38b0d81efd4e090577dad00f6aa14"
+      "sha256": "1d7c9391d067d08e93aa6b72fe49b872afb89b015017f55ad913e62f3317e2aa"
     },
     {
       "path": "added_tokens.json",
