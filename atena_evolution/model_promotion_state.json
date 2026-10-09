@@ -1,23 +1,23 @@
 {
   "status": "active",
   "base_model": "Qwen/Qwen2.5-0.5B-Instruct",
-  "promoted_at": "2026-10-08T05:39:29.194733+00:00",
+  "promoted_at": "2026-10-09T03:54:29.112005+00:00",
   "evaluation": {
     "decision": "promote",
-    "reason": "melhoria no holdout: 36.19%",
+    "reason": "melhoria no holdout: 42.05%",
     "baseline": {
       "model": "Qwen/Qwen2.5-0.5B-Instruct",
-      "examples": 46,
-      "loss": 4.178005472473476,
-      "perplexity": 65.23560915134135
+      "examples": 50,
+      "loss": 4.128533368110657,
+      "perplexity": 62.08679765013
     },
     "candidate": {
       "model": "Qwen/Qwen2.5-0.5B-Instruct+/home/runner/work/Atena/Atena/atena_evolution/models/candidate",
-      "examples": 46,
-      "loss": 2.6658127567042476,
-      "perplexity": 14.379631940145543
+      "examples": 50,
+      "loss": 2.3923769783973694,
+      "perplexity": 10.93946593759086
     },
-    "improvement": 0.36194129608786163,
+    "improvement": 0.4205261856725178,
     "active_path": "atena_evolution/models/active"
   },
   "rollback_path": null
