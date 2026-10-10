@@ -7,13 +7,13 @@
       "explicit_feedback": 0
     },
     "datasets": {
-      "experiences": 4902,
-      "sft": 4900,
+      "experiences": 4971,
+      "sft": 4969,
       "preferences": 0
     },
-    "duration_seconds": 1.719
+    "duration_seconds": 1.141
   },
-  "updated_at": "2026-10-09T03:54:29Z",
+  "updated_at": "2026-10-10T03:46:42Z",
   "last_cycle": {
     "collection": {
       "status": "ok",
@@ -23,45 +23,15 @@
         "explicit_feedback": 0
       },
       "datasets": {
-        "experiences": 4902,
-        "sft": 4900,
+        "experiences": 4971,
+        "sft": 4969,
         "preferences": 0
       },
-      "duration_seconds": 1.719
+      "duration_seconds": 1.141
     },
     "training": {
-      "status": "candidate",
-      "base_model": "Qwen/Qwen2.5-0.5B-Instruct",
-      "examples": 50,
-      "total_examples": 4900,
-      "holdout_examples": 14,
-      "path": "/home/runner/work/Atena/Atena/atena_evolution/models/candidate"
-    },
-    "evaluation": {
-      "decision": "promote",
-      "reason": "melhoria no holdout: 42.05%",
-      "baseline": {
-        "model": "Qwen/Qwen2.5-0.5B-Instruct",
-        "examples": 50,
-        "loss": 4.128533368110657,
-        "perplexity": 62.08679765013
-      },
-      "candidate": {
-        "model": "Qwen/Qwen2.5-0.5B-Instruct+/home/runner/work/Atena/Atena/atena_evolution/models/candidate",
-        "examples": 50,
-        "loss": 2.3923769783973694,
-        "perplexity": 10.93946593759086
-      },
-      "improvement": 0.4205261856725178,
-      "active_path": "/home/runner/work/Atena/Atena/atena_evolution/models/active"
+      "status": "skipped",
+      "reason": "dependência de treino ausente: pyarrow requires NumPy 2.0 or newer, found 1.26.4"
     }
-  },
-  "last_training": {
-    "status": "candidate",
-    "base_model": "Qwen/Qwen2.5-0.5B-Instruct",
-    "examples": 50,
-    "total_examples": 4900,
-    "holdout_examples": 14,
-    "path": "/home/runner/work/Atena/Atena/atena_evolution/models/candidate"
   }
 }
