@@ -7,13 +7,13 @@
       "explicit_feedback": 0
     },
     "datasets": {
-      "experiences": 5140,
-      "sft": 5138,
+      "experiences": 5487,
+      "sft": 5485,
       "preferences": 0
     },
-    "duration_seconds": 2.015
+    "duration_seconds": 1.869
   },
-  "updated_at": "2026-10-12T03:51:04Z",
+  "updated_at": "2026-10-13T10:56:43Z",
   "last_cycle": {
     "collection": {
       "status": "ok",
@@ -23,11 +23,11 @@
         "explicit_feedback": 0
       },
       "datasets": {
-        "experiences": 5140,
-        "sft": 5138,
+        "experiences": 5487,
+        "sft": 5485,
         "preferences": 0
       },
-      "duration_seconds": 2.015
+      "duration_seconds": 1.869
     },
     "training": {
       "status": "skipped",
