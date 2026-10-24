@@ -1,6 +1,6 @@
 {
   "workflow": "atena-lora-training",
-  "run_id": "39926710341",
+  "run_id": "40077515328",
   "model": "Qwen/Qwen2.5-0.5B-Instruct",
   "training_status": "success",
   "research_links": [
@@ -94,11 +94,11 @@
         "explicit_feedback": 0
       },
       "datasets": {
-        "experiences": 8970,
-        "sft": 8968,
+        "experiences": 9264,
+        "sft": 9262,
         "preferences": 0
       },
-      "duration_seconds": 2.836
+      "duration_seconds": 2.28
     },
     "training": {
       "status": "skipped",
@@ -114,11 +114,11 @@
         "explicit_feedback": 0
       },
       "datasets": {
-        "experiences": 8970,
-        "sft": 8968,
+        "experiences": 9264,
+        "sft": 9262,
         "preferences": 0
       },
-      "duration_seconds": 2.825
+      "duration_seconds": 2.309
     },
     "training": {
       "status": "skipped",
